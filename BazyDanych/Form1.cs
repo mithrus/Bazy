@@ -32,13 +32,7 @@ namespace BazyDanych
         private void button1_Click(object sender, EventArgs e)
         {
             
-            DataClasses1DataContext db = new DataClasses1DataContext(CiagPolaczenia);
-            var query =
-                from kl in db.Klients
-                where kl.Nazwa == "Zenon"
-                select kl;
-            dataGridView1.DataSource = query;
-            db.Connection.Close();
+            
 
         }
 
@@ -59,5 +53,31 @@ namespace BazyDanych
                 db.Connection.Close();
             }
         }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            using (DataClasses1DataContext db = new DataClasses1DataContext(CiagPolaczenia))
+            {
+                var query =
+                    from kl in db.Klients
+                    select kl;
+                dataGridView3.DataSource = query;
+                db.Connection.Close();
+            }
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            DodajKlienta nowyKl = new DodajKlienta();
+            nowyKl.FormClosed += nowyKl_FormClosed;
+            nowyKl.Show(); 
+        }
+
+        private void nowyKl_FormClosed(object sender, FormClosedEventArgs e)//akcja zamknięcia okna 
+        {
+
+        }
+
+       
     }
 }
