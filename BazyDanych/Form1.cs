@@ -23,6 +23,8 @@ namespace BazyDanych
                + "Initial Catalog=ReklamaDB;"
                + "Persist Security Info=False;"
                + "User ID=ReklamaDBUser;Password=MaSeŁkOhAsEłKo";
+        bool KlientEdit = false;
+        public int a;// zmienna pomocnicza przy edytowaniu danych klienta
 
         private void logowanieToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -78,6 +80,88 @@ namespace BazyDanych
 
         }
 
+        private void button5_Click(object sender, EventArgs e)
+        {
+            using (DataClasses1DataContext db = new DataClasses1DataContext(CiagPolaczenia))
+            {
+                for (int i = 0; i < dataGridView3.RowCount; i++)
+                {
+                    var x = dataGridView3[0, i];
+                    if (x.Selected == true)
+                    {
+                        var del =
+                        from row in db.Klients
+                        where row.KlientID == (int)x.Value
+                        select row;
+
+                        foreach (var detail in del)
+                        {
+                            db.Klients.DeleteOnSubmit(detail);
+                        }
+                    }
+                }
+                try
+                {
+                    db.SubmitChanges();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                    // Provide for exceptions.
+                }
+
+
+                var query =
+                    from kl in db.Klients
+                    select kl;
+                dataGridView3.DataSource = query;
+                db.Connection.Close();
+            }
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {           
+            if (KlientEdit == false)
+            {
+                dataGridView3.ReadOnly = false;
+                var x = dataGridView3.SelectedCells;
+                a = x[0].RowIndex;
+                KlientEdit = true;
+                button6.Text = "Zatwierdź zmiany";
+            }
+            else if (KlientEdit == true)
+            {
+                dataGridView3.ReadOnly = true ;
+                button6.Text = "Edytuj";
+                KlientEdit = false;
+                using (DataClasses1DataContext db = new DataClasses1DataContext(CiagPolaczenia))
+                {
+                    var query =
+                    from aa in db.Klients
+                    where aa.KlientID == (int)dataGridView3[0, a].Value
+                    select aa;
+
+                    foreach (Klient ob in query)
+                    {
+                        ob.NIP = dataGridView3[1, a].Value.ToString();
+                        ob.Nazwa = dataGridView3[2, a].Value.ToString();
+                        ob.Adres = dataGridView3[3, a].Value.ToString();
+                    }
+
+
+                    try
+                    {
+                        db.SubmitChanges();
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex);
+
+                    }
+                }
+            }
+        }
+        //=======
        
     }
 }
