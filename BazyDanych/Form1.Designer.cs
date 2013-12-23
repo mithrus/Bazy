@@ -34,6 +34,7 @@
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.button7 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
             this.tabPage1 = new System.Windows.Forms.TabPage();
@@ -41,6 +42,8 @@
             this.button1 = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage9 = new System.Windows.Forms.TabPage();
+            this.button6 = new System.Windows.Forms.Button();
+            this.button5 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.dataGridView3 = new System.Windows.Forms.DataGridView();
@@ -48,8 +51,7 @@
             this.tabPage6 = new System.Windows.Forms.TabPage();
             this.tabPage7 = new System.Windows.Forms.TabPage();
             this.tabPage8 = new System.Windows.Forms.TabPage();
-            this.button5 = new System.Windows.Forms.Button();
-            this.button6 = new System.Windows.Forms.Button();
+            this.button8 = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
@@ -110,6 +112,8 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.button8);
+            this.tabPage2.Controls.Add(this.button7);
             this.tabPage2.Controls.Add(this.button2);
             this.tabPage2.Controls.Add(this.dataGridView2);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
@@ -120,11 +124,21 @@
             this.tabPage2.Text = "Zlecenia";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // button7
+            // 
+            this.button7.Location = new System.Drawing.Point(779, 46);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(103, 23);
+            this.button7.TabIndex = 2;
+            this.button7.Text = "Dodaj";
+            this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
+            // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(841, 23);
+            this.button2.Location = new System.Drawing.Point(779, 6);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.Size = new System.Drawing.Size(103, 23);
             this.button2.TabIndex = 1;
             this.button2.Text = "Wyświetl";
             this.button2.UseVisualStyleBackColor = true;
@@ -204,6 +218,26 @@
             this.tabPage9.Text = "Klient";
             this.tabPage9.UseVisualStyleBackColor = true;
             // 
+            // button6
+            // 
+            this.button6.Location = new System.Drawing.Point(527, 130);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(106, 23);
+            this.button6.TabIndex = 4;
+            this.button6.Text = "Edytuj";
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
+            // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(527, 88);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(106, 23);
+            this.button5.TabIndex = 3;
+            this.button5.Text = "Usuń zaznaczone";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
+            // 
             // button4
             // 
             this.button4.Location = new System.Drawing.Point(527, 47);
@@ -231,7 +265,7 @@
             this.dataGridView3.Location = new System.Drawing.Point(3, 3);
             this.dataGridView3.Name = "dataGridView3";
             this.dataGridView3.ReadOnly = true;
-            this.dataGridView3.Size = new System.Drawing.Size(506, 354);
+            this.dataGridView3.Size = new System.Drawing.Size(442, 354);
             this.dataGridView3.TabIndex = 0;
             // 
             // tabPage5
@@ -274,25 +308,15 @@
             this.tabPage8.Text = "Powierzchnie reklamowe";
             this.tabPage8.UseVisualStyleBackColor = true;
             // 
-            // button5
+            // button8
             // 
-            this.button5.Location = new System.Drawing.Point(527, 88);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(106, 23);
-            this.button5.TabIndex = 3;
-            this.button5.Text = "Usuń zaznaczone";
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
-            // 
-            // button6
-            // 
-            this.button6.Location = new System.Drawing.Point(527, 130);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(106, 23);
-            this.button6.TabIndex = 4;
-            this.button6.Text = "Edytuj";
-            this.button6.UseVisualStyleBackColor = true;
-            this.button6.Click += new System.EventHandler(this.button6_Click);
+            this.button8.Location = new System.Drawing.Point(779, 89);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(103, 23);
+            this.button8.TabIndex = 3;
+            this.button8.Text = "Usuń zaznaczone";
+            this.button8.UseVisualStyleBackColor = true;
+            this.button8.Click += new System.EventHandler(this.button8_Click);
             // 
             // Form1
             // 
@@ -343,6 +367,8 @@
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Button button8;
     }
 }
 

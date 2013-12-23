@@ -64,21 +64,6 @@
       <Association Name="Pracownik_Faktura" Member="Pracownik" ThisKey="PracownikID" OtherKey="PracownikID" Type="Pracownik" IsForeignKey="true" />
     </Type>
   </Table>
-  <Table Name="dbo.Lokalizacja" Member="Lokalizacjas">
-    <Type Name="Lokalizacja">
-      <Column Name="LokalizacjaID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="Opis" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
-      <Column Name="NIP" Type="System.String" DbType="VarChar(15)" CanBeNull="true" />
-      <Column Name="Wysokosc" Type="System.Decimal" DbType="Decimal(18,0) NOT NULL" CanBeNull="false" />
-      <Column Name="Szerokosc" Type="System.Decimal" DbType="Decimal(18,0) NOT NULL" CanBeNull="false" />
-      <Association Name="Lokalizacja_Bilboard" Member="Bilboards" ThisKey="LokalizacjaID" OtherKey="LokalizacjaID" Type="Bilboard" />
-      <Association Name="Lokalizacja_Budynek" Member="Budyneks" ThisKey="LokalizacjaID" OtherKey="LokalizacjaID" Type="Budynek" />
-      <Association Name="Lokalizacja_Ogordzenie" Member="Ogordzenies" ThisKey="LokalizacjaID" OtherKey="LokalizacjaID" Type="Ogordzenie" />
-      <Association Name="Lokalizacja_RealizacjaWLokalizacji" Member="RealizacjaWLokalizacjis" ThisKey="LokalizacjaID" OtherKey="LokalizacjaID" Type="RealizacjaWLokalizacji" />
-      <Association Name="Lokalizacja_SlupOgloszeniowy" Member="SlupOgloszeniowies" ThisKey="LokalizacjaID" OtherKey="LokalizacjaID" Type="SlupOgloszeniowy" />
-      <Association Name="Lokalizacja_Tramwaj" Member="Tramwajs" ThisKey="LokalizacjaID" OtherKey="LokalizacjaID" Type="Tramwaj" />
-    </Type>
-  </Table>
   <Table Name="dbo.Ogordzenie" Member="Ogordzenies">
     <Type Name="Ogordzenie">
       <Column Name="LokalizacjaID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
@@ -101,8 +86,8 @@
     <Type Name="RealizacjaWLokalizacji">
       <Column Name="RealizacjaID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="LokalizacjaID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Association Name="Lokalizacja_RealizacjaWLokalizacji" Member="Lokalizacja" ThisKey="LokalizacjaID" OtherKey="LokalizacjaID" Type="Lokalizacja" IsForeignKey="true" />
       <Association Name="Realizacja_RealizacjaWLokalizacji" Member="Realizacja" ThisKey="RealizacjaID" OtherKey="RealizacjaID" Type="Realizacja" IsForeignKey="true" />
+      <Association Name="Lokalizacja_RealizacjaWLokalizacji" Member="Lokalizacja" ThisKey="LokalizacjaID" OtherKey="LokalizacjaID" Type="Lokalizacja" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.Reklamacja" Member="Reklamacjas">
@@ -166,16 +151,6 @@
       <Association Name="Zlecenie_ZleceniaNaFakturze" Member="Zlecenie" ThisKey="ZlecenieID" OtherKey="ZlecenieID" Type="Zlecenie" IsForeignKey="true" />
     </Type>
   </Table>
-  <Table Name="dbo.Reklama" Member="Reklamas">
-    <Type Name="Reklama">
-      <Column Name="ReklamaID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="Wysokosc" Type="System.Decimal" DbType="Decimal(18,0) NOT NULL" CanBeNull="false" />
-      <Column Name="Szerokosc" Type="System.Decimal" DbType="Decimal(18,0) NOT NULL" CanBeNull="false" />
-      <Association Name="Reklama_ReklamaZBranzy" Member="ReklamaZBranzies" ThisKey="ReklamaID" OtherKey="ReklamaID" Type="ReklamaZBranzy" />
-      <Association Name="Reklama_Zlecenie" Member="Zlecenies" ThisKey="ReklamaID" OtherKey="ReklamaID" Type="Zlecenie" />
-      <Association Name="Reklama_Realizacja" Member="Realizacjas" ThisKey="ReklamaID" OtherKey="ReklamaID" Type="Realizacja" />
-    </Type>
-  </Table>
   <Table Name="dbo.Zlecenie" Member="Zlecenies">
     <Type Name="Zlecenie">
       <Column Name="ZlecenieID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -188,7 +163,7 @@
       <Association Name="Zlecenie_ZleceniaNaFakturze" Member="ZleceniaNaFakturzes" ThisKey="ZlecenieID" OtherKey="ZlecenieID" Type="ZleceniaNaFakturze" />
       <Association Name="Klient_Zlecenie" Member="Klient" ThisKey="KlientID" OtherKey="KlientID" Type="Klient" IsForeignKey="true" />
       <Association Name="Pracownik_Zlecenie" Member="Pracownik" ThisKey="PracownikID" OtherKey="PracownikID" Type="Pracownik" IsForeignKey="true" />
-      <Association Name="Reklama_Zlecenie" Member="Reklama" ThisKey="ReklamaID" OtherKey="ReklamaID" Type="Reklama" IsForeignKey="true" />
+      <Association Name="Reklama_Zlecenie" Member="Reklama" ThisKey="ReklamaID" OtherKey="ReklamaID" Type="Reklama" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
     </Type>
   </Table>
   <Table Name="dbo.Realizacja" Member="Realizacjas">
@@ -197,8 +172,36 @@
       <Column Name="ReklamaID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="ZespolID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Association Name="Realizacja_RealizacjaWLokalizacji" Member="RealizacjaWLokalizacjis" ThisKey="RealizacjaID" OtherKey="RealizacjaID" Type="RealizacjaWLokalizacji" />
-      <Association Name="Reklama_Realizacja" Member="Reklama" ThisKey="ReklamaID" OtherKey="ReklamaID" Type="Reklama" IsForeignKey="true" />
       <Association Name="Zespol_Realizacja" Member="Zespol" ThisKey="ZespolID" OtherKey="ZespolID" Type="Zespol" IsForeignKey="true" />
+      <Association Name="Reklama_Realizacja" Member="Reklama" ThisKey="ReklamaID" OtherKey="ReklamaID" Type="Reklama" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Lokalizacja" Member="Lokalizacjas">
+    <Type Name="Lokalizacja">
+      <Column Name="LokalizacjaID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Opis" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="NIP" Type="System.String" DbType="VarChar(15)" CanBeNull="true" />
+      <Column Name="Wysokosc" Type="System.Decimal" DbType="Decimal(18,0) NOT NULL" CanBeNull="false" />
+      <Column Name="Szerokosc" Type="System.Decimal" DbType="Decimal(18,0) NOT NULL" CanBeNull="false" />
+      <Column Name="Zawartosc" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="WolneMiejsce" Type="System.Decimal" DbType="Decimal(18,0) NOT NULL" CanBeNull="false" />
+      <Association Name="Lokalizacja_Bilboard" Member="Bilboards" ThisKey="LokalizacjaID" OtherKey="LokalizacjaID" Type="Bilboard" />
+      <Association Name="Lokalizacja_Budynek" Member="Budyneks" ThisKey="LokalizacjaID" OtherKey="LokalizacjaID" Type="Budynek" />
+      <Association Name="Lokalizacja_Ogordzenie" Member="Ogordzenies" ThisKey="LokalizacjaID" OtherKey="LokalizacjaID" Type="Ogordzenie" />
+      <Association Name="Lokalizacja_RealizacjaWLokalizacji" Member="RealizacjaWLokalizacjis" ThisKey="LokalizacjaID" OtherKey="LokalizacjaID" Type="RealizacjaWLokalizacji" />
+      <Association Name="Lokalizacja_SlupOgloszeniowy" Member="SlupOgloszeniowies" ThisKey="LokalizacjaID" OtherKey="LokalizacjaID" Type="SlupOgloszeniowy" />
+      <Association Name="Lokalizacja_Tramwaj" Member="Tramwajs" ThisKey="LokalizacjaID" OtherKey="LokalizacjaID" Type="Tramwaj" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Reklama" Member="Reklamas">
+    <Type Name="Reklama">
+      <Column Name="ReklamaID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Opis" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="Wysokosc" Type="System.Decimal" DbType="Decimal(18,0) NOT NULL" CanBeNull="false" />
+      <Column Name="Szerokosc" Type="System.Decimal" DbType="Decimal(18,0) NOT NULL" CanBeNull="false" />
+      <Association Name="Reklama_ReklamaZBranzy" Member="ReklamaZBranzies" ThisKey="ReklamaID" OtherKey="ReklamaID" Type="ReklamaZBranzy" />
+      <Association Name="Reklama_Zlecenie" Member="Zlecenies" ThisKey="ReklamaID" OtherKey="ReklamaID" Type="Zlecenie" />
+      <Association Name="Reklama_Realizacja" Member="Realizacjas" ThisKey="ReklamaID" OtherKey="ReklamaID" Type="Realizacja" />
     </Type>
   </Table>
 </Database>

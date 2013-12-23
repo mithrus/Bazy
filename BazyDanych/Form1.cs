@@ -50,7 +50,7 @@ namespace BazyDanych
                     where zl.ReklamaID==rek.ReklamaID
                     where zl.KlientID==kl.KlientID
                     where zl.PracownikID==pr.PracownikID
-                    select new { zl.ZlecenieID, Pracownik=pr.Imie+" "+pr.Nazwisko, NazwaKlienta=kl.Nazwa ,WymiaryReklamy=rek.Szerokosc+"x"+rek.Wysokosc, zl.TerminRozpoczecia, zl.TerminZakonczenia, zl.StanZlecenia };
+                    select new { zl.ZlecenieID, Pracownik=pr.Imie+" "+pr.Nazwisko, NazwaKlienta=kl.Nazwa ,NazwaReklamy=rek.Opis,WymiaryReklamy=rek.Szerokosc+"x"+rek.Wysokosc, zl.TerminRozpoczecia, zl.TerminZakonczenia, zl.StanZlecenia };
                 dataGridView2.DataSource = query;
                 db.Connection.Close();
             }
@@ -128,12 +128,14 @@ namespace BazyDanych
                 a = x[0].RowIndex;
                 KlientEdit = true;
                 button6.Text = "Zatwierdź zmiany";
+                dataGridView3.GridColor = Color.Red;
             }
             else if (KlientEdit == true)
             {
                 dataGridView3.ReadOnly = true ;
                 button6.Text = "Edytuj";
                 KlientEdit = false;
+                dataGridView3.GridColor = SystemColors.ControlDark;//Color.ControlDark;
                 using (DataClasses1DataContext db = new DataClasses1DataContext(CiagPolaczenia))
                 {
                     var query =
@@ -159,6 +161,52 @@ namespace BazyDanych
 
                     }
                 }
+            }
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            DodajZlecenie noweZl = new DodajZlecenie();
+            //noweZl.FormClosed += noweZl_FormClosed;
+            noweZl.Show();
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            using (DataClasses1DataContext db = new DataClasses1DataContext(CiagPolaczenia))
+            {
+                for (int i = 0; i < dataGridView1.RowCount; i++)
+                {
+                    var x = dataGridView1[0, i];
+                    if (x.Selected == true)
+                    {
+                        var del =
+                        from row in db.Zlecenies
+                        where row.ZlecenieID == (int)x.Value
+                        select row;
+
+                        foreach (var detail in del)
+                        {
+                            db.Zlecenies.DeleteOnSubmit(detail);
+                        }
+                    }
+                }
+                try
+                {
+                    db.SubmitChanges();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                    // Provide for exceptions.
+                }
+
+
+                //var query =
+                //    from zl in db.Zlecenies
+                //    select zl;
+                //dataGridView1.DataSource = query;
+                db.Connection.Close();
             }
         }
         //=======
