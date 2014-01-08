@@ -45,9 +45,6 @@ namespace BazyDanych
     partial void InsertPracownikWSkladzie(PracownikWSkladzie instance);
     partial void UpdatePracownikWSkladzie(PracownikWSkladzie instance);
     partial void DeletePracownikWSkladzie(PracownikWSkladzie instance);
-    partial void InsertRealizacjaWLokalizacji(RealizacjaWLokalizacji instance);
-    partial void UpdateRealizacjaWLokalizacji(RealizacjaWLokalizacji instance);
-    partial void DeleteRealizacjaWLokalizacji(RealizacjaWLokalizacji instance);
     partial void InsertReklamacja(Reklamacja instance);
     partial void UpdateReklamacja(Reklamacja instance);
     partial void DeleteReklamacja(Reklamacja instance);
@@ -66,12 +63,18 @@ namespace BazyDanych
     partial void InsertRealizacja(Realizacja instance);
     partial void UpdateRealizacja(Realizacja instance);
     partial void DeleteRealizacja(Realizacja instance);
-    partial void InsertLokalizacja(Lokalizacja instance);
-    partial void UpdateLokalizacja(Lokalizacja instance);
-    partial void DeleteLokalizacja(Lokalizacja instance);
     partial void InsertReklama(Reklama instance);
     partial void UpdateReklama(Reklama instance);
     partial void DeleteReklama(Reklama instance);
+    partial void InsertLokalizacja(Lokalizacja instance);
+    partial void UpdateLokalizacja(Lokalizacja instance);
+    partial void DeleteLokalizacja(Lokalizacja instance);
+    partial void InsertRealizacjaWLokalizacji(RealizacjaWLokalizacji instance);
+    partial void UpdateRealizacjaWLokalizacji(RealizacjaWLokalizacji instance);
+    partial void DeleteRealizacjaWLokalizacji(RealizacjaWLokalizacji instance);
+    partial void InsertReklamaWLokalizacji(ReklamaWLokalizacji instance);
+    partial void UpdateReklamaWLokalizacji(ReklamaWLokalizacji instance);
+    partial void DeleteReklamaWLokalizacji(ReklamaWLokalizacji instance);
     #endregion
 		
 		public DataClasses1DataContext() : 
@@ -168,14 +171,6 @@ namespace BazyDanych
 			}
 		}
 		
-		public System.Data.Linq.Table<RealizacjaWLokalizacji> RealizacjaWLokalizacjis
-		{
-			get
-			{
-				return this.GetTable<RealizacjaWLokalizacji>();
-			}
-		}
-		
 		public System.Data.Linq.Table<Reklamacja> Reklamacjas
 		{
 			get
@@ -248,6 +243,14 @@ namespace BazyDanych
 			}
 		}
 		
+		public System.Data.Linq.Table<Reklama> Reklamas
+		{
+			get
+			{
+				return this.GetTable<Reklama>();
+			}
+		}
+		
 		public System.Data.Linq.Table<Lokalizacja> Lokalizacjas
 		{
 			get
@@ -256,11 +259,19 @@ namespace BazyDanych
 			}
 		}
 		
-		public System.Data.Linq.Table<Reklama> Reklamas
+		public System.Data.Linq.Table<RealizacjaWLokalizacji> RealizacjaWLokalizacjis
 		{
 			get
 			{
-				return this.GetTable<Reklama>();
+				return this.GetTable<RealizacjaWLokalizacji>();
+			}
+		}
+		
+		public System.Data.Linq.Table<ReklamaWLokalizacji> ReklamaWLokalizacjis
+		{
+			get
+			{
+				return this.GetTable<ReklamaWLokalizacji>();
 			}
 		}
 	}
@@ -1599,174 +1610,6 @@ namespace BazyDanych
 						this._SkladID = default(int);
 					}
 					this.SendPropertyChanged("Sklad");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.RealizacjaWLokalizacji")]
-	public partial class RealizacjaWLokalizacji : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _RealizacjaID;
-		
-		private int _LokalizacjaID;
-		
-		private EntityRef<Realizacja> _Realizacja;
-		
-		private EntityRef<Lokalizacja> _Lokalizacja;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnRealizacjaIDChanging(int value);
-    partial void OnRealizacjaIDChanged();
-    partial void OnLokalizacjaIDChanging(int value);
-    partial void OnLokalizacjaIDChanged();
-    #endregion
-		
-		public RealizacjaWLokalizacji()
-		{
-			this._Realizacja = default(EntityRef<Realizacja>);
-			this._Lokalizacja = default(EntityRef<Lokalizacja>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RealizacjaID", DbType="Int NOT NULL", IsPrimaryKey=true)]
-		public int RealizacjaID
-		{
-			get
-			{
-				return this._RealizacjaID;
-			}
-			set
-			{
-				if ((this._RealizacjaID != value))
-				{
-					if (this._Realizacja.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnRealizacjaIDChanging(value);
-					this.SendPropertyChanging();
-					this._RealizacjaID = value;
-					this.SendPropertyChanged("RealizacjaID");
-					this.OnRealizacjaIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LokalizacjaID", DbType="Int NOT NULL", IsPrimaryKey=true)]
-		public int LokalizacjaID
-		{
-			get
-			{
-				return this._LokalizacjaID;
-			}
-			set
-			{
-				if ((this._LokalizacjaID != value))
-				{
-					if (this._Lokalizacja.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnLokalizacjaIDChanging(value);
-					this.SendPropertyChanging();
-					this._LokalizacjaID = value;
-					this.SendPropertyChanged("LokalizacjaID");
-					this.OnLokalizacjaIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Realizacja_RealizacjaWLokalizacji", Storage="_Realizacja", ThisKey="RealizacjaID", OtherKey="RealizacjaID", IsForeignKey=true)]
-		public Realizacja Realizacja
-		{
-			get
-			{
-				return this._Realizacja.Entity;
-			}
-			set
-			{
-				Realizacja previousValue = this._Realizacja.Entity;
-				if (((previousValue != value) 
-							|| (this._Realizacja.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Realizacja.Entity = null;
-						previousValue.RealizacjaWLokalizacjis.Remove(this);
-					}
-					this._Realizacja.Entity = value;
-					if ((value != null))
-					{
-						value.RealizacjaWLokalizacjis.Add(this);
-						this._RealizacjaID = value.RealizacjaID;
-					}
-					else
-					{
-						this._RealizacjaID = default(int);
-					}
-					this.SendPropertyChanged("Realizacja");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Lokalizacja_RealizacjaWLokalizacji", Storage="_Lokalizacja", ThisKey="LokalizacjaID", OtherKey="LokalizacjaID", IsForeignKey=true)]
-		public Lokalizacja Lokalizacja
-		{
-			get
-			{
-				return this._Lokalizacja.Entity;
-			}
-			set
-			{
-				Lokalizacja previousValue = this._Lokalizacja.Entity;
-				if (((previousValue != value) 
-							|| (this._Lokalizacja.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Lokalizacja.Entity = null;
-						previousValue.RealizacjaWLokalizacjis.Remove(this);
-					}
-					this._Lokalizacja.Entity = value;
-					if ((value != null))
-					{
-						value.RealizacjaWLokalizacjis.Add(this);
-						this._LokalizacjaID = value.LokalizacjaID;
-					}
-					else
-					{
-						this._LokalizacjaID = default(int);
-					}
-					this.SendPropertyChanged("Lokalizacja");
 				}
 			}
 		}
@@ -3304,240 +3147,6 @@ namespace BazyDanych
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Lokalizacja")]
-	public partial class Lokalizacja : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _LokalizacjaID;
-		
-		private string _Opis;
-		
-		private string _NIP;
-		
-		private decimal _Wysokosc;
-		
-		private decimal _Szerokosc;
-		
-		private string _Zawartosc;
-		
-		private decimal _WolneMiejsce;
-		
-		private EntitySet<RealizacjaWLokalizacji> _RealizacjaWLokalizacjis;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnLokalizacjaIDChanging(int value);
-    partial void OnLokalizacjaIDChanged();
-    partial void OnOpisChanging(string value);
-    partial void OnOpisChanged();
-    partial void OnNIPChanging(string value);
-    partial void OnNIPChanged();
-    partial void OnWysokoscChanging(decimal value);
-    partial void OnWysokoscChanged();
-    partial void OnSzerokoscChanging(decimal value);
-    partial void OnSzerokoscChanged();
-    partial void OnZawartoscChanging(string value);
-    partial void OnZawartoscChanged();
-    partial void OnWolneMiejsceChanging(decimal value);
-    partial void OnWolneMiejsceChanged();
-    #endregion
-		
-		public Lokalizacja()
-		{
-			this._RealizacjaWLokalizacjis = new EntitySet<RealizacjaWLokalizacji>(new Action<RealizacjaWLokalizacji>(this.attach_RealizacjaWLokalizacjis), new Action<RealizacjaWLokalizacji>(this.detach_RealizacjaWLokalizacjis));
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LokalizacjaID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int LokalizacjaID
-		{
-			get
-			{
-				return this._LokalizacjaID;
-			}
-			set
-			{
-				if ((this._LokalizacjaID != value))
-				{
-					this.OnLokalizacjaIDChanging(value);
-					this.SendPropertyChanging();
-					this._LokalizacjaID = value;
-					this.SendPropertyChanged("LokalizacjaID");
-					this.OnLokalizacjaIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Opis", DbType="VarChar(MAX)")]
-		public string Opis
-		{
-			get
-			{
-				return this._Opis;
-			}
-			set
-			{
-				if ((this._Opis != value))
-				{
-					this.OnOpisChanging(value);
-					this.SendPropertyChanging();
-					this._Opis = value;
-					this.SendPropertyChanged("Opis");
-					this.OnOpisChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NIP", DbType="VarChar(15)")]
-		public string NIP
-		{
-			get
-			{
-				return this._NIP;
-			}
-			set
-			{
-				if ((this._NIP != value))
-				{
-					this.OnNIPChanging(value);
-					this.SendPropertyChanging();
-					this._NIP = value;
-					this.SendPropertyChanged("NIP");
-					this.OnNIPChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Wysokosc", DbType="Decimal(18,0) NOT NULL")]
-		public decimal Wysokosc
-		{
-			get
-			{
-				return this._Wysokosc;
-			}
-			set
-			{
-				if ((this._Wysokosc != value))
-				{
-					this.OnWysokoscChanging(value);
-					this.SendPropertyChanging();
-					this._Wysokosc = value;
-					this.SendPropertyChanged("Wysokosc");
-					this.OnWysokoscChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Szerokosc", DbType="Decimal(18,0) NOT NULL")]
-		public decimal Szerokosc
-		{
-			get
-			{
-				return this._Szerokosc;
-			}
-			set
-			{
-				if ((this._Szerokosc != value))
-				{
-					this.OnSzerokoscChanging(value);
-					this.SendPropertyChanging();
-					this._Szerokosc = value;
-					this.SendPropertyChanged("Szerokosc");
-					this.OnSzerokoscChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Zawartosc", DbType="VarChar(MAX)")]
-		public string Zawartosc
-		{
-			get
-			{
-				return this._Zawartosc;
-			}
-			set
-			{
-				if ((this._Zawartosc != value))
-				{
-					this.OnZawartoscChanging(value);
-					this.SendPropertyChanging();
-					this._Zawartosc = value;
-					this.SendPropertyChanged("Zawartosc");
-					this.OnZawartoscChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_WolneMiejsce", DbType="Decimal(18,0) NOT NULL")]
-		public decimal WolneMiejsce
-		{
-			get
-			{
-				return this._WolneMiejsce;
-			}
-			set
-			{
-				if ((this._WolneMiejsce != value))
-				{
-					this.OnWolneMiejsceChanging(value);
-					this.SendPropertyChanging();
-					this._WolneMiejsce = value;
-					this.SendPropertyChanged("WolneMiejsce");
-					this.OnWolneMiejsceChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Lokalizacja_RealizacjaWLokalizacji", Storage="_RealizacjaWLokalizacjis", ThisKey="LokalizacjaID", OtherKey="LokalizacjaID")]
-		public EntitySet<RealizacjaWLokalizacji> RealizacjaWLokalizacjis
-		{
-			get
-			{
-				return this._RealizacjaWLokalizacjis;
-			}
-			set
-			{
-				this._RealizacjaWLokalizacjis.Assign(value);
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_RealizacjaWLokalizacjis(RealizacjaWLokalizacji entity)
-		{
-			this.SendPropertyChanging();
-			entity.Lokalizacja = this;
-		}
-		
-		private void detach_RealizacjaWLokalizacjis(RealizacjaWLokalizacji entity)
-		{
-			this.SendPropertyChanging();
-			entity.Lokalizacja = null;
-		}
-	}
-	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Reklama")]
 	public partial class Reklama : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -3555,6 +3164,8 @@ namespace BazyDanych
 		private EntitySet<Zlecenie> _Zlecenies;
 		
 		private EntitySet<Realizacja> _Realizacjas;
+		
+		private EntitySet<ReklamaWLokalizacji> _ReklamaWLokalizacjis;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -3574,6 +3185,7 @@ namespace BazyDanych
 		{
 			this._Zlecenies = new EntitySet<Zlecenie>(new Action<Zlecenie>(this.attach_Zlecenies), new Action<Zlecenie>(this.detach_Zlecenies));
 			this._Realizacjas = new EntitySet<Realizacja>(new Action<Realizacja>(this.attach_Realizacjas), new Action<Realizacja>(this.detach_Realizacjas));
+			this._ReklamaWLokalizacjis = new EntitySet<ReklamaWLokalizacji>(new Action<ReklamaWLokalizacji>(this.attach_ReklamaWLokalizacjis), new Action<ReklamaWLokalizacji>(this.detach_ReklamaWLokalizacjis));
 			OnCreated();
 		}
 		
@@ -3683,6 +3295,19 @@ namespace BazyDanych
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Reklama_ReklamaWLokalizacji", Storage="_ReklamaWLokalizacjis", ThisKey="ReklamaID", OtherKey="ReklamaID")]
+		public EntitySet<ReklamaWLokalizacji> ReklamaWLokalizacjis
+		{
+			get
+			{
+				return this._ReklamaWLokalizacjis;
+			}
+			set
+			{
+				this._ReklamaWLokalizacjis.Assign(value);
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -3725,6 +3350,640 @@ namespace BazyDanych
 		{
 			this.SendPropertyChanging();
 			entity.Reklama = null;
+		}
+		
+		private void attach_ReklamaWLokalizacjis(ReklamaWLokalizacji entity)
+		{
+			this.SendPropertyChanging();
+			entity.Reklama = this;
+		}
+		
+		private void detach_ReklamaWLokalizacjis(ReklamaWLokalizacji entity)
+		{
+			this.SendPropertyChanging();
+			entity.Reklama = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Lokalizacja")]
+	public partial class Lokalizacja : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _LokalizacjaID;
+		
+		private string _Opis;
+		
+		private string _NIP;
+		
+		private decimal _Wysokosc;
+		
+		private decimal _Szerokosc;
+		
+		private decimal _WolneMiejsce;
+		
+		private EntitySet<RealizacjaWLokalizacji> _RealizacjaWLokalizacjis;
+		
+		private EntitySet<ReklamaWLokalizacji> _ReklamaWLokalizacjis;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnLokalizacjaIDChanging(int value);
+    partial void OnLokalizacjaIDChanged();
+    partial void OnOpisChanging(string value);
+    partial void OnOpisChanged();
+    partial void OnNIPChanging(string value);
+    partial void OnNIPChanged();
+    partial void OnWysokoscChanging(decimal value);
+    partial void OnWysokoscChanged();
+    partial void OnSzerokoscChanging(decimal value);
+    partial void OnSzerokoscChanged();
+    partial void OnWolneMiejsceChanging(decimal value);
+    partial void OnWolneMiejsceChanged();
+    #endregion
+		
+		public Lokalizacja()
+		{
+			this._RealizacjaWLokalizacjis = new EntitySet<RealizacjaWLokalizacji>(new Action<RealizacjaWLokalizacji>(this.attach_RealizacjaWLokalizacjis), new Action<RealizacjaWLokalizacji>(this.detach_RealizacjaWLokalizacjis));
+			this._ReklamaWLokalizacjis = new EntitySet<ReklamaWLokalizacji>(new Action<ReklamaWLokalizacji>(this.attach_ReklamaWLokalizacjis), new Action<ReklamaWLokalizacji>(this.detach_ReklamaWLokalizacjis));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LokalizacjaID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int LokalizacjaID
+		{
+			get
+			{
+				return this._LokalizacjaID;
+			}
+			set
+			{
+				if ((this._LokalizacjaID != value))
+				{
+					this.OnLokalizacjaIDChanging(value);
+					this.SendPropertyChanging();
+					this._LokalizacjaID = value;
+					this.SendPropertyChanged("LokalizacjaID");
+					this.OnLokalizacjaIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Opis", DbType="VarChar(MAX)")]
+		public string Opis
+		{
+			get
+			{
+				return this._Opis;
+			}
+			set
+			{
+				if ((this._Opis != value))
+				{
+					this.OnOpisChanging(value);
+					this.SendPropertyChanging();
+					this._Opis = value;
+					this.SendPropertyChanged("Opis");
+					this.OnOpisChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NIP", DbType="VarChar(15)")]
+		public string NIP
+		{
+			get
+			{
+				return this._NIP;
+			}
+			set
+			{
+				if ((this._NIP != value))
+				{
+					this.OnNIPChanging(value);
+					this.SendPropertyChanging();
+					this._NIP = value;
+					this.SendPropertyChanged("NIP");
+					this.OnNIPChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Wysokosc", DbType="Decimal(18,0) NOT NULL")]
+		public decimal Wysokosc
+		{
+			get
+			{
+				return this._Wysokosc;
+			}
+			set
+			{
+				if ((this._Wysokosc != value))
+				{
+					this.OnWysokoscChanging(value);
+					this.SendPropertyChanging();
+					this._Wysokosc = value;
+					this.SendPropertyChanged("Wysokosc");
+					this.OnWysokoscChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Szerokosc", DbType="Decimal(18,0) NOT NULL")]
+		public decimal Szerokosc
+		{
+			get
+			{
+				return this._Szerokosc;
+			}
+			set
+			{
+				if ((this._Szerokosc != value))
+				{
+					this.OnSzerokoscChanging(value);
+					this.SendPropertyChanging();
+					this._Szerokosc = value;
+					this.SendPropertyChanged("Szerokosc");
+					this.OnSzerokoscChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_WolneMiejsce", DbType="Decimal(18,0) NOT NULL")]
+		public decimal WolneMiejsce
+		{
+			get
+			{
+				return this._WolneMiejsce;
+			}
+			set
+			{
+				if ((this._WolneMiejsce != value))
+				{
+					this.OnWolneMiejsceChanging(value);
+					this.SendPropertyChanging();
+					this._WolneMiejsce = value;
+					this.SendPropertyChanged("WolneMiejsce");
+					this.OnWolneMiejsceChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Lokalizacja_RealizacjaWLokalizacji", Storage="_RealizacjaWLokalizacjis", ThisKey="LokalizacjaID", OtherKey="LokalizacjaID")]
+		public EntitySet<RealizacjaWLokalizacji> RealizacjaWLokalizacjis
+		{
+			get
+			{
+				return this._RealizacjaWLokalizacjis;
+			}
+			set
+			{
+				this._RealizacjaWLokalizacjis.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Lokalizacja_ReklamaWLokalizacji", Storage="_ReklamaWLokalizacjis", ThisKey="LokalizacjaID", OtherKey="LokalizacjaID")]
+		public EntitySet<ReklamaWLokalizacji> ReklamaWLokalizacjis
+		{
+			get
+			{
+				return this._ReklamaWLokalizacjis;
+			}
+			set
+			{
+				this._ReklamaWLokalizacjis.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_RealizacjaWLokalizacjis(RealizacjaWLokalizacji entity)
+		{
+			this.SendPropertyChanging();
+			entity.Lokalizacja = this;
+		}
+		
+		private void detach_RealizacjaWLokalizacjis(RealizacjaWLokalizacji entity)
+		{
+			this.SendPropertyChanging();
+			entity.Lokalizacja = null;
+		}
+		
+		private void attach_ReklamaWLokalizacjis(ReklamaWLokalizacji entity)
+		{
+			this.SendPropertyChanging();
+			entity.Lokalizacja = this;
+		}
+		
+		private void detach_ReklamaWLokalizacjis(ReklamaWLokalizacji entity)
+		{
+			this.SendPropertyChanging();
+			entity.Lokalizacja = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.RealizacjaWLokalizacji")]
+	public partial class RealizacjaWLokalizacji : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _RealizacjaID;
+		
+		private int _LokalizacjaID;
+		
+		private EntityRef<Lokalizacja> _Lokalizacja;
+		
+		private EntityRef<Realizacja> _Realizacja;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnRealizacjaIDChanging(int value);
+    partial void OnRealizacjaIDChanged();
+    partial void OnLokalizacjaIDChanging(int value);
+    partial void OnLokalizacjaIDChanged();
+    #endregion
+		
+		public RealizacjaWLokalizacji()
+		{
+			this._Lokalizacja = default(EntityRef<Lokalizacja>);
+			this._Realizacja = default(EntityRef<Realizacja>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RealizacjaID", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int RealizacjaID
+		{
+			get
+			{
+				return this._RealizacjaID;
+			}
+			set
+			{
+				if ((this._RealizacjaID != value))
+				{
+					if (this._Realizacja.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnRealizacjaIDChanging(value);
+					this.SendPropertyChanging();
+					this._RealizacjaID = value;
+					this.SendPropertyChanged("RealizacjaID");
+					this.OnRealizacjaIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LokalizacjaID", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int LokalizacjaID
+		{
+			get
+			{
+				return this._LokalizacjaID;
+			}
+			set
+			{
+				if ((this._LokalizacjaID != value))
+				{
+					if (this._Lokalizacja.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnLokalizacjaIDChanging(value);
+					this.SendPropertyChanging();
+					this._LokalizacjaID = value;
+					this.SendPropertyChanged("LokalizacjaID");
+					this.OnLokalizacjaIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Lokalizacja_RealizacjaWLokalizacji", Storage="_Lokalizacja", ThisKey="LokalizacjaID", OtherKey="LokalizacjaID", IsForeignKey=true)]
+		public Lokalizacja Lokalizacja
+		{
+			get
+			{
+				return this._Lokalizacja.Entity;
+			}
+			set
+			{
+				Lokalizacja previousValue = this._Lokalizacja.Entity;
+				if (((previousValue != value) 
+							|| (this._Lokalizacja.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Lokalizacja.Entity = null;
+						previousValue.RealizacjaWLokalizacjis.Remove(this);
+					}
+					this._Lokalizacja.Entity = value;
+					if ((value != null))
+					{
+						value.RealizacjaWLokalizacjis.Add(this);
+						this._LokalizacjaID = value.LokalizacjaID;
+					}
+					else
+					{
+						this._LokalizacjaID = default(int);
+					}
+					this.SendPropertyChanged("Lokalizacja");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Realizacja_RealizacjaWLokalizacji", Storage="_Realizacja", ThisKey="RealizacjaID", OtherKey="RealizacjaID", IsForeignKey=true)]
+		public Realizacja Realizacja
+		{
+			get
+			{
+				return this._Realizacja.Entity;
+			}
+			set
+			{
+				Realizacja previousValue = this._Realizacja.Entity;
+				if (((previousValue != value) 
+							|| (this._Realizacja.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Realizacja.Entity = null;
+						previousValue.RealizacjaWLokalizacjis.Remove(this);
+					}
+					this._Realizacja.Entity = value;
+					if ((value != null))
+					{
+						value.RealizacjaWLokalizacjis.Add(this);
+						this._RealizacjaID = value.RealizacjaID;
+					}
+					else
+					{
+						this._RealizacjaID = default(int);
+					}
+					this.SendPropertyChanged("Realizacja");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.ReklamaWLokalizacji")]
+	public partial class ReklamaWLokalizacji : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _ReklamaID;
+		
+		private int _LokalizacjaID;
+		
+		private decimal _Wspolrzedna_X;
+		
+		private decimal _Wspolrzedna_Y;
+		
+		private EntityRef<Lokalizacja> _Lokalizacja;
+		
+		private EntityRef<Reklama> _Reklama;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnReklamaIDChanging(int value);
+    partial void OnReklamaIDChanged();
+    partial void OnLokalizacjaIDChanging(int value);
+    partial void OnLokalizacjaIDChanged();
+    partial void OnWspolrzedna_XChanging(decimal value);
+    partial void OnWspolrzedna_XChanged();
+    partial void OnWspolrzedna_YChanging(decimal value);
+    partial void OnWspolrzedna_YChanged();
+    #endregion
+		
+		public ReklamaWLokalizacji()
+		{
+			this._Lokalizacja = default(EntityRef<Lokalizacja>);
+			this._Reklama = default(EntityRef<Reklama>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ReklamaID", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int ReklamaID
+		{
+			get
+			{
+				return this._ReklamaID;
+			}
+			set
+			{
+				if ((this._ReklamaID != value))
+				{
+					if (this._Reklama.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnReklamaIDChanging(value);
+					this.SendPropertyChanging();
+					this._ReklamaID = value;
+					this.SendPropertyChanged("ReklamaID");
+					this.OnReklamaIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LokalizacjaID", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int LokalizacjaID
+		{
+			get
+			{
+				return this._LokalizacjaID;
+			}
+			set
+			{
+				if ((this._LokalizacjaID != value))
+				{
+					if (this._Lokalizacja.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnLokalizacjaIDChanging(value);
+					this.SendPropertyChanging();
+					this._LokalizacjaID = value;
+					this.SendPropertyChanged("LokalizacjaID");
+					this.OnLokalizacjaIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Wspolrzedna_X", DbType="Decimal(18,0) NOT NULL")]
+		public decimal Wspolrzedna_X
+		{
+			get
+			{
+				return this._Wspolrzedna_X;
+			}
+			set
+			{
+				if ((this._Wspolrzedna_X != value))
+				{
+					this.OnWspolrzedna_XChanging(value);
+					this.SendPropertyChanging();
+					this._Wspolrzedna_X = value;
+					this.SendPropertyChanged("Wspolrzedna_X");
+					this.OnWspolrzedna_XChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Wspolrzedna_Y", DbType="Decimal(18,0) NOT NULL")]
+		public decimal Wspolrzedna_Y
+		{
+			get
+			{
+				return this._Wspolrzedna_Y;
+			}
+			set
+			{
+				if ((this._Wspolrzedna_Y != value))
+				{
+					this.OnWspolrzedna_YChanging(value);
+					this.SendPropertyChanging();
+					this._Wspolrzedna_Y = value;
+					this.SendPropertyChanged("Wspolrzedna_Y");
+					this.OnWspolrzedna_YChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Lokalizacja_ReklamaWLokalizacji", Storage="_Lokalizacja", ThisKey="LokalizacjaID", OtherKey="LokalizacjaID", IsForeignKey=true)]
+		public Lokalizacja Lokalizacja
+		{
+			get
+			{
+				return this._Lokalizacja.Entity;
+			}
+			set
+			{
+				Lokalizacja previousValue = this._Lokalizacja.Entity;
+				if (((previousValue != value) 
+							|| (this._Lokalizacja.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Lokalizacja.Entity = null;
+						previousValue.ReklamaWLokalizacjis.Remove(this);
+					}
+					this._Lokalizacja.Entity = value;
+					if ((value != null))
+					{
+						value.ReklamaWLokalizacjis.Add(this);
+						this._LokalizacjaID = value.LokalizacjaID;
+					}
+					else
+					{
+						this._LokalizacjaID = default(int);
+					}
+					this.SendPropertyChanged("Lokalizacja");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Reklama_ReklamaWLokalizacji", Storage="_Reklama", ThisKey="ReklamaID", OtherKey="ReklamaID", IsForeignKey=true)]
+		public Reklama Reklama
+		{
+			get
+			{
+				return this._Reklama.Entity;
+			}
+			set
+			{
+				Reklama previousValue = this._Reklama.Entity;
+				if (((previousValue != value) 
+							|| (this._Reklama.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Reklama.Entity = null;
+						previousValue.ReklamaWLokalizacjis.Remove(this);
+					}
+					this._Reklama.Entity = value;
+					if ((value != null))
+					{
+						value.ReklamaWLokalizacjis.Add(this);
+						this._ReklamaID = value.ReklamaID;
+					}
+					else
+					{
+						this._ReklamaID = default(int);
+					}
+					this.SendPropertyChanged("Reklama");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
 		}
 	}
 }

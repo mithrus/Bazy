@@ -50,7 +50,7 @@ namespace BazyDanych
                     where zl.ReklamaID==rek.ReklamaID
                     where zl.KlientID==kl.KlientID
                     where zl.PracownikID==pr.PracownikID
-                    select new { zl.ZlecenieID, Pracownik=pr.Imie+" "+pr.Nazwisko, NazwaKlienta=kl.Nazwa ,NazwaReklamy=rek.Opis,WymiaryReklamy=rek.Szerokosc+"x"+rek.Wysokosc, zl.TerminRozpoczecia, zl.TerminZakonczenia, zl.StanZlecenia };
+                    select new { zl.ZlecenieID, Pracownik=pr.Imie+" "+pr.Nazwisko, NazwaKlienta=kl.Nazwa ,OpisReklamy=rek.Opis,WymiaryReklamy=rek.Szerokosc+"x"+rek.Wysokosc, zl.TerminRozpoczecia, zl.TerminZakonczenia, zl.StanZlecenia };
                 dataGridView2.DataSource = query;
                 db.Connection.Close();
             }

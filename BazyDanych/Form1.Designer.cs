@@ -360,7 +360,7 @@
         private System.Windows.Forms.TabPage tabPage9;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.DataGridView dataGridView2;
+        public System.Windows.Forms.DataGridView dataGridView2;
         private System.Windows.Forms.Button button2;
         public System.Windows.Forms.DataGridView dataGridView3;
         private System.Windows.Forms.Button button3;
