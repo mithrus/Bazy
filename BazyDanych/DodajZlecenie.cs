@@ -94,7 +94,7 @@ namespace BazyDanych
             
             using (DataClasses1DataContext db = new DataClasses1DataContext(CiagPolaczenia))
             {
-
+                
                 Zlecenie z = new Zlecenie
                 {
                     PracownikID=int.Parse(comboBox1.SelectedItem.ToString().ElementAt(0).ToString()),

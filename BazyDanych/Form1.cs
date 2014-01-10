@@ -51,7 +51,7 @@ namespace BazyDanych
                     where zl.KlientID==kl.KlientID
                     where zl.PracownikID==pr.PracownikID
                     select new { zl.ZlecenieID, Pracownik=pr.Imie+" "+pr.Nazwisko, NazwaKlienta=kl.Nazwa ,OpisReklamy=rek.Opis,WymiaryReklamy=rek.Szerokosc+"x"+rek.Wysokosc, zl.TerminRozpoczecia, zl.TerminZakonczenia, zl.StanZlecenia };
-                dataGridView2.DataSource = query;
+                dataGridView2.DataSource = query;             
                 db.Connection.Close();
             }
         }
@@ -174,21 +174,36 @@ namespace BazyDanych
         private void button8_Click(object sender, EventArgs e)
         {
             using (DataClasses1DataContext db = new DataClasses1DataContext(CiagPolaczenia))
-            {
-                for (int i = 0; i < dataGridView1.RowCount; i++)
+            {             
+                for (int i = 0; i < dataGridView2.RowCount; i++)
                 {
-                    var x = dataGridView1[0, i];
+                    var x = dataGridView2[0, i];
                     if (x.Selected == true)
                     {
                         var del =
                         from row in db.Zlecenies
                         where row.ZlecenieID == (int)x.Value
                         select row;
-
+                        List<Zlecenie> temp= new List<Zlecenie>(del);
+                        
                         foreach (var detail in del)
                         {
                             db.Zlecenies.DeleteOnSubmit(detail);
                         }
+
+                        //usuwanie z tabeli ReklamaWLokalizacji                   
+
+                        var del2 =
+                        from row in db.ReklamaWLokalizacjis
+                        where row.ReklamaID ==temp.First().ReklamaID
+                        select row;
+
+                        foreach (var detail in del2)
+                        {
+                            db.ReklamaWLokalizacjis.DeleteOnSubmit(detail);
+                        }
+                        temp.Clear();
+
                     }
                 }
                 try
