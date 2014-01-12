@@ -3777,6 +3777,8 @@ namespace BazyDanych
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
+		private int _ID;
+		
 		private int _ReklamaID;
 		
 		private int _LokalizacjaID;
@@ -3793,6 +3795,8 @@ namespace BazyDanych
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
     partial void OnCreated();
+    partial void OnIDChanging(int value);
+    partial void OnIDChanged();
     partial void OnReklamaIDChanging(int value);
     partial void OnReklamaIDChanged();
     partial void OnLokalizacjaIDChanging(int value);
@@ -3810,7 +3814,27 @@ namespace BazyDanych
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ReklamaID", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int ID
+		{
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this.OnIDChanging(value);
+					this.SendPropertyChanging();
+					this._ID = value;
+					this.SendPropertyChanged("ID");
+					this.OnIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ReklamaID", DbType="Int NOT NULL")]
 		public int ReklamaID
 		{
 			get
@@ -3834,7 +3858,7 @@ namespace BazyDanych
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LokalizacjaID", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LokalizacjaID", DbType="Int NOT NULL")]
 		public int LokalizacjaID
 		{
 			get

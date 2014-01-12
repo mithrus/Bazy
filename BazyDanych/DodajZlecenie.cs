@@ -119,10 +119,12 @@ namespace BazyDanych
                 {
                     db.SubmitChanges();
                 }
-                catch (Exception ex)
+                catch (System.Data.SqlClient.SqlException ex)
                 {
-                    Console.WriteLine(ex);
-                    db.SubmitChanges();
+                    //System.Data.SqlClient.SqlException
+                    MessageBox.Show(ex.Message, "error");
+                    //Console.WriteLine(ex);
+                    //db.SubmitChanges();
                 }
             }
             //wyswietlenie wynikow w tabeli

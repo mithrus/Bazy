@@ -182,7 +182,7 @@
         <classShapeMoniker Id="3e33b56e-062f-41e8-9187-00583446a780" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(9 : 4.375); (9 : 2.52329752604167); (5.375 : 2.52329752604167)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+    <associationConnector edgePoints="[(9 : 4.375); (9 : 2.52329752604167); (7.58333333333333 : 2.52329752604167 : JumpStart); (7.41666666666667 : 2.52329752604167 : JumpEnd); (5.375 : 2.52329752604167)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/DataClasses1DataContext/Pracownik/Pracownik_Zlecenie" />
       <nodes>
         <classShapeMoniker Id="a67d326b-7248-4806-910f-bfdf1efb2776" />
@@ -222,7 +222,7 @@
         <classShapeMoniker Id="3e33b56e-062f-41e8-9187-00583446a780" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(7.5 : 2.32859537760417); (7.5 : 3.20479573567708); (8.91666666666667 : 3.20479573567708 : JumpStart); (9.08333333333333 : 3.20479573567708 : JumpEnd); (12.5 : 3.20479573567708)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+    <associationConnector edgePoints="[(7.5 : 2.32859537760417); (7.5 : 3.20479573567708); (12.5 : 3.20479573567708)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/DataClasses1DataContext/Reklama/Reklama_Realizacja" />
       <nodes>
         <classShapeMoniker Id="ec5a2451-f626-4b17-8aeb-092df729bbe6" />
@@ -276,7 +276,7 @@
         <elementListCompartment Id="af9068b0-da12-4766-8928-d56de5fe400b" absoluteBounds="16.14, 3.71, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(19.375 : 3.66909912109375); (18.125 : 3.66909912109375)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(19.375 : 3.77329752604167); (18.125 : 3.77329752604167)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/DataClasses1DataContext/Lokalizacja/Lokalizacja_RealizacjaWLokalizacji" />
       <nodes>
         <classShapeMoniker Id="dd4ff2db-7d9c-4f07-acb7-8e330dd21258" />
@@ -290,24 +290,24 @@
         <classShapeMoniker Id="b9b1dce7-fe05-4e58-a5a4-9d207898e5e0" />
       </nodes>
     </associationConnector>
-    <classShape Id="f327b732-0d71-47be-8a15-9842601e0630" absoluteBounds="15.75, 0.625, 2, 1.5785953776041666">
+    <classShape Id="823d8240-8422-4bc9-96db-5e8f5a1d99af" absoluteBounds="16, 1.125, 2, 1.7708968098958331">
       <DataClassMoniker Name="/DataClasses1DataContext/ReklamaWLokalizacji" />
       <nestedChildShapes>
-        <elementListCompartment Id="cc91a325-eb0a-4011-a496-9085ee573147" absoluteBounds="15.765, 1.085, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="54586c7a-0f0b-44d5-a2b9-ab5491dd0599" absoluteBounds="16.015, 1.585, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(19.375 : 2.69554818880208); (15.90625 : 2.69554818880208); (15.90625 : 2.20359537760417)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(19.375 : 2.51044840494792); (18 : 2.51044840494792)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/DataClasses1DataContext/Lokalizacja/Lokalizacja_ReklamaWLokalizacji" />
       <nodes>
         <classShapeMoniker Id="dd4ff2db-7d9c-4f07-acb7-8e330dd21258" />
-        <classShapeMoniker Id="f327b732-0d71-47be-8a15-9842601e0630" />
+        <classShapeMoniker Id="823d8240-8422-4bc9-96db-5e8f5a1d99af" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(8.5 : 2.1675439453125); (15.75 : 2.1675439453125)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(8.5 : 2.2300439453125); (16 : 2.2300439453125)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/DataClasses1DataContext/Reklama/Reklama_ReklamaWLokalizacji" />
       <nodes>
         <classShapeMoniker Id="ec5a2451-f626-4b17-8aeb-092df729bbe6" />
-        <classShapeMoniker Id="f327b732-0d71-47be-8a15-9842601e0630" />
+        <classShapeMoniker Id="823d8240-8422-4bc9-96db-5e8f5a1d99af" />
       </nodes>
     </associationConnector>
   </nestedChildShapes>

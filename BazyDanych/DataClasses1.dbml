@@ -207,8 +207,9 @@
   </Table>
   <Table Name="dbo.ReklamaWLokalizacji" Member="ReklamaWLokalizacjis">
     <Type Name="ReklamaWLokalizacji">
-      <Column Name="ReklamaID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="LokalizacjaID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ReklamaID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="LokalizacjaID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Wspolrzedna_X" Type="System.Decimal" DbType="Decimal(18,0) NOT NULL" CanBeNull="false" />
       <Column Name="Wspolrzedna_Y" Type="System.Decimal" DbType="Decimal(18,0) NOT NULL" CanBeNull="false" />
       <Association Name="Lokalizacja_ReklamaWLokalizacji" Member="Lokalizacja" ThisKey="LokalizacjaID" OtherKey="LokalizacjaID" Type="Lokalizacja" IsForeignKey="true" />
