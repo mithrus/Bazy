@@ -71,7 +71,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.menuStrip1.Size = new System.Drawing.Size(950, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1132, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -119,7 +119,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(942, 360);
+            this.tabPage2.Size = new System.Drawing.Size(1124, 360);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Zlecenia";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -127,7 +127,7 @@
             // button8
             // 
             this.button8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button8.Location = new System.Drawing.Point(779, 89);
+            this.button8.Location = new System.Drawing.Point(961, 89);
             this.button8.Name = "button8";
             this.button8.Size = new System.Drawing.Size(103, 23);
             this.button8.TabIndex = 3;
@@ -138,7 +138,7 @@
             // button7
             // 
             this.button7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button7.Location = new System.Drawing.Point(779, 46);
+            this.button7.Location = new System.Drawing.Point(961, 46);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(103, 23);
             this.button7.TabIndex = 2;
@@ -149,7 +149,7 @@
             // button2
             // 
             this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button2.Location = new System.Drawing.Point(779, 6);
+            this.button2.Location = new System.Drawing.Point(961, 6);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(103, 23);
             this.button2.TabIndex = 1;
@@ -164,7 +164,7 @@
             this.dataGridView2.Location = new System.Drawing.Point(3, 3);
             this.dataGridView2.Name = "dataGridView2";
             this.dataGridView2.ReadOnly = true;
-            this.dataGridView2.Size = new System.Drawing.Size(770, 354);
+            this.dataGridView2.Size = new System.Drawing.Size(942, 354);
             this.dataGridView2.TabIndex = 0;
             // 
             // tabPage1
@@ -213,7 +213,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 24);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(950, 386);
+            this.tabControl1.Size = new System.Drawing.Size(1132, 386);
             this.tabControl1.TabIndex = 1;
             // 
             // tabPage9
@@ -326,7 +326,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.ClientSize = new System.Drawing.Size(950, 410);
+            this.ClientSize = new System.Drawing.Size(1132, 410);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;

@@ -115,6 +115,18 @@ namespace BazyDanych
                 };
                 db.ReklamaWLokalizacjis.InsertOnSubmit(rwl);
 
+                //update do Lokalizacji
+                var query =
+                    from l in db.Lokalizacjas
+                    where l.LokalizacjaID == l4[comboBox4.SelectedIndex].LokalizacjaID
+                    select l;
+
+                foreach (Lokalizacja up in query)
+                {
+                    up.WolneMiejsce = up.WolneMiejsce - l3.ElementAt(comboBox3.SelectedIndex).Szerokosc * l3.ElementAt(comboBox3.SelectedIndex).Wysokosc;
+                }               
+
+
                 try
                 {
                     db.SubmitChanges();
@@ -148,7 +160,7 @@ namespace BazyDanych
         }
 
         private void button2_Click(object sender, EventArgs e)
-        {
+        {           
             panel1.BackColor = Color.White;
             panel1.Visible = true;
             panel1.Height = 550;
@@ -159,10 +171,13 @@ namespace BazyDanych
             {
                 skala = (float)panel1.Width / (float)l4[idx].Szerokosc;
                 panel1.Height = (int)(skala * (float)l4[idx].Wysokosc);
+                panel1.Width = (int)(skala * (float)l4[idx].Szerokosc);
             }
             else
             {
                 skala = (float)panel1.Width / (float)l4[idx].Wysokosc;
+                panel1.Width = (int)(skala * (float)l4[idx].Szerokosc);
+                panel1.Height = (int)(skala * (float)l4[idx].Wysokosc);
             }
 
             if (czyWyswietlac == true)
@@ -196,7 +211,7 @@ namespace BazyDanych
         }
 
         private void comboBox5_SelectedIndexChanged(object sender, EventArgs e)
-        {
+        {            
             comboBox4.Items.Clear();
             comboBox4.Text = "Wybierz";
             using (DataClasses1DataContext db = new DataClasses1DataContext(CiagPolaczenia))
@@ -210,8 +225,11 @@ namespace BazyDanych
                         comboBox4.Enabled = true;
                         var query4 =
                              from lok in db.Lokalizacjas
-                             from sl in db.SlupOgloszeniowies
+                             from sl in db.SlupOgloszeniowies                        
                              where lok.LokalizacjaID == sl.LokalizacjaID
+                             where lok.Szerokosc >= l3.ElementAt(comboBox3.SelectedIndex).Szerokosc
+                             where lok.Wysokosc >= l3.ElementAt(comboBox3.SelectedIndex).Wysokosc
+                             //where l3.ElementAt(comboBox3.SelectedIndex).Szerokosc * l3.ElementAt(comboBox3.SelectedIndex).Wysokosc < lok.WolneMiejsce
                              select lok;
                         l4 = new List<Lokalizacja>(query4);
                     }
@@ -222,6 +240,8 @@ namespace BazyDanych
                              from lok in db.Lokalizacjas
                              from tr in db.Tramwajs
                              where lok.LokalizacjaID == tr.LokalizacjaID
+                             where lok.Szerokosc >= l3.ElementAt(comboBox3.SelectedIndex).Szerokosc
+                             where lok.Wysokosc >= l3.ElementAt(comboBox3.SelectedIndex).Wysokosc
                              select lok;
                         l4 = new List<Lokalizacja>(query4);
                     }
@@ -232,6 +252,8 @@ namespace BazyDanych
                              from lok in db.Lokalizacjas
                              from bud in db.Budyneks
                              where lok.LokalizacjaID == bud.LokalizacjaID
+                             where lok.Szerokosc >= l3.ElementAt(comboBox3.SelectedIndex).Szerokosc
+                             where lok.Wysokosc >= l3.ElementAt(comboBox3.SelectedIndex).Wysokosc
                              select lok;
                         l4 = new List<Lokalizacja>(query4);
                     }
@@ -242,6 +264,8 @@ namespace BazyDanych
                              from lok in db.Lokalizacjas
                              from bil in db.Bilboards
                              where lok.LokalizacjaID == bil.LokalizacjaID
+                             where lok.Szerokosc >= l3.ElementAt(comboBox3.SelectedIndex).Szerokosc
+                             where lok.Wysokosc >= l3.ElementAt(comboBox3.SelectedIndex).Wysokosc
                              select lok;
                         l4 = new List<Lokalizacja>(query4);
                     }
@@ -252,6 +276,8 @@ namespace BazyDanych
                              from lok in db.Lokalizacjas
                              from og in db.Ogordzenies
                              where lok.LokalizacjaID == og.LokalizacjaID
+                             where lok.Szerokosc >= l3.ElementAt(comboBox3.SelectedIndex).Szerokosc
+                             where lok.Wysokosc >= l3.ElementAt(comboBox3.SelectedIndex).Wysokosc
                              select lok;
                         l4 = new List<Lokalizacja>(query4);
                     }
@@ -324,6 +350,18 @@ namespace BazyDanych
         private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
         {
             czyWyswietlac = true;
+            comboBox4.Text = "Wybierz";
+            comboBox5.Text = "Wybierz";
+            panel1.Visible = false; ;
+            
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            if (comboBox1.SelectedIndex > -1 && comboBox2.SelectedIndex > -1 && comboBox3.SelectedIndex > -1 && comboBox4.SelectedIndex > -1 && comboBox5.SelectedIndex > -1)
+                button1.Enabled = true;
+            else
+                button1.Enabled = false;
         }
       
 

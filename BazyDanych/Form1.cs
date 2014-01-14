@@ -180,6 +180,7 @@ namespace BazyDanych
                     var x = dataGridView2[0, i];
                     if (x.Selected == true)
                     {
+                        //usunięcie z tabeli Zlecenie
                         var del =
                         from row in db.Zlecenies
                         where row.ZlecenieID == (int)x.Value
@@ -198,12 +199,33 @@ namespace BazyDanych
                         where row.ReklamaID ==temp.First().ReklamaID
                         select row;
 
+                        List<ReklamaWLokalizacji> temp2= new List<ReklamaWLokalizacji>(del2);
                         foreach (var detail in del2)
                         {
                             db.ReklamaWLokalizacjis.DeleteOnSubmit(detail);
                         }
-                        temp.Clear();
+                        
 
+                        //update w tabeli Lokalizacja
+                        var update =
+                        from l in db.Lokalizacjas
+                        where l.LokalizacjaID == temp2.First().LokalizacjaID
+                        select l;
+
+                        var rek =
+                        from r in db.Reklamas
+                        where r.ReklamaID == temp2.First().ReklamaID
+                        select r;
+                        List<Reklama> temp3 = new List<Reklama>(rek);
+
+                        foreach (Lokalizacja up in update)
+                        {
+                            up.WolneMiejsce = up.WolneMiejsce + temp3.First().Szerokosc*temp3.First().Wysokosc;
+                        } 
+
+                        temp.Clear();
+                        temp2.Clear();
+                        temp3.Clear();
                     }
                 }
                 try
