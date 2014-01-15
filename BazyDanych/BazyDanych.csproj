@@ -92,7 +92,18 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReklamacjaZlecenia.cs" />
     <Compile Include="ReklamyDoWyswietlenia.cs" />
+    <Compile Include="TrescReklamacji.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TrescReklamacji.Designer.cs">
+      <DependentUpon>TrescReklamacji.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ZespolZkierownikiem.cs" />
+    <EmbeddedResource Include="TrescReklamacji.resx">
+      <DependentUpon>TrescReklamacji.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="DataClasses1.dbml.layout">
       <DependentUpon>DataClasses1.dbml</DependentUpon>
     </None>

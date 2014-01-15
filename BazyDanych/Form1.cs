@@ -25,6 +25,14 @@ namespace BazyDanych
                + "User ID=ReklamaDBUser;Password=MaSeŁkOhAsEłKo";
         bool KlientEdit = false;
         public int a;// zmienna pomocnicza przy edytowaniu danych klienta
+        public string reklamacjaTresc=null;
+
+        public string pobierzTrescReklamacji(string x)
+        {
+            //set { reklamacjaTresc = value; }
+            reklamacjaTresc = x;
+            return reklamacjaTresc;
+        }
 
         private void logowanieToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -40,17 +48,27 @@ namespace BazyDanych
 
         private void button2_Click(object sender, EventArgs e)
         {
+            button8.Enabled = true;
+            button9.Enabled = true;
             using (DataClasses1DataContext db = new DataClasses1DataContext(CiagPolaczenia))
             {
+                var subquery =
+                    from lok in db.Lokalizacjas                  
+                    from rWl in db.ReklamaWLokalizacjis
+                    where rWl.LokalizacjaID == lok.LokalizacjaID                  
+                    select new {rWl.ReklamaID,lok.Opis, lok.Szerokosc,lok.Wysokosc, lok.WolneMiejsce};
+
                 var query =
                     from zl in db.Zlecenies
                     from pr in db.Pracowniks
                     from kl in db.Klients
                     from rek in db.Reklamas
+                    from lok in subquery
                     where zl.ReklamaID==rek.ReklamaID
                     where zl.KlientID==kl.KlientID
                     where zl.PracownikID==pr.PracownikID
-                    select new { zl.ZlecenieID, Pracownik=pr.Imie+" "+pr.Nazwisko, NazwaKlienta=kl.Nazwa ,OpisReklamy=rek.Opis,WymiaryReklamy=rek.Szerokosc+"x"+rek.Wysokosc, zl.TerminRozpoczecia, zl.TerminZakonczenia, zl.StanZlecenia };
+                    where rek.ReklamaID==lok.ReklamaID
+                    select new { zl.ZlecenieID, Pracownik=pr.Imie+" "+pr.Nazwisko, NazwaKlienta=kl.Nazwa ,OpisReklamy=rek.Opis,WymiaryReklamy=rek.Szerokosc+"x"+rek.Wysokosc,Lokalizacja="Opis: "+lok.Opis+", Wymiary: "+lok.Szerokosc+"x"+lok.Wysokosc+", Wolna powierzchnia: "+lok.WolneMiejsce, zl.TerminRozpoczecia, zl.TerminZakonczenia, zl.StanZlecenia };
                 dataGridView2.DataSource = query;             
                 db.Connection.Close();
             }
@@ -244,6 +262,133 @@ namespace BazyDanych
                 //    select zl;
                 //dataGridView1.DataSource = query;
                 db.Connection.Close();
+            }
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            groupBox1.Visible = true;
+            comboBox1.Items.Clear();
+            comboBox1.Items.Add("Przyjęte");
+            comboBox1.Items.Add("W trakcie realizacji");
+            comboBox1.Items.Add("Reklamacja");
+            comboBox1.Items.Add("Zrealizowane");
+
+        }
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+            groupBox1.Visible = false;
+            var x = dataGridView2.SelectedCells;
+            int b = x[0].RowIndex;
+
+            using (DataClasses1DataContext db = new DataClasses1DataContext(CiagPolaczenia))
+            {               
+                var query =
+                from aa in db.Zlecenies
+                where aa.ZlecenieID == (int)dataGridView2[0, b].Value
+                select aa;
+
+                foreach (Zlecenie up in query)
+                {
+                    up.TerminZakonczenia = dateTimePicker1.Value;
+                    up.StanZlecenia = comboBox1.SelectedItem.ToString() ;
+                }
+
+
+                try
+                {
+                    db.SubmitChanges();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+
+                }
+            }
+
+            using (DataClasses1DataContext db = new DataClasses1DataContext(CiagPolaczenia))
+            {
+                var subquery =
+                    from lok in db.Lokalizacjas
+                    from rWl in db.ReklamaWLokalizacjis
+                    where rWl.LokalizacjaID == lok.LokalizacjaID
+                    select new { rWl.ReklamaID, lok.Opis, lok.Szerokosc, lok.Wysokosc, lok.WolneMiejsce };
+
+                var query =
+                    from zl in db.Zlecenies
+                    from pr in db.Pracowniks
+                    from kl in db.Klients
+                    from rek in db.Reklamas
+                    from lok in subquery
+                    where zl.ReklamaID == rek.ReklamaID
+                    where zl.KlientID == kl.KlientID
+                    where zl.PracownikID == pr.PracownikID
+                    where rek.ReklamaID == lok.ReklamaID
+                    select new { zl.ZlecenieID, Pracownik = pr.Imie + " " + pr.Nazwisko, NazwaKlienta = kl.Nazwa, OpisReklamy = rek.Opis, WymiaryReklamy = rek.Szerokosc + "x" + rek.Wysokosc, Lokalizacja = "Opis: " + lok.Opis + ", Wymiary: " + lok.Szerokosc + "x" + lok.Wysokosc + ", Wolna powierzchnia: " + lok.WolneMiejsce, zl.TerminRozpoczecia, zl.TerminZakonczenia, zl.StanZlecenia };
+                dataGridView2.DataSource = query;
+                db.Connection.Close();
+            }
+
+            if (comboBox1.SelectedItem.ToString() == "Reklamacja")
+            {
+                TrescReklamacji reklamacja = new TrescReklamacji();            
+                reklamacja.Show();
+
+                using (DataClasses1DataContext db = new DataClasses1DataContext(CiagPolaczenia))
+                {
+                    var query =
+                        from zl in db.Zlecenies
+                        from pr in db.Pracowniks
+                        from kl in db.Klients
+                        from rek in db.Reklamas
+                        where zl.ReklamaID == rek.ReklamaID
+                        where zl.KlientID == kl.KlientID
+                        where zl.PracownikID == pr.PracownikID
+                        where zl.ZlecenieID == (int)dataGridView2[0, b].Value
+                        select new { zl.ZlecenieID, pr.PracownikID, kl.KlientID };
+
+                    List<ReklamacjaZlecenia> rz = new List<ReklamacjaZlecenia>();
+                    if (query.Any())
+                    {
+                        foreach (var q in query)
+                        {
+                            rz.Add(new ReklamacjaZlecenia { ZlecenieID = q.ZlecenieID, PracownikID = q.PracownikID, KlientID = q.KlientID });
+                        }
+                    }
+                    Reklamacja z = new Reklamacja
+                    {
+                        DataWystawienia = DateTime.Today,
+                        Tresc = reklamacjaTresc,
+                        ZlecenieID = rz.First().ZlecenieID,
+                        KlientID = rz.First().KlientID,
+                        PracownikID = rz.First().PracownikID
+                    };
+                    db.Reklamacjas.InsertOnSubmit(z);
+                    try
+                    {
+                        db.SubmitChanges();
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex);
+                        // Make some adjustments.
+                        // ...
+                        // Try again.
+                        db.SubmitChanges();
+                    }
+                    rz.Clear();
+                }
+            }
+        }
+
+
+        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        {
+            if (dateTimePicker1.Value < DateTime.Today)
+            {
+                dateTimePicker1.Value = DateTime.Today;
+                MessageBox.Show("Wybrana data jest niepoprawna, spróbuj ponownie.", "Błąd");
             }
         }
         //=======

@@ -45,9 +45,6 @@ namespace BazyDanych
     partial void InsertPracownikWSkladzie(PracownikWSkladzie instance);
     partial void UpdatePracownikWSkladzie(PracownikWSkladzie instance);
     partial void DeletePracownikWSkladzie(PracownikWSkladzie instance);
-    partial void InsertReklamacja(Reklamacja instance);
-    partial void UpdateReklamacja(Reklamacja instance);
-    partial void DeleteReklamacja(Reklamacja instance);
     partial void InsertSklad(Sklad instance);
     partial void UpdateSklad(Sklad instance);
     partial void DeleteSklad(Sklad instance);
@@ -75,6 +72,9 @@ namespace BazyDanych
     partial void InsertReklamaWLokalizacji(ReklamaWLokalizacji instance);
     partial void UpdateReklamaWLokalizacji(ReklamaWLokalizacji instance);
     partial void DeleteReklamaWLokalizacji(ReklamaWLokalizacji instance);
+    partial void InsertReklamacja(Reklamacja instance);
+    partial void UpdateReklamacja(Reklamacja instance);
+    partial void DeleteReklamacja(Reklamacja instance);
     #endregion
 		
 		public DataClasses1DataContext() : 
@@ -168,14 +168,6 @@ namespace BazyDanych
 			get
 			{
 				return this.GetTable<PracownikWSkladzie>();
-			}
-		}
-		
-		public System.Data.Linq.Table<Reklamacja> Reklamacjas
-		{
-			get
-			{
-				return this.GetTable<Reklamacja>();
 			}
 		}
 		
@@ -274,6 +266,14 @@ namespace BazyDanych
 				return this.GetTable<ReklamaWLokalizacji>();
 			}
 		}
+		
+		public System.Data.Linq.Table<Reklamacja> Reklamacjas
+		{
+			get
+			{
+				return this.GetTable<Reklamacja>();
+			}
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Klient")]
@@ -292,9 +292,9 @@ namespace BazyDanych
 		
 		private EntitySet<Faktura> _Fakturas;
 		
-		private EntitySet<Reklamacja> _Reklamacjas;
-		
 		private EntitySet<Zlecenie> _Zlecenies;
+		
+		private EntitySet<Reklamacja> _Reklamacjas;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -313,8 +313,8 @@ namespace BazyDanych
 		public Klient()
 		{
 			this._Fakturas = new EntitySet<Faktura>(new Action<Faktura>(this.attach_Fakturas), new Action<Faktura>(this.detach_Fakturas));
-			this._Reklamacjas = new EntitySet<Reklamacja>(new Action<Reklamacja>(this.attach_Reklamacjas), new Action<Reklamacja>(this.detach_Reklamacjas));
 			this._Zlecenies = new EntitySet<Zlecenie>(new Action<Zlecenie>(this.attach_Zlecenies), new Action<Zlecenie>(this.detach_Zlecenies));
+			this._Reklamacjas = new EntitySet<Reklamacja>(new Action<Reklamacja>(this.attach_Reklamacjas), new Action<Reklamacja>(this.detach_Reklamacjas));
 			OnCreated();
 		}
 		
@@ -411,19 +411,6 @@ namespace BazyDanych
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Klient_Reklamacja", Storage="_Reklamacjas", ThisKey="KlientID", OtherKey="KlientID")]
-		public EntitySet<Reklamacja> Reklamacjas
-		{
-			get
-			{
-				return this._Reklamacjas;
-			}
-			set
-			{
-				this._Reklamacjas.Assign(value);
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Klient_Zlecenie", Storage="_Zlecenies", ThisKey="KlientID", OtherKey="KlientID")]
 		public EntitySet<Zlecenie> Zlecenies
 		{
@@ -434,6 +421,19 @@ namespace BazyDanych
 			set
 			{
 				this._Zlecenies.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Klient_Reklamacja", Storage="_Reklamacjas", ThisKey="KlientID", OtherKey="KlientID")]
+		public EntitySet<Reklamacja> Reklamacjas
+		{
+			get
+			{
+				return this._Reklamacjas;
+			}
+			set
+			{
+				this._Reklamacjas.Assign(value);
 			}
 		}
 		
@@ -469,18 +469,6 @@ namespace BazyDanych
 			entity.Klient = null;
 		}
 		
-		private void attach_Reklamacjas(Reklamacja entity)
-		{
-			this.SendPropertyChanging();
-			entity.Klient = this;
-		}
-		
-		private void detach_Reklamacjas(Reklamacja entity)
-		{
-			this.SendPropertyChanging();
-			entity.Klient = null;
-		}
-		
 		private void attach_Zlecenies(Zlecenie entity)
 		{
 			this.SendPropertyChanging();
@@ -488,6 +476,18 @@ namespace BazyDanych
 		}
 		
 		private void detach_Zlecenies(Zlecenie entity)
+		{
+			this.SendPropertyChanging();
+			entity.Klient = null;
+		}
+		
+		private void attach_Reklamacjas(Reklamacja entity)
+		{
+			this.SendPropertyChanging();
+			entity.Klient = this;
+		}
+		
+		private void detach_Reklamacjas(Reklamacja entity)
 		{
 			this.SendPropertyChanging();
 			entity.Klient = null;
@@ -514,11 +514,11 @@ namespace BazyDanych
 		
 		private EntitySet<PracownikWSkladzie> _PracownikWSkladzies;
 		
-		private EntitySet<Reklamacja> _Reklamacjas;
-		
 		private EntitySet<Zespol> _Zespols;
 		
 		private EntitySet<Zlecenie> _Zlecenies;
+		
+		private EntitySet<Reklamacja> _Reklamacjas;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -540,9 +540,9 @@ namespace BazyDanych
 		{
 			this._Fakturas = new EntitySet<Faktura>(new Action<Faktura>(this.attach_Fakturas), new Action<Faktura>(this.detach_Fakturas));
 			this._PracownikWSkladzies = new EntitySet<PracownikWSkladzie>(new Action<PracownikWSkladzie>(this.attach_PracownikWSkladzies), new Action<PracownikWSkladzie>(this.detach_PracownikWSkladzies));
-			this._Reklamacjas = new EntitySet<Reklamacja>(new Action<Reklamacja>(this.attach_Reklamacjas), new Action<Reklamacja>(this.detach_Reklamacjas));
 			this._Zespols = new EntitySet<Zespol>(new Action<Zespol>(this.attach_Zespols), new Action<Zespol>(this.detach_Zespols));
 			this._Zlecenies = new EntitySet<Zlecenie>(new Action<Zlecenie>(this.attach_Zlecenies), new Action<Zlecenie>(this.detach_Zlecenies));
+			this._Reklamacjas = new EntitySet<Reklamacja>(new Action<Reklamacja>(this.attach_Reklamacjas), new Action<Reklamacja>(this.detach_Reklamacjas));
 			OnCreated();
 		}
 		
@@ -672,19 +672,6 @@ namespace BazyDanych
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Pracownik_Reklamacja", Storage="_Reklamacjas", ThisKey="PracownikID", OtherKey="PracownikID")]
-		public EntitySet<Reklamacja> Reklamacjas
-		{
-			get
-			{
-				return this._Reklamacjas;
-			}
-			set
-			{
-				this._Reklamacjas.Assign(value);
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Pracownik_Zespol", Storage="_Zespols", ThisKey="PracownikID", OtherKey="KierownikID")]
 		public EntitySet<Zespol> Zespols
 		{
@@ -708,6 +695,19 @@ namespace BazyDanych
 			set
 			{
 				this._Zlecenies.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Pracownik_Reklamacja", Storage="_Reklamacjas", ThisKey="PracownikID", OtherKey="PracownikID")]
+		public EntitySet<Reklamacja> Reklamacjas
+		{
+			get
+			{
+				return this._Reklamacjas;
+			}
+			set
+			{
+				this._Reklamacjas.Assign(value);
 			}
 		}
 		
@@ -755,18 +755,6 @@ namespace BazyDanych
 			entity.Pracownik = null;
 		}
 		
-		private void attach_Reklamacjas(Reklamacja entity)
-		{
-			this.SendPropertyChanging();
-			entity.Pracownik = this;
-		}
-		
-		private void detach_Reklamacjas(Reklamacja entity)
-		{
-			this.SendPropertyChanging();
-			entity.Pracownik = null;
-		}
-		
 		private void attach_Zespols(Zespol entity)
 		{
 			this.SendPropertyChanging();
@@ -786,6 +774,18 @@ namespace BazyDanych
 		}
 		
 		private void detach_Zlecenies(Zlecenie entity)
+		{
+			this.SendPropertyChanging();
+			entity.Pracownik = null;
+		}
+		
+		private void attach_Reklamacjas(Reklamacja entity)
+		{
+			this.SendPropertyChanging();
+			entity.Pracownik = this;
+		}
+		
+		private void detach_Reklamacjas(Reklamacja entity)
 		{
 			this.SendPropertyChanging();
 			entity.Pracownik = null;
@@ -1635,246 +1635,6 @@ namespace BazyDanych
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Reklamacja")]
-	public partial class Reklamacja : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _ReklamacjaID;
-		
-		private System.DateTime _DataWystawienia;
-		
-		private string _Tresc;
-		
-		private int _PracownikID;
-		
-		private int _KlientID;
-		
-		private EntityRef<Klient> _Klient;
-		
-		private EntityRef<Pracownik> _Pracownik;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnReklamacjaIDChanging(int value);
-    partial void OnReklamacjaIDChanged();
-    partial void OnDataWystawieniaChanging(System.DateTime value);
-    partial void OnDataWystawieniaChanged();
-    partial void OnTrescChanging(string value);
-    partial void OnTrescChanged();
-    partial void OnPracownikIDChanging(int value);
-    partial void OnPracownikIDChanged();
-    partial void OnKlientIDChanging(int value);
-    partial void OnKlientIDChanged();
-    #endregion
-		
-		public Reklamacja()
-		{
-			this._Klient = default(EntityRef<Klient>);
-			this._Pracownik = default(EntityRef<Pracownik>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ReklamacjaID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int ReklamacjaID
-		{
-			get
-			{
-				return this._ReklamacjaID;
-			}
-			set
-			{
-				if ((this._ReklamacjaID != value))
-				{
-					this.OnReklamacjaIDChanging(value);
-					this.SendPropertyChanging();
-					this._ReklamacjaID = value;
-					this.SendPropertyChanged("ReklamacjaID");
-					this.OnReklamacjaIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DataWystawienia", DbType="Date NOT NULL")]
-		public System.DateTime DataWystawienia
-		{
-			get
-			{
-				return this._DataWystawienia;
-			}
-			set
-			{
-				if ((this._DataWystawienia != value))
-				{
-					this.OnDataWystawieniaChanging(value);
-					this.SendPropertyChanging();
-					this._DataWystawienia = value;
-					this.SendPropertyChanged("DataWystawienia");
-					this.OnDataWystawieniaChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Tresc", DbType="VarChar(150)")]
-		public string Tresc
-		{
-			get
-			{
-				return this._Tresc;
-			}
-			set
-			{
-				if ((this._Tresc != value))
-				{
-					this.OnTrescChanging(value);
-					this.SendPropertyChanging();
-					this._Tresc = value;
-					this.SendPropertyChanged("Tresc");
-					this.OnTrescChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PracownikID", DbType="Int NOT NULL")]
-		public int PracownikID
-		{
-			get
-			{
-				return this._PracownikID;
-			}
-			set
-			{
-				if ((this._PracownikID != value))
-				{
-					if (this._Pracownik.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnPracownikIDChanging(value);
-					this.SendPropertyChanging();
-					this._PracownikID = value;
-					this.SendPropertyChanged("PracownikID");
-					this.OnPracownikIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_KlientID", DbType="Int NOT NULL")]
-		public int KlientID
-		{
-			get
-			{
-				return this._KlientID;
-			}
-			set
-			{
-				if ((this._KlientID != value))
-				{
-					if (this._Klient.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnKlientIDChanging(value);
-					this.SendPropertyChanging();
-					this._KlientID = value;
-					this.SendPropertyChanged("KlientID");
-					this.OnKlientIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Klient_Reklamacja", Storage="_Klient", ThisKey="KlientID", OtherKey="KlientID", IsForeignKey=true)]
-		public Klient Klient
-		{
-			get
-			{
-				return this._Klient.Entity;
-			}
-			set
-			{
-				Klient previousValue = this._Klient.Entity;
-				if (((previousValue != value) 
-							|| (this._Klient.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Klient.Entity = null;
-						previousValue.Reklamacjas.Remove(this);
-					}
-					this._Klient.Entity = value;
-					if ((value != null))
-					{
-						value.Reklamacjas.Add(this);
-						this._KlientID = value.KlientID;
-					}
-					else
-					{
-						this._KlientID = default(int);
-					}
-					this.SendPropertyChanged("Klient");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Pracownik_Reklamacja", Storage="_Pracownik", ThisKey="PracownikID", OtherKey="PracownikID", IsForeignKey=true)]
-		public Pracownik Pracownik
-		{
-			get
-			{
-				return this._Pracownik.Entity;
-			}
-			set
-			{
-				Pracownik previousValue = this._Pracownik.Entity;
-				if (((previousValue != value) 
-							|| (this._Pracownik.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Pracownik.Entity = null;
-						previousValue.Reklamacjas.Remove(this);
-					}
-					this._Pracownik.Entity = value;
-					if ((value != null))
-					{
-						value.Reklamacjas.Add(this);
-						this._PracownikID = value.PracownikID;
-					}
-					else
-					{
-						this._PracownikID = default(int);
-					}
-					this.SendPropertyChanged("Pracownik");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.ReklamaZBranzy")]
 	public partial class ReklamaZBranzy
 	{
@@ -2592,6 +2352,8 @@ namespace BazyDanych
 		
 		private EntitySet<ZleceniaNaFakturze> _ZleceniaNaFakturzes;
 		
+		private EntitySet<Reklamacja> _Reklamacjas;
+		
 		private EntityRef<Klient> _Klient;
 		
 		private EntityRef<Pracownik> _Pracownik;
@@ -2621,6 +2383,7 @@ namespace BazyDanych
 		public Zlecenie()
 		{
 			this._ZleceniaNaFakturzes = new EntitySet<ZleceniaNaFakturze>(new Action<ZleceniaNaFakturze>(this.attach_ZleceniaNaFakturzes), new Action<ZleceniaNaFakturze>(this.detach_ZleceniaNaFakturzes));
+			this._Reklamacjas = new EntitySet<Reklamacja>(new Action<Reklamacja>(this.attach_Reklamacjas), new Action<Reklamacja>(this.detach_Reklamacjas));
 			this._Klient = default(EntityRef<Klient>);
 			this._Pracownik = default(EntityRef<Pracownik>);
 			this._Reklama = default(EntityRef<Reklama>);
@@ -2792,6 +2555,19 @@ namespace BazyDanych
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Zlecenie_Reklamacja", Storage="_Reklamacjas", ThisKey="ZlecenieID", OtherKey="ZlecenieID")]
+		public EntitySet<Reklamacja> Reklamacjas
+		{
+			get
+			{
+				return this._Reklamacjas;
+			}
+			set
+			{
+				this._Reklamacjas.Assign(value);
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Klient_Zlecenie", Storage="_Klient", ThisKey="KlientID", OtherKey="KlientID", IsForeignKey=true)]
 		public Klient Klient
 		{
@@ -2921,6 +2697,18 @@ namespace BazyDanych
 		}
 		
 		private void detach_ZleceniaNaFakturzes(ZleceniaNaFakturze entity)
+		{
+			this.SendPropertyChanging();
+			entity.Zlecenie = null;
+		}
+		
+		private void attach_Reklamacjas(Reklamacja entity)
+		{
+			this.SendPropertyChanging();
+			entity.Zlecenie = this;
+		}
+		
+		private void detach_Reklamacjas(Reklamacja entity)
 		{
 			this.SendPropertyChanging();
 			entity.Zlecenie = null;
@@ -3986,6 +3774,311 @@ namespace BazyDanych
 						this._ReklamaID = default(int);
 					}
 					this.SendPropertyChanged("Reklama");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Reklamacja")]
+	public partial class Reklamacja : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _ReklamacjaID;
+		
+		private System.DateTime _DataWystawienia;
+		
+		private string _Tresc;
+		
+		private int _ZlecenieID;
+		
+		private int _PracownikID;
+		
+		private int _KlientID;
+		
+		private EntityRef<Klient> _Klient;
+		
+		private EntityRef<Pracownik> _Pracownik;
+		
+		private EntityRef<Zlecenie> _Zlecenie;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnReklamacjaIDChanging(int value);
+    partial void OnReklamacjaIDChanged();
+    partial void OnDataWystawieniaChanging(System.DateTime value);
+    partial void OnDataWystawieniaChanged();
+    partial void OnTrescChanging(string value);
+    partial void OnTrescChanged();
+    partial void OnZlecenieIDChanging(int value);
+    partial void OnZlecenieIDChanged();
+    partial void OnPracownikIDChanging(int value);
+    partial void OnPracownikIDChanged();
+    partial void OnKlientIDChanging(int value);
+    partial void OnKlientIDChanged();
+    #endregion
+		
+		public Reklamacja()
+		{
+			this._Klient = default(EntityRef<Klient>);
+			this._Pracownik = default(EntityRef<Pracownik>);
+			this._Zlecenie = default(EntityRef<Zlecenie>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ReklamacjaID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int ReklamacjaID
+		{
+			get
+			{
+				return this._ReklamacjaID;
+			}
+			set
+			{
+				if ((this._ReklamacjaID != value))
+				{
+					this.OnReklamacjaIDChanging(value);
+					this.SendPropertyChanging();
+					this._ReklamacjaID = value;
+					this.SendPropertyChanged("ReklamacjaID");
+					this.OnReklamacjaIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DataWystawienia", DbType="Date NOT NULL")]
+		public System.DateTime DataWystawienia
+		{
+			get
+			{
+				return this._DataWystawienia;
+			}
+			set
+			{
+				if ((this._DataWystawienia != value))
+				{
+					this.OnDataWystawieniaChanging(value);
+					this.SendPropertyChanging();
+					this._DataWystawienia = value;
+					this.SendPropertyChanged("DataWystawienia");
+					this.OnDataWystawieniaChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Tresc", DbType="VarChar(150)")]
+		public string Tresc
+		{
+			get
+			{
+				return this._Tresc;
+			}
+			set
+			{
+				if ((this._Tresc != value))
+				{
+					this.OnTrescChanging(value);
+					this.SendPropertyChanging();
+					this._Tresc = value;
+					this.SendPropertyChanged("Tresc");
+					this.OnTrescChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ZlecenieID", DbType="Int NOT NULL")]
+		public int ZlecenieID
+		{
+			get
+			{
+				return this._ZlecenieID;
+			}
+			set
+			{
+				if ((this._ZlecenieID != value))
+				{
+					if (this._Zlecenie.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnZlecenieIDChanging(value);
+					this.SendPropertyChanging();
+					this._ZlecenieID = value;
+					this.SendPropertyChanged("ZlecenieID");
+					this.OnZlecenieIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PracownikID", DbType="Int NOT NULL")]
+		public int PracownikID
+		{
+			get
+			{
+				return this._PracownikID;
+			}
+			set
+			{
+				if ((this._PracownikID != value))
+				{
+					if (this._Pracownik.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnPracownikIDChanging(value);
+					this.SendPropertyChanging();
+					this._PracownikID = value;
+					this.SendPropertyChanged("PracownikID");
+					this.OnPracownikIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_KlientID", DbType="Int NOT NULL")]
+		public int KlientID
+		{
+			get
+			{
+				return this._KlientID;
+			}
+			set
+			{
+				if ((this._KlientID != value))
+				{
+					if (this._Klient.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnKlientIDChanging(value);
+					this.SendPropertyChanging();
+					this._KlientID = value;
+					this.SendPropertyChanged("KlientID");
+					this.OnKlientIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Klient_Reklamacja", Storage="_Klient", ThisKey="KlientID", OtherKey="KlientID", IsForeignKey=true)]
+		public Klient Klient
+		{
+			get
+			{
+				return this._Klient.Entity;
+			}
+			set
+			{
+				Klient previousValue = this._Klient.Entity;
+				if (((previousValue != value) 
+							|| (this._Klient.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Klient.Entity = null;
+						previousValue.Reklamacjas.Remove(this);
+					}
+					this._Klient.Entity = value;
+					if ((value != null))
+					{
+						value.Reklamacjas.Add(this);
+						this._KlientID = value.KlientID;
+					}
+					else
+					{
+						this._KlientID = default(int);
+					}
+					this.SendPropertyChanged("Klient");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Pracownik_Reklamacja", Storage="_Pracownik", ThisKey="PracownikID", OtherKey="PracownikID", IsForeignKey=true)]
+		public Pracownik Pracownik
+		{
+			get
+			{
+				return this._Pracownik.Entity;
+			}
+			set
+			{
+				Pracownik previousValue = this._Pracownik.Entity;
+				if (((previousValue != value) 
+							|| (this._Pracownik.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Pracownik.Entity = null;
+						previousValue.Reklamacjas.Remove(this);
+					}
+					this._Pracownik.Entity = value;
+					if ((value != null))
+					{
+						value.Reklamacjas.Add(this);
+						this._PracownikID = value.PracownikID;
+					}
+					else
+					{
+						this._PracownikID = default(int);
+					}
+					this.SendPropertyChanged("Pracownik");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Zlecenie_Reklamacja", Storage="_Zlecenie", ThisKey="ZlecenieID", OtherKey="ZlecenieID", IsForeignKey=true)]
+		public Zlecenie Zlecenie
+		{
+			get
+			{
+				return this._Zlecenie.Entity;
+			}
+			set
+			{
+				Zlecenie previousValue = this._Zlecenie.Entity;
+				if (((previousValue != value) 
+							|| (this._Zlecenie.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Zlecenie.Entity = null;
+						previousValue.Reklamacjas.Remove(this);
+					}
+					this._Zlecenie.Entity = value;
+					if ((value != null))
+					{
+						value.Reklamacjas.Add(this);
+						this._ZlecenieID = value.ZlecenieID;
+					}
+					else
+					{
+						this._ZlecenieID = default(int);
+					}
+					this.SendPropertyChanged("Zlecenie");
 				}
 			}
 		}

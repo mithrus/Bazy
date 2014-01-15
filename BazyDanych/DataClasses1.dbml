@@ -7,8 +7,8 @@
       <Column Name="Nazwa" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="Adres" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
       <Association Name="Klient_Faktura" Member="Fakturas" ThisKey="KlientID" OtherKey="KlientID" Type="Faktura" />
-      <Association Name="Klient_Reklamacja" Member="Reklamacjas" ThisKey="KlientID" OtherKey="KlientID" Type="Reklamacja" />
       <Association Name="Klient_Zlecenie" Member="Zlecenies" ThisKey="KlientID" OtherKey="KlientID" Type="Zlecenie" />
+      <Association Name="Klient_Reklamacja" Member="Reklamacjas" ThisKey="KlientID" OtherKey="KlientID" Type="Reklamacja" />
     </Type>
   </Table>
   <Table Name="dbo.Pracownik" Member="Pracowniks">
@@ -20,9 +20,9 @@
       <Column Name="Stanowisko" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
       <Association Name="Pracownik_Faktura" Member="Fakturas" ThisKey="PracownikID" OtherKey="PracownikID" Type="Faktura" />
       <Association Name="Pracownik_PracownikWSkladzie" Member="PracownikWSkladzies" ThisKey="PracownikID" OtherKey="PracownikID" Type="PracownikWSkladzie" />
-      <Association Name="Pracownik_Reklamacja" Member="Reklamacjas" ThisKey="PracownikID" OtherKey="PracownikID" Type="Reklamacja" />
       <Association Name="Pracownik_Zespol" Member="Zespols" ThisKey="PracownikID" OtherKey="KierownikID" Type="Zespol" />
       <Association Name="Pracownik_Zlecenie" Member="Zlecenies" ThisKey="PracownikID" OtherKey="PracownikID" Type="Zlecenie" />
+      <Association Name="Pracownik_Reklamacja" Member="Reklamacjas" ThisKey="PracownikID" OtherKey="PracownikID" Type="Reklamacja" />
     </Type>
   </Table>
   <Table Name="dbo.Bilboard" Member="Bilboards">
@@ -80,17 +80,6 @@
       <Column Name="PracownikID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Association Name="Pracownik_PracownikWSkladzie" Member="Pracownik" ThisKey="PracownikID" OtherKey="PracownikID" Type="Pracownik" IsForeignKey="true" />
       <Association Name="Sklad_PracownikWSkladzie" Member="Sklad" ThisKey="SkladID" OtherKey="SkladID" Type="Sklad" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.Reklamacja" Member="Reklamacjas">
-    <Type Name="Reklamacja">
-      <Column Name="ReklamacjaID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="DataWystawienia" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
-      <Column Name="Tresc" Type="System.String" DbType="VarChar(150)" CanBeNull="true" />
-      <Column Name="PracownikID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="KlientID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Association Name="Klient_Reklamacja" Member="Klient" ThisKey="KlientID" OtherKey="KlientID" Type="Klient" IsForeignKey="true" />
-      <Association Name="Pracownik_Reklamacja" Member="Pracownik" ThisKey="PracownikID" OtherKey="PracownikID" Type="Pracownik" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.ReklamaZBranzy" Member="ReklamaZBranzies">
@@ -153,6 +142,7 @@
       <Column Name="TerminZakonczenia" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
       <Column Name="StanZlecenia" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
       <Association Name="Zlecenie_ZleceniaNaFakturze" Member="ZleceniaNaFakturzes" ThisKey="ZlecenieID" OtherKey="ZlecenieID" Type="ZleceniaNaFakturze" />
+      <Association Name="Zlecenie_Reklamacja" Member="Reklamacjas" ThisKey="ZlecenieID" OtherKey="ZlecenieID" Type="Reklamacja" />
       <Association Name="Klient_Zlecenie" Member="Klient" ThisKey="KlientID" OtherKey="KlientID" Type="Klient" IsForeignKey="true" />
       <Association Name="Pracownik_Zlecenie" Member="Pracownik" ThisKey="PracownikID" OtherKey="PracownikID" Type="Pracownik" IsForeignKey="true" />
       <Association Name="Reklama_Zlecenie" Member="Reklama" ThisKey="ReklamaID" OtherKey="ReklamaID" Type="Reklama" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
@@ -214,6 +204,19 @@
       <Column Name="Wspolrzedna_Y" Type="System.Decimal" DbType="Decimal(18,0) NOT NULL" CanBeNull="false" />
       <Association Name="Lokalizacja_ReklamaWLokalizacji" Member="Lokalizacja" ThisKey="LokalizacjaID" OtherKey="LokalizacjaID" Type="Lokalizacja" IsForeignKey="true" />
       <Association Name="Reklama_ReklamaWLokalizacji" Member="Reklama" ThisKey="ReklamaID" OtherKey="ReklamaID" Type="Reklama" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Reklamacja" Member="Reklamacjas">
+    <Type Name="Reklamacja">
+      <Column Name="ReklamacjaID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="DataWystawienia" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="Tresc" Type="System.String" DbType="VarChar(150)" CanBeNull="true" />
+      <Column Name="ZlecenieID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="PracownikID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="KlientID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Klient_Reklamacja" Member="Klient" ThisKey="KlientID" OtherKey="KlientID" Type="Klient" IsForeignKey="true" />
+      <Association Name="Pracownik_Reklamacja" Member="Pracownik" ThisKey="PracownikID" OtherKey="PracownikID" Type="Pracownik" IsForeignKey="true" />
+      <Association Name="Zlecenie_Reklamacja" Member="Zlecenie" ThisKey="ZlecenieID" OtherKey="ZlecenieID" Type="Zlecenie" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

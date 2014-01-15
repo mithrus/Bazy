@@ -19,7 +19,8 @@ namespace BazyDanych
               + "User ID=ReklamaDBUser;Password=MaSeŁkOhAsEłKo";
         List<Reklama> l3;
         List<Lokalizacja> l4 = null;//lokalizacja
-        List<ReklamyDoWyswietlenia> rekWlok; //reklamy w danej lokalizacji do wyświetlenia      
+        List<ReklamyDoWyswietlenia> rekWlok; //reklamy w danej lokalizacji do wyświetlenia    
+        List<ZespolZkierownikiem> ZzK; //Zespół z Kierownikiem na czele
         //List<Reklama> rek;//reklamy do wyświetlenia w danej lokalizacji
         float skala;
         int x, y,w,h;
@@ -65,8 +66,25 @@ namespace BazyDanych
                 {
                     comboBox3.Items.Add(l3[i].ReklamaID+" "+l3[i].Opis + " " + l3[i].Szerokosc+"x"+l3[i].Wysokosc);
                 }
-                //Zespol
-                //var query
+                //Zespol z kierownikiem
+                var query4 =
+                    from zes in db.Zespols
+                    from prac in db.Pracowniks
+                    where zes.KierownikID == prac.PracownikID
+                    select new { zes.ZespolID, prac.Imie, prac.Nazwisko };
+
+               ZzK = new List<ZespolZkierownikiem>();
+               if (query4.Any())
+               {
+                   foreach (var q in query4)
+                   {
+                       ZzK.Add(new ZespolZkierownikiem { ZespolID=q.ZespolID,imie=q.Imie,nazwisko=q.Nazwisko });
+                   }
+               }
+               for (int i = 0; i < ZzK.Count; i++)
+               {
+                   comboBox6.Items.Add(ZzK[i].ZespolID + " " + ZzK[i].imie + " " + ZzK[i].nazwisko );
+               }
                
                 //typ powierzchni
                 comboBox5.Items.Add("Słup ogłoszeniowy");
@@ -88,24 +106,22 @@ namespace BazyDanych
         }
 
         private void button1_Click(object sender, EventArgs e)
-        {
-            //char x = comboBox1.SelectedItem.ToString().ElementAt(0);
-           // DateTime t;
-            
+        {                     
             using (DataClasses1DataContext db = new DataClasses1DataContext(CiagPolaczenia))
             {
-                
+                //dodanie wpisu do tabeli Zlecenia
                 Zlecenie z = new Zlecenie
                 {
                     PracownikID=int.Parse(comboBox1.SelectedItem.ToString().ElementAt(0).ToString()),
                     KlientID=int.Parse(comboBox2.SelectedItem.ToString().ElementAt(0).ToString()),
                     ReklamaID=int.Parse(comboBox3.SelectedItem.ToString().ElementAt(0).ToString()),
-                    TerminRozpoczecia=DateTime.Today,//dateTimePicker1.Value,
+                    TerminRozpoczecia=DateTime.Today,
                     TerminZakonczenia=dateTimePicker1.Value,
                     StanZlecenia="Przyjeto"
                 };
                 db.Zlecenies.InsertOnSubmit(z);
 
+                // dodanie wpisu do tabeli ReklamaWLokalizacji
                 ReklamaWLokalizacji rwl = new ReklamaWLokalizacji
                 {
                     ReklamaID = l3[comboBox3.SelectedIndex].ReklamaID,
@@ -115,6 +131,13 @@ namespace BazyDanych
                 };
                 db.ReklamaWLokalizacjis.InsertOnSubmit(rwl);
 
+                //dodanie wpisu do tabeli Realizacja
+                Realizacja real = new Realizacja
+                {
+                    ReklamaID=l3.ElementAt(comboBox3.SelectedIndex).ReklamaID,
+                    ZespolID=ZzK.ElementAt(comboBox6.SelectedIndex).ZespolID                  
+                };
+                db.Realizacjas.InsertOnSubmit(real);
                 //update do Lokalizacji
                 var query =
                     from l in db.Lokalizacjas
@@ -142,15 +165,23 @@ namespace BazyDanych
             //wyswietlenie wynikow w tabeli
             using (DataClasses1DataContext db = new DataClasses1DataContext(CiagPolaczenia))
             {
+                var subquery =
+                    from lok in db.Lokalizacjas
+                    from rWl in db.ReklamaWLokalizacjis
+                    where rWl.LokalizacjaID == lok.LokalizacjaID
+                    select new { rWl.ReklamaID, lok.Opis, lok.Szerokosc, lok.Wysokosc, lok.WolneMiejsce };
+
                 var query =
                     from zl in db.Zlecenies
                     from pr in db.Pracowniks
                     from kl in db.Klients
                     from rek in db.Reklamas
+                    from lok in subquery
                     where zl.ReklamaID == rek.ReklamaID
                     where zl.KlientID == kl.KlientID
                     where zl.PracownikID == pr.PracownikID
-                    select new { zl.ZlecenieID, Pracownik = pr.Imie + " " + pr.Nazwisko, NazwaKlienta = kl.Nazwa, OpisReklamy = rek.Opis, WymiaryReklamy = rek.Szerokosc + "x" + rek.Wysokosc, zl.TerminRozpoczecia, zl.TerminZakonczenia, zl.StanZlecenia };
+                    where rek.ReklamaID == lok.ReklamaID
+                    select new { zl.ZlecenieID, Pracownik = pr.Imie + " " + pr.Nazwisko, NazwaKlienta = kl.Nazwa, OpisReklamy = rek.Opis, WymiaryReklamy = rek.Szerokosc + "x" + rek.Wysokosc,Lokalizacja="Opis: "+lok.Opis+", Wymiary: "+lok.Szerokosc+"x"+lok.Wysokosc+", Wolna powierzchnia: "+lok.WolneMiejsce, zl.TerminRozpoczecia, zl.TerminZakonczenia, zl.StanZlecenia };
                 forma.dataGridView2.DataSource = query;
                 db.Connection.Close();
             }
@@ -165,6 +196,15 @@ namespace BazyDanych
             panel1.Visible = true;
             panel1.Height = 550;
             panel1.Width = 550;
+            using (DataClasses1DataContext db = new DataClasses1DataContext(CiagPolaczenia))
+            {
+                var q1 =
+                from l in db.Lokalizacjas
+                where l.LokalizacjaID == l4[comboBox4.SelectedIndex].LokalizacjaID
+                select l;
+                dataGridView1.DataSource = q1;
+                dataGridView1.Visible = true;
+            }
 
             int idx = comboBox4.SelectedIndex;
             if (l4[idx].Szerokosc >= l4[idx].Wysokosc)
@@ -211,7 +251,15 @@ namespace BazyDanych
         }
 
         private void comboBox5_SelectedIndexChanged(object sender, EventArgs e)
-        {            
+        {
+            decimal wys = 1;
+            decimal szer = 1;
+            if (comboBox3.SelectedIndex > -1)
+            {
+                wys = l3.ElementAt(comboBox3.SelectedIndex).Wysokosc;
+                szer = l3.ElementAt(comboBox3.SelectedIndex).Szerokosc;
+            }
+
             comboBox4.Items.Clear();
             comboBox4.Text = "Wybierz";
             using (DataClasses1DataContext db = new DataClasses1DataContext(CiagPolaczenia))
@@ -226,10 +274,10 @@ namespace BazyDanych
                         var query4 =
                              from lok in db.Lokalizacjas
                              from sl in db.SlupOgloszeniowies                        
-                             where lok.LokalizacjaID == sl.LokalizacjaID
-                             where lok.Szerokosc >= l3.ElementAt(comboBox3.SelectedIndex).Szerokosc
-                             where lok.Wysokosc >= l3.ElementAt(comboBox3.SelectedIndex).Wysokosc
-                             //where l3.ElementAt(comboBox3.SelectedIndex).Szerokosc * l3.ElementAt(comboBox3.SelectedIndex).Wysokosc < lok.WolneMiejsce
+                             where lok.LokalizacjaID == sl.LokalizacjaID                            
+                             where lok.Szerokosc >= szer
+                             where lok.Wysokosc >= wys
+                             where szer * wys < lok.WolneMiejsce
                              select lok;
                         l4 = new List<Lokalizacja>(query4);
                     }
@@ -240,8 +288,9 @@ namespace BazyDanych
                              from lok in db.Lokalizacjas
                              from tr in db.Tramwajs
                              where lok.LokalizacjaID == tr.LokalizacjaID
-                             where lok.Szerokosc >= l3.ElementAt(comboBox3.SelectedIndex).Szerokosc
-                             where lok.Wysokosc >= l3.ElementAt(comboBox3.SelectedIndex).Wysokosc
+                             where lok.Szerokosc >= szer
+                             where lok.Wysokosc >= wys
+                             where szer * wys < lok.WolneMiejsce
                              select lok;
                         l4 = new List<Lokalizacja>(query4);
                     }
@@ -252,8 +301,9 @@ namespace BazyDanych
                              from lok in db.Lokalizacjas
                              from bud in db.Budyneks
                              where lok.LokalizacjaID == bud.LokalizacjaID
-                             where lok.Szerokosc >= l3.ElementAt(comboBox3.SelectedIndex).Szerokosc
-                             where lok.Wysokosc >= l3.ElementAt(comboBox3.SelectedIndex).Wysokosc
+                             where lok.Szerokosc >= szer
+                             where lok.Wysokosc >= wys
+                             where szer * wys < lok.WolneMiejsce
                              select lok;
                         l4 = new List<Lokalizacja>(query4);
                     }
@@ -264,8 +314,9 @@ namespace BazyDanych
                              from lok in db.Lokalizacjas
                              from bil in db.Bilboards
                              where lok.LokalizacjaID == bil.LokalizacjaID
-                             where lok.Szerokosc >= l3.ElementAt(comboBox3.SelectedIndex).Szerokosc
-                             where lok.Wysokosc >= l3.ElementAt(comboBox3.SelectedIndex).Wysokosc
+                             where lok.Szerokosc >= szer
+                             where lok.Wysokosc >= wys
+                             where szer * wys < lok.WolneMiejsce
                              select lok;
                         l4 = new List<Lokalizacja>(query4);
                     }
@@ -276,8 +327,9 @@ namespace BazyDanych
                              from lok in db.Lokalizacjas
                              from og in db.Ogordzenies
                              where lok.LokalizacjaID == og.LokalizacjaID
-                             where lok.Szerokosc >= l3.ElementAt(comboBox3.SelectedIndex).Szerokosc
-                             where lok.Wysokosc >= l3.ElementAt(comboBox3.SelectedIndex).Wysokosc
+                             where lok.Szerokosc >= szer
+                             where lok.Wysokosc >= wys
+                             where szer * wys < lok.WolneMiejsce
                              select lok;
                         l4 = new List<Lokalizacja>(query4);
                     }
@@ -352,17 +404,35 @@ namespace BazyDanych
             czyWyswietlac = true;
             comboBox4.Text = "Wybierz";
             comboBox5.Text = "Wybierz";
-            panel1.Visible = false; ;
+            panel1.Visible = false;
+            dataGridView1.Visible = false;
             
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            if (comboBox1.SelectedIndex > -1 && comboBox2.SelectedIndex > -1 && comboBox3.SelectedIndex > -1 && comboBox4.SelectedIndex > -1 && comboBox5.SelectedIndex > -1)
+            if (comboBox1.SelectedIndex > -1 && comboBox2.SelectedIndex > -1 && comboBox3.SelectedIndex > -1 && comboBox4.SelectedIndex > -1 && comboBox5.SelectedIndex > -1 && comboBox6.SelectedIndex > -1)
                 button1.Enabled = true;
             else
                 button1.Enabled = false;
+
+            if (comboBox4.SelectedIndex > -1 && comboBox5.SelectedIndex > -1)
+                button2.Enabled = true;
+            else
+                button2.Enabled = false;
         }
+
+        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        {
+            if (dateTimePicker1.Value < DateTime.Today)
+            {
+                dateTimePicker1.Value = DateTime.Today;
+                MessageBox.Show("Wybrana data jest niepoprawna, spróbuj ponownie.", "Błąd");
+            }
+            
+        }
+
+    
       
 
         //private void panel1_MouseClick(object sender, MouseEventArgs e)
