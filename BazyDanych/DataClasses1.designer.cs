@@ -4049,7 +4049,7 @@ namespace BazyDanych
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Zlecenie_Reklamacja", Storage="_Zlecenie", ThisKey="ZlecenieID", OtherKey="ZlecenieID", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Zlecenie_Reklamacja", Storage="_Zlecenie", ThisKey="ZlecenieID", OtherKey="ZlecenieID", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
 		public Zlecenie Zlecenie
 		{
 			get

@@ -25,14 +25,8 @@ namespace BazyDanych
                + "User ID=ReklamaDBUser;Password=MaSeŁkOhAsEłKo";
         bool KlientEdit = false;
         public int a;// zmienna pomocnicza przy edytowaniu danych klienta
-        public string reklamacjaTresc=null;
-
-        public string pobierzTrescReklamacji(string x)
-        {
-            //set { reklamacjaTresc = value; }
-            reklamacjaTresc = x;
-            return reklamacjaTresc;
-        }
+        //public string reklamacjaTresc=null;
+            
 
         private void logowanieToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -331,10 +325,7 @@ namespace BazyDanych
             }
 
             if (comboBox1.SelectedItem.ToString() == "Reklamacja")
-            {
-                TrescReklamacji reklamacja = new TrescReklamacji();            
-                reklamacja.Show();
-
+            {                               
                 using (DataClasses1DataContext db = new DataClasses1DataContext(CiagPolaczenia))
                 {
                     var query =
@@ -356,28 +347,32 @@ namespace BazyDanych
                             rz.Add(new ReklamacjaZlecenia { ZlecenieID = q.ZlecenieID, PracownikID = q.PracownikID, KlientID = q.KlientID });
                         }
                     }
-                    Reklamacja z = new Reklamacja
-                    {
-                        DataWystawienia = DateTime.Today,
-                        Tresc = reklamacjaTresc,
-                        ZlecenieID = rz.First().ZlecenieID,
-                        KlientID = rz.First().KlientID,
-                        PracownikID = rz.First().PracownikID
-                    };
-                    db.Reklamacjas.InsertOnSubmit(z);
-                    try
-                    {
-                        db.SubmitChanges();
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine(ex);
-                        // Make some adjustments.
-                        // ...
-                        // Try again.
-                        db.SubmitChanges();
-                    }
+
+                    TrescReklamacji reklamacja = new TrescReklamacji(rz.First().ZlecenieID, rz.First().KlientID, rz.First().PracownikID);
+                    reklamacja.Show();
                     rz.Clear();
+                    //Reklamacja z = new Reklamacja
+                    //{
+                    //    DataWystawienia = DateTime.Today,
+                    //    Tresc = reklamacjaTresc,
+                    //    ZlecenieID = rz.First().ZlecenieID,
+                    //    KlientID = rz.First().KlientID,
+                    //    PracownikID = rz.First().PracownikID
+                    //};
+                    //db.Reklamacjas.InsertOnSubmit(z);
+                    //try
+                    //{
+                    //    db.SubmitChanges();
+                    //}
+                    //catch (Exception ex)
+                    //{
+                    //    Console.WriteLine(ex);
+                    //        // Make some adjustments.
+                    //        // ...
+                    //        // Try again.
+                    //    db.SubmitChanges();
+                    //}                                       
+                    //rz.Clear();
                 }
             }
         }

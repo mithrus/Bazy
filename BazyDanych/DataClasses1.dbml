@@ -216,7 +216,7 @@
       <Column Name="KlientID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Association Name="Klient_Reklamacja" Member="Klient" ThisKey="KlientID" OtherKey="KlientID" Type="Klient" IsForeignKey="true" />
       <Association Name="Pracownik_Reklamacja" Member="Pracownik" ThisKey="PracownikID" OtherKey="PracownikID" Type="Pracownik" IsForeignKey="true" />
-      <Association Name="Zlecenie_Reklamacja" Member="Zlecenie" ThisKey="ZlecenieID" OtherKey="ZlecenieID" Type="Zlecenie" IsForeignKey="true" />
+      <Association Name="Zlecenie_Reklamacja" Member="Zlecenie" ThisKey="ZlecenieID" OtherKey="ZlecenieID" Type="Zlecenie" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
     </Type>
   </Table>
 </Database>
