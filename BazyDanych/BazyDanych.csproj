@@ -78,6 +78,12 @@
     <Compile Include="DodajKlienta.Designer.cs">
       <DependentUpon>DodajKlienta.cs</DependentUpon>
     </Compile>
+    <Compile Include="DodajPracownika.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DodajPracownika.Designer.cs">
+      <DependentUpon>DodajPracownika.cs</DependentUpon>
+    </Compile>
     <Compile Include="DodajZlecenie.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -100,9 +106,21 @@
     <Compile Include="TrescReklamacji.Designer.cs">
       <DependentUpon>TrescReklamacji.cs</DependentUpon>
     </Compile>
+    <Compile Include="WyszukiwanieZlec.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WyszukiwanieZlec.Designer.cs">
+      <DependentUpon>WyszukiwanieZlec.cs</DependentUpon>
+    </Compile>
     <Compile Include="ZespolZkierownikiem.cs" />
+    <EmbeddedResource Include="DodajPracownika.resx">
+      <DependentUpon>DodajPracownika.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="TrescReklamacji.resx">
       <DependentUpon>TrescReklamacji.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WyszukiwanieZlec.resx">
+      <DependentUpon>WyszukiwanieZlec.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="DataClasses1.dbml.layout">
       <DependentUpon>DataClasses1.dbml</DependentUpon>

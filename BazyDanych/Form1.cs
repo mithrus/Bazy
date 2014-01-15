@@ -17,6 +17,12 @@ namespace BazyDanych
         public Form1()
         {
             InitializeComponent();
+
+
+            //dla zakładki Pracownicy
+            dataGridView4.SelectionChanged += dataGridView4_SelectionChanged;
+            button14.Enabled = false;
+
         }
 
         static private string CiagPolaczenia = "Data Source=(local);"
@@ -44,6 +50,7 @@ namespace BazyDanych
         {
             button8.Enabled = true;
             button9.Enabled = true;
+            button16PS.Enabled = true;
             using (DataClasses1DataContext db = new DataClasses1DataContext(CiagPolaczenia))
             {
                 var subquery =
@@ -377,7 +384,6 @@ namespace BazyDanych
             }
         }
 
-
         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
         {
             if (dateTimePicker1.Value < DateTime.Today)
@@ -386,6 +392,104 @@ namespace BazyDanych
                 MessageBox.Show("Wybrana data jest niepoprawna, spróbuj ponownie.", "Błąd");
             }
         }
+
+        private void button11_Click(object sender, EventArgs e) // wyświetl pracowników 
+        {
+            WyswietlPracownikow();
+        }
+
+        public void WyswietlPracownikow() // funkcja wyświetlania pracowników 
+        {
+            using (SqlConnection db = new SqlConnection(CiagPolaczenia))
+            {
+                string query = "select * from Pracownik";
+                SqlDataAdapter dataAdapter = new SqlDataAdapter(query, db);
+                DataSet dataSet = new DataSet();
+                dataAdapter.Fill(dataSet, "Pracownik");
+                dataGridView4.DataSource = dataSet.Tables["Pracownik"].DefaultView;
+                dataGridView4.AllowUserToAddRows = false;
+            }
+        }
+
+        private void button12_Click(object sender, EventArgs e) // wyszukaj pracownika 
+        {
+
+        }
+
+        private void button13_Click(object sender, EventArgs e) // dodaj pracownika 
+        {
+            Form dodaj = new DodajPracownika();
+            dodaj.Show();
+        }
+
+        private void button14_Click(object sender, EventArgs e) // usuń pracownika 
+        {
+            if (dataGridView4.SelectedRows.Count > 0)
+            {//zaznaczono wiersze
+                if (MessageBox.Show("Czy jesteś pewien, że chcesz usunąć zaznaczonych pracowników!", "Ostrzeżenie", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == System.Windows.Forms.DialogResult.Yes)
+                {// user jest pewien, że chce usunąć pracowników
+                    try
+                    {
+                        using (SqlConnection db = new SqlConnection(CiagPolaczenia))
+                        {
+                            int usunieto = 0;
+                            foreach (DataGridViewRow row in dataGridView4.SelectedRows)
+                            {
+                                db.Open();
+                                SqlCommand cmd = db.CreateCommand();
+                                cmd.CommandText = "delete Pracownik where Imie=@imie and Nazwisko=@nazwisko";
+                                string p1 = row.Cells[1].Value.ToString();
+                                string p2 = row.Cells[2].Value.ToString();
+                                cmd.Parameters.Add(new SqlParameter("@imie", p1));
+                                cmd.Parameters.Add(new SqlParameter("@nazwisko", p2));
+
+                                usunieto += cmd.ExecuteNonQuery();
+                                db.Close();
+                            }
+                            MessageBox.Show("Pomyślnie usunięto " + usunieto + " pracownik(ów)!", "Komunikat", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        WyswietlPracownikow();
+                    }
+                    catch (SqlException)
+                    {
+                        MessageBox.Show("Pracownik, którego chcesz usunąć, jest kierownikiem jakiegoś zespołu", "Komunikat", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+
+
+
+
+            }
+            else
+            {
+                MessageBox.Show("Nie wybrano żadnych pracowników!", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void button15_Click(object sender, EventArgs e) // modyfikuj pracownika 
+        {
+
+        }
+
+        void dataGridView4_SelectionChanged(object sender, EventArgs e) // zmiana zaznaczenia w Pracownicy 
+        {
+            if (dataGridView4.SelectedRows.Count > 0)
+                button14.Enabled = true;
+            else
+                button14.Enabled = false;
+            //throw new NotImplementedException();
+        }
+
+        private void button16PS_Click(object sender, EventArgs e)
+        {
+            WyszukiwanieZlec szukaj = new WyszukiwanieZlec();
+            szukaj.Show();
+        }
+
+
+
+
+
         //=======
        
     }
