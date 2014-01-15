@@ -14,9 +14,10 @@ namespace BazyDanych
     {
         public Form1 forma;
         List<string> stan = new List<string>();
-        List<Lokalizacja> lokal = new List<Lokalizacja>();
+       // List<Lokalizacja> lokal = new List<Lokalizacja>();
         List<Zlecenie> zlecen = new List<Zlecenie>();
         List<int> zlecID = new List<int>();
+        List<Klient> l1;//lista klientow
         static private string CiagPolaczenia = "Data Source=(local);"
               + "Initial Catalog=ReklamaDB;"
               + "Persist Security Info=False;"
@@ -25,11 +26,22 @@ namespace BazyDanych
         {
             forma = Form1.ActiveForm as Form1;
             InitializeComponent();
+            using (DataClasses1DataContext db = new DataClasses1DataContext(CiagPolaczenia))
+            {
+                //Klienci
+                var query2 =
+                    from kl in db.Klients
+                    select kl;
+                l1 = new List<Klient>(query2);
+                for (int i = 0; i < l1.Count; i++)
+                {
+                    comboBox1.Items.Add(l1[i].KlientID + " " + l1[i].Nazwa);
+                }
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)
-        {
-            //sdasdasadasdasd//sadasdasd
+        {           
             zlecID.Clear();        
             for (int i = 0; i < zlecen.Count; i++)
             {
