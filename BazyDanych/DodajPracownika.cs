@@ -80,7 +80,30 @@ namespace BazyDanych
             }
         }
 
-        private void button1_Click(object sender, EventArgs e) // dodanie pracownika 
+        private void UstawListeStanowisk() // ściąga stanowiska użyte w bazie i dodaje je do edytowalnego comboBoxa 
+        {
+            using (SqlConnection db = new SqlConnection(CiagPolaczenia))
+            {
+                string query = "select distinct(Stanowisko) from Pracownik";
+                SqlDataAdapter dataAdapter = new SqlDataAdapter(query, db);
+                DataSet dataSet = new DataSet();
+                dataAdapter.Fill(dataSet, "Pracownik");
+                List<string> lista = new List<string>();
+                foreach (DataRow row in dataSet.Tables["Pracownik"].Rows)
+                {
+                    lista.Add(row[0].ToString());
+                }
+                comboBox1.DataSource = lista;
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e) // anuluj 
+        {
+            this.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.Close();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
         {
             try
             {
@@ -116,29 +139,6 @@ namespace BazyDanych
             {
                 MessageBox.Show(exc.Message, "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }
-
-        private void UstawListeStanowisk() // ściąga stanowiska użyte w bazie i dodaje je do edytowalnego comboBoxa 
-        {
-            using (SqlConnection db = new SqlConnection(CiagPolaczenia))
-            {
-                string query = "select distinct(Stanowisko) from Pracownik";
-                SqlDataAdapter dataAdapter = new SqlDataAdapter(query, db);
-                DataSet dataSet = new DataSet();
-                dataAdapter.Fill(dataSet, "Pracownik");
-                List<string> lista = new List<string>();
-                foreach (DataRow row in dataSet.Tables["Pracownik"].Rows)
-                {
-                    lista.Add(row[0].ToString());
-                }
-                comboBox1.DataSource = lista;
-            }
-        }
-
-        private void button2_Click(object sender, EventArgs e) // anuluj 
-        {
-            this.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.Close();
         }
 
 

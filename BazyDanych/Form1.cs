@@ -10,16 +10,13 @@ using System.Windows.Forms;
 using System.Data.SqlClient;
 using System.Data.Linq;
 using System.IO;
+using System.Xml.Linq;
+using System.Xml;
 
 namespace BazyDanych
 {
     public partial class Form1 : Form
     {
-        static private string CiagPolaczenia = "Data Source=(local);"
-               + "Initial Catalog=ReklamaDB;"
-               + "Persist Security Info=False;"
-               + "User ID=ReklamaDBUser;Password=MaSeŁkOhAsEłKo";
-      
         public Form1()
         {
             InitializeComponent();
@@ -27,15 +24,22 @@ namespace BazyDanych
 
             //dla zakładki Pracownicy
             dataGridView4.SelectionChanged += dataGridView4_SelectionChanged;
-            button14.Enabled = false;            
+            button14.Enabled = false;
+            dataGridView4.AllowUserToAddRows = false;
+            dataGridView4.ReadOnly = true;
 
         }
-        string SciezkaKopiiZapasowej = "";
-        
+
+        static private string CiagPolaczenia = "Data Source=(local);"
+               + "Initial Catalog=ReklamaDB;"
+               + "Persist Security Info=False;"
+               + "User ID=ReklamaDBUser;Password=MaSeŁkOhAsEłKo";
         bool KlientEdit = false;
         public int a;// zmienna pomocnicza przy edytowaniu danych klienta
         //public string reklamacjaTresc=null;
-            
+
+        string SciezkaKopiiZapasowej = "";
+        string SciezkaPrzywracaniaKopii = "";
 
         private void logowanieToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -51,7 +55,6 @@ namespace BazyDanych
 
         private void button2_Click(object sender, EventArgs e)
         {
-            dataGridView2.ClearSelection();
             button8.Enabled = true;
             button9.Enabled = true;
             button16PS.Enabled = true;
@@ -362,7 +365,28 @@ namespace BazyDanych
                     TrescReklamacji reklamacja = new TrescReklamacji(rz.First().ZlecenieID, rz.First().KlientID, rz.First().PracownikID);
                     reklamacja.Show();
                     rz.Clear();
-                   
+                    //Reklamacja z = new Reklamacja
+                    //{
+                    //    DataWystawienia = DateTime.Today,
+                    //    Tresc = reklamacjaTresc,
+                    //    ZlecenieID = rz.First().ZlecenieID,
+                    //    KlientID = rz.First().KlientID,
+                    //    PracownikID = rz.First().PracownikID
+                    //};
+                    //db.Reklamacjas.InsertOnSubmit(z);
+                    //try
+                    //{
+                    //    db.SubmitChanges();
+                    //}
+                    //catch (Exception ex)
+                    //{
+                    //    Console.WriteLine(ex);
+                    //        // Make some adjustments.
+                    //        // ...
+                    //        // Try again.
+                    //    db.SubmitChanges();
+                    //}                                       
+                    //rz.Clear();
                 }
             }
         }
@@ -389,14 +413,14 @@ namespace BazyDanych
                 SqlDataAdapter dataAdapter = new SqlDataAdapter(query, db);
                 DataSet dataSet = new DataSet();
                 dataAdapter.Fill(dataSet, "Pracownik");
-                dataGridView4.DataSource = dataSet.Tables["Pracownik"].DefaultView;
-                dataGridView4.AllowUserToAddRows = false;
+                dataGridView4.DataSource = dataSet.Tables["Pracownik"].DefaultView;                
             }
         }
 
         private void button12_Click(object sender, EventArgs e) // wyszukaj pracownika 
         {
-
+            WyszukiwaniePracownika okno = new WyszukiwaniePracownika();
+            okno.Show();
         }
 
         private void button13_Click(object sender, EventArgs e) // dodaj pracownika 
@@ -438,10 +462,6 @@ namespace BazyDanych
                         MessageBox.Show("Pracownik, którego chcesz usunąć, jest kierownikiem jakiegoś zespołu", "Komunikat", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
-
-
-
-
             }
             else
             {
@@ -451,7 +471,78 @@ namespace BazyDanych
 
         private void button15_Click(object sender, EventArgs e) // modyfikuj pracownika 
         {
+            if (dataGridView4.ReadOnly)
+            {//włącz modyfikację
+                button15.Text = "Zatwierdź zmiany";
+                dataGridView4.ReadOnly = false;
+                dataGridView4.AllowUserToAddRows = false;
+                dataGridView4.GridColor = Color.Red;
+            }
+            else
+            {//zatwierdź modyfikacje
+                button15.Text = "Modyfikuj";
+                dataGridView4.ReadOnly = true;
+                dataGridView4.AllowUserToAddRows = false;
+                dataGridView4.GridColor = SystemColors.ControlDark;
 
+                SqlConnection db = new SqlConnection(CiagPolaczenia);
+                SqlTransaction transaction;
+
+                SqlDataAdapter adapter = new SqlDataAdapter("select * from Pracownik", db);
+                DataSet baza = new DataSet();
+                adapter.Fill(baza);
+                baza.Tables[0].PrimaryKey = new DataColumn[]{ baza.Tables[0].Columns[0]};
+                DataTable nowe = new DataTable();
+
+                Array.ForEach(
+                    dataGridView4.Columns.Cast<DataGridViewColumn>().ToArray(),
+                    arg => nowe.Columns.Add(arg.HeaderText, arg.ValueType));
+
+                foreach (DataGridViewRow row in dataGridView4.Rows)
+                {
+                    nowe.Rows.Add(row.Cells[0].Value, row.Cells[1].Value,row.Cells[2].Value,row.Cells[3].Value,row.Cells[4].Value);
+                }
+
+                db.Open();
+                transaction = db.BeginTransaction();                
+                try
+                {
+                    int ile = 0;
+                    foreach (DataRow row in nowe.Rows)
+                    {
+                        DataRow r = baza.Tables[0].Rows.Find(row[0]);
+                        if (r != null)
+                        {//może update
+                            if (r[1].ToString() != row[1].ToString() || r[2].ToString() != row[2].ToString() || r[3].ToString() != row[3].ToString() || r[4].ToString() != row[4].ToString())
+                            {//na pewno update
+                                SqlCommand cmd = new SqlCommand(
+                                    "update Pracownik set Imie=@i, Nazwisko=@n, Adres=@a, Stanowisko=@s where PracownikID=@id",
+                                    db, transaction);
+                                cmd.Parameters.Add(new SqlParameter("@id", row[0]));
+                                cmd.Parameters.Add(new SqlParameter("@i", row[1]));
+                                cmd.Parameters.Add(new SqlParameter("@n", row[2]));
+                                cmd.Parameters.Add(new SqlParameter("@a", row[3]));
+                                cmd.Parameters.Add(new SqlParameter("@s", row[4]));
+                                ile += cmd.ExecuteNonQuery();
+                            }
+                        }
+                    }
+
+                    transaction.Commit();
+                    MessageBox.Show("Pomyślnie zmodyfikowano " + ile + " pracownik(ów)!", "Komunikat", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (SqlException exc)
+                {
+                    transaction.Rollback();                 
+                    MessageBox.Show("Transakcja została wycofana!\n"+exc.Message, "Komunikat", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }                
+                finally
+                {                    
+                    db.Close();
+                }
+
+                WyswietlPracownikow();
+            }
         }
 
         void dataGridView4_SelectionChanged(object sender, EventArgs e) // zmiana zaznaczenia w Pracownicy 
@@ -468,6 +559,8 @@ namespace BazyDanych
             WyszukiwanieZlec szukaj = new WyszukiwanieZlec();
             szukaj.Show();
         }
+
+
 
         private void RBKopiaWybrane_CheckedChanged(object sender, EventArgs e)
         {
@@ -509,6 +602,73 @@ namespace BazyDanych
         {
             if (Directory.Exists(SciezkaKopiiZapasowej))
             {
+                try
+                {
+                    using (SqlConnection Polaczenie = new SqlConnection(CiagPolaczenia))
+                    {
+                        string sqlQuery;
+                        SqlCommand cmd = new SqlCommand();
+                        SqlDataAdapter da = new SqlDataAdapter();
+                        //DataTable dt = new DataTable();
+                        DataSet ds = new DataSet();
+
+                        string tempSciezka = SciezkaKopiiZapasowej + "\\" + DateTime.Now.ToString("yyyy-dd-M-HH-mm-ss");
+                        Directory.CreateDirectory(tempSciezka);
+
+                        if (RBKopiaPelna.Checked)
+                        {
+                            cmd = new SqlCommand("pobierzNazwyTabel", Polaczenie);
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            da.SelectCommand = cmd;
+                            da.Fill(ds);
+
+                            DataTable dt;
+
+
+                            foreach (DataRow r in ds.Tables[0].Rows)
+                            {
+                                sqlQuery = "SELECT * FROM " + r["Nazwa"].ToString();
+                                da = new SqlDataAdapter(sqlQuery, Polaczenie);
+                                dt = new DataTable(r["Nazwa"].ToString());
+                                dt.Clear();
+                                da.Fill(dt);
+                                dt.WriteXml(tempSciezka + "\\" + r["Nazwa"] + ".xml");
+                                dt.WriteXmlSchema(tempSciezka + "\\" + r["Nazwa"] + ".xsd", true);
+                                //sw.Flush();
+                                //dt.WriteXml(sw);
+                                //temp.Append(sw.ToString(),0,sw.ToString().Length);
+                            }
+                        }
+                        else if (RBKopiaWybrane.Checked)
+                        {
+                            foreach (string s in CLBKopiaTabele.CheckedItems)
+                            {
+                                cmd = new SqlCommand("select * from " + s, Polaczenie);
+                                da.SelectCommand = cmd;
+                                DataTable dt = new DataTable(s);
+                                da.Fill(dt);
+                                dt.WriteXml(tempSciezka + "\\" + s + ".xml");
+                                dt.WriteXmlSchema(tempSciezka + "\\" + s + ".xsd", true);
+                            }
+                        }
+                        //ds.WriteXml(SciezkaKopiiZapasowej + "\\" + DateTime.Now.ToString("yyyy-dd-M--HH-mm-ss"));
+
+
+                        //StringWriter sw = new StringWriter();
+                        //dataSet.WriteXml(sw);
+                        //string result = sw.ToString();
+                        //StringBuilder temp = new StringBuilder();
+
+
+                        //System.IO.File.WriteAllText(SciezkaKopiiZapasowej+"\\"+DateTime.Now.ToString("yyyy-dd-M-HH-mm-ss")+".xml",temp.ToString());
+
+                    }
+                    MessageBox.Show("Pomyślnie utworzono kopię zapasową!");
+                }
+                catch (Exception ee)
+                {
+                    MessageBox.Show(ee.Message);
+                }
             }
             else
             {
@@ -525,12 +685,203 @@ namespace BazyDanych
             }
         }
 
+        private void BKopiaPrzywroc_Click(object sender, EventArgs e)
+        {
+            if (Directory.Exists(SciezkaPrzywracaniaKopii))
+            {
+                using (SqlConnection Polaczenie = new SqlConnection(CiagPolaczenia))
+                {
+                    //string sqlQuery = "SELECT COUNT(*) FROM @Tabela";
+                    int ileWTabeli = 0;
+                    Polaczenie.Open();
+
+                    foreach (string s in CLBKopiaPliki.CheckedItems)
+                    {
+
+                        try
+                        {
+
+                            using (SqlCommand cmd = new SqlCommand(String.Format("select count(*) from {0}", s.Substring(0, s.Length - 4)), Polaczenie))
+                            {
+                                //cmd.CommandType = CommandType.Text;
+
+                                //cmd.Parameters.Add("Tabela", SqlDbType.VarChar).Value = s.Substring(0, s.Length - 4);
+                                //cmd.ExecuteNonQuery();
+                                ileWTabeli = (int)cmd.ExecuteScalar();
+                                if (ileWTabeli > 0)
+                                {
+                                    throw new Exception("Nie można wczytać danych z pliku " + s + " ! Tabela " + s.Substring(0, s.Length - 4) + " w bazie nie jest pusta!");
+                                }
+                            }
+                        }
+                        catch (Exception ee)
+                        {
+                            MessageBox.Show(ee.Message);
+                        }
+
+                        DataTable dt = new DataTable(s.Substring(0, s.Length - 4));
+                        if (File.Exists(SciezkaPrzywracaniaKopii + "\\" + s.Substring(0, s.Length - 4) + ".xsd"))
+                        {
+                            dt.ReadXmlSchema(SciezkaPrzywracaniaKopii + "\\" + s.Substring(0, s.Length - 4) + ".xsd");
+                            dt.ReadXml(SciezkaPrzywracaniaKopii + "\\" + s);
+                        }
+
+                        using (SqlBulkCopy bulkCopy = new SqlBulkCopy(Polaczenie))
+                        {
+                            //bulkCopy.DestinationTableName = "dbo.BulkCopyDemoMatchingColumns";
+                            bulkCopy.DestinationTableName = dt.TableName;
+
+                            try
+                            {
+                                // Write from the source to the destination.
+                                bulkCopy.WriteToServer(dt);
+                            }
+                            catch (Exception ex)
+                            {
+                                MessageBox.Show(ex.Message);
+                            }
+                        }
+                    }
+                    MessageBox.Show("Zakończono przywracanie bazy danych!");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Wprowadzona ścieżka nie istnieje! Spróbj wybrać inną.");
+            }
+        }
+
+        private void BKopiaWybierz_Click(object sender, EventArgs e)
+        {
+            FBDKopiaWybierz.ShowDialog();
+            TBKopiaSciezka.Text = FBDKopiaWybierz.SelectedPath;
+            //if(Directory.Exists(FBDKopiaWybierz.SelectedPath))
+            //   KopiaDodajPlikiDoListy();
+
+        }
+
+        private void TBKopiaSciezka_TextChanged(object sender, EventArgs e)
+        {
+            SciezkaPrzywracaniaKopii = TBKopiaSciezka.Text;
+            if (Directory.Exists(SciezkaPrzywracaniaKopii))
+            {
+                FBDKopiaWybierz.SelectedPath = TBKopiaSciezka.Text;
+                KopiaDodajPlikiDoListy();
+            }
+        }
+        private void KopiaDodajPlikiDoListy()
+        {
+            string[] sciezkiPlikow = Directory.GetFiles(SciezkaPrzywracaniaKopii, "*.xml");
+            //string[] sciezkiPlikowXSD = Directory.GetFiles(SciezkaPrzywracaniaKopii, "*.XSD");
+            if (sciezkiPlikow.Length > 0)
+            {
+                CLBKopiaPliki.Items.Clear();
+                foreach (string s in sciezkiPlikow)
+                {
+
+                    //string temp = s.Substring(s.LastIndexOf('\\') + 1);
+                    //CLBKopiaPliki.Items.Add(temp.Substring(0, temp.Length - 4));
+                    CLBKopiaPliki.Items.Add(s.Substring(s.LastIndexOf('\\') + 1));
+                }
+                BKopiaPrzywroc.Enabled = true;
+                CLBKopiaPliki.Enabled = true;
+            }
+            else
+            {
+                MessageBox.Show("Nie odnaleziono plików .xml! Wybierz inny katalog.");
+                BKopiaPrzywroc.Enabled = false;
+            }
+        }
+
+        private void BKopiaZaznaczWszystkie_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < CLBKopiaPliki.Items.Count; i++)
+                CLBKopiaPliki.SetItemChecked(i, true);
+        }
+
+        private void BKopiaOdznaczWszystkie_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void BReklamaWczytaj_Click(object sender, EventArgs e)
+        {
+            dodajRek();
+        }
+        private void dodajRek()
+        {
+            DGVReklamy.Rows.Clear();
+            try
+            {
+                using (SqlConnection Polaczenie = new SqlConnection(CiagPolaczenia))
+                {
+                    string sqlQuery = "SELECT * FROM Reklama";
+                    SqlDataAdapter dataAdapter = new SqlDataAdapter(sqlQuery, Polaczenie);
+                    //DataSet dataSet = new DataSet();
+                    DataTable dt = new DataTable("Reklama");
+
+                    dataAdapter.Fill(dt);
+
+                    XDocument d = new XDocument();
+                    using (XmlWriter w = d.CreateWriter())
+                    {
+                        dt.WriteXml(w, System.Data.XmlWriteMode.WriteSchema, true);
+                    }
+
+                    var reklamy = (from reklama in d.Descendants("Reklama")
+                                   select new
+                                   {
+                                       ID = reklama.Element("ReklamaID").Value,
+                                       OPIS = reklama.Element("Opis").Value.ToString(),
+                                       SZER = reklama.Element("Szerokosc").Value,
+                                       WYS = reklama.Element("Wysokosc").Value
+                                   }).Distinct();
+                    //DGVReklamy.Columns.Add("aaaa", "ID");
+                    //DGVReklamy.Columns.Add("bbbb","Opis");
+                    //DGVReklamy.Columns.Add("cccc","Szerokość");
+                    //DGVReklamy.Columns.Add("dddd", "Wysokość");
+
+                    foreach (var o in reklamy)
+                    {
+
+                        DGVReklamy.Rows.Add(o.ID, o.OPIS, o.SZER, o.WYS);
+                        //DGVReklamy.Rows.Insert(DGVReklamy.NewRowIndex, r);
+                    }
+                }
+
+
+            }
+            catch (Exception ee)
+            {
+                MessageBox.Show(ee.Message);
+            }
+        }
+        private void button16_Click(object sender, EventArgs e)
+        {
+            DodawanieFaktury fak = new DodawanieFaktury();
+            fak.Show();
+        }
+
+        private void button16PS6_Click(object sender, EventArgs e)
+        {
+            using (DataClasses1DataContext db = new DataClasses1DataContext(CiagPolaczenia))
+            {
+                var q = from f in db.Fakturas
+                        from k in db.Klients
+                        from p in db.Pracowniks
+                        where f.PracownikID == p.PracownikID
+                        where f.KlientID == k.KlientID
+                        select new { f.FakturaID, f.NumerFaktury, f.DataWystawienia, f.DataSprzedazy, f.TerminPlatnosci, Klient = k.Nazwa, Pracownik = p.Imie + p.Nazwisko };
+                dataGridView5.DataSource = q;
+            }
+        }
+
         private void button16PS2_Click(object sender, EventArgs e)
-        {           
+        {
             using (DataClasses1DataContext db = new DataClasses1DataContext(CiagPolaczenia))
             {
                 var q = db.WyswietlReklamacje();
-                dataGridView5PS.DataSource = q;               
+                dataGridView5PS.DataSource = q;
             }
         }
 
@@ -572,21 +923,17 @@ namespace BazyDanych
         private void button16PS4_Click(object sender, EventArgs e)
         {
             using (DataClasses1DataContext db = new DataClasses1DataContext(CiagPolaczenia))
-            {              
-               var q= db.WyszukajReklamacjePoIDz(Convert.ToInt32(textBox1PS.Text));
-               dataGridView5PS.DataSource = q;
+            {
+                var q = db.WyszukajReklamacjePoIDz(Convert.ToInt32(textBox1PS.Text));
+                dataGridView5PS.DataSource = q;
             }
         }
 
         private void button16PS5_Click(object sender, EventArgs e)
         {
-            NajgorszyPrac worstPrac = new NajgorszyPrac();       
+            NajgorszyPrac worstPrac = new NajgorszyPrac();
             worstPrac.Show(); 
         }
-
-       
-
-
 
 
         //=======

@@ -39,9 +39,6 @@ namespace BazyDanych
     partial void InsertBranza(Branza instance);
     partial void UpdateBranza(Branza instance);
     partial void DeleteBranza(Branza instance);
-    partial void InsertFaktura(Faktura instance);
-    partial void UpdateFaktura(Faktura instance);
-    partial void DeleteFaktura(Faktura instance);
     partial void InsertPracownikWSkladzie(PracownikWSkladzie instance);
     partial void UpdatePracownikWSkladzie(PracownikWSkladzie instance);
     partial void DeletePracownikWSkladzie(PracownikWSkladzie instance);
@@ -75,6 +72,9 @@ namespace BazyDanych
     partial void InsertReklamacja(Reklamacja instance);
     partial void UpdateReklamacja(Reklamacja instance);
     partial void DeleteReklamacja(Reklamacja instance);
+    partial void InsertFaktura(Faktura instance);
+    partial void UpdateFaktura(Faktura instance);
+    partial void DeleteFaktura(Faktura instance);
     #endregion
 		
 		public DataClasses1DataContext() : 
@@ -144,14 +144,6 @@ namespace BazyDanych
 			get
 			{
 				return this.GetTable<Budynek>();
-			}
-		}
-		
-		public System.Data.Linq.Table<Faktura> Fakturas
-		{
-			get
-			{
-				return this.GetTable<Faktura>();
 			}
 		}
 		
@@ -267,19 +259,20 @@ namespace BazyDanych
 			}
 		}
 		
+		public System.Data.Linq.Table<Faktura> Fakturas
+		{
+			get
+			{
+				return this.GetTable<Faktura>();
+			}
+		}
+		
 		public System.Data.Linq.Table<Ogrodzenie> Ogrodzenies
 		{
 			get
 			{
 				return this.GetTable<Ogrodzenie>();
 			}
-		}
-		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.WyswietlReklamacje")]
-		public ISingleResult<WyswietlReklamacjeResult> WyswietlReklamacje()
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())));
-			return ((ISingleResult<WyswietlReklamacjeResult>)(result.ReturnValue));
 		}
 		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.AktualizacjaDoZlecenia")]
@@ -296,11 +289,11 @@ namespace BazyDanych
 			return ((ISingleResult<pobierzNazwyTabelResult>)(result.ReturnValue));
 		}
 		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.WyszukajReklamacjePoIDz")]
-		public ISingleResult<WyszukajReklamacjePoIDzResult> WyszukajReklamacjePoIDz([global::System.Data.Linq.Mapping.ParameterAttribute(Name="IDzlecenia", DbType="Int")] System.Nullable<int> iDzlecenia)
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.WyswietlReklamacje")]
+		public ISingleResult<WyswietlReklamacjeResult> WyswietlReklamacje()
 		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), iDzlecenia);
-			return ((ISingleResult<WyszukajReklamacjePoIDzResult>)(result.ReturnValue));
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())));
+			return ((ISingleResult<WyswietlReklamacjeResult>)(result.ReturnValue));
 		}
 		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.WyszukajNajgorszegoPrac")]
@@ -309,6 +302,25 @@ namespace BazyDanych
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ileReklamacji);
 			ileReklamacji = ((System.Nullable<int>)(result.GetParameterValue(0)));
 			return ((ISingleResult<WyszukajNajgorszegoPracResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.WyszukajReklamacjePoIDz")]
+		public ISingleResult<WyszukajReklamacjePoIDzResult> WyszukajReklamacjePoIDz([global::System.Data.Linq.Mapping.ParameterAttribute(Name="IDzlecenia", DbType="Int")] System.Nullable<int> iDzlecenia)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), iDzlecenia);
+			return ((ISingleResult<WyszukajReklamacjePoIDzResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.ZnajdzPracownikaPoId")]
+		public int ZnajdzPracownikaPoId([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] ref System.Nullable<int> id, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(20)")] ref string imie, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(50)")] ref string nazwisko, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(MAX)")] ref string adres, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(30)")] ref string stanowisko, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> pracownikID)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id, imie, nazwisko, adres, stanowisko, pracownikID);
+			id = ((System.Nullable<int>)(result.GetParameterValue(0)));
+			imie = ((string)(result.GetParameterValue(1)));
+			nazwisko = ((string)(result.GetParameterValue(2)));
+			adres = ((string)(result.GetParameterValue(3)));
+			stanowisko = ((string)(result.GetParameterValue(4)));
+			return ((int)(result.ReturnValue));
 		}
 	}
 	
@@ -326,11 +338,11 @@ namespace BazyDanych
 		
 		private string _Adres;
 		
-		private EntitySet<Faktura> _Fakturas;
-		
 		private EntitySet<Zlecenie> _Zlecenies;
 		
 		private EntitySet<Reklamacja> _Reklamacjas;
+		
+		private EntitySet<Faktura> _Fakturas;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -348,9 +360,9 @@ namespace BazyDanych
 		
 		public Klient()
 		{
-			this._Fakturas = new EntitySet<Faktura>(new Action<Faktura>(this.attach_Fakturas), new Action<Faktura>(this.detach_Fakturas));
 			this._Zlecenies = new EntitySet<Zlecenie>(new Action<Zlecenie>(this.attach_Zlecenies), new Action<Zlecenie>(this.detach_Zlecenies));
 			this._Reklamacjas = new EntitySet<Reklamacja>(new Action<Reklamacja>(this.attach_Reklamacjas), new Action<Reklamacja>(this.detach_Reklamacjas));
+			this._Fakturas = new EntitySet<Faktura>(new Action<Faktura>(this.attach_Fakturas), new Action<Faktura>(this.detach_Fakturas));
 			OnCreated();
 		}
 		
@@ -434,19 +446,6 @@ namespace BazyDanych
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Klient_Faktura", Storage="_Fakturas", ThisKey="KlientID", OtherKey="KlientID")]
-		public EntitySet<Faktura> Fakturas
-		{
-			get
-			{
-				return this._Fakturas;
-			}
-			set
-			{
-				this._Fakturas.Assign(value);
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Klient_Zlecenie", Storage="_Zlecenies", ThisKey="KlientID", OtherKey="KlientID")]
 		public EntitySet<Zlecenie> Zlecenies
 		{
@@ -473,6 +472,19 @@ namespace BazyDanych
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Klient_Faktura", Storage="_Fakturas", ThisKey="KlientID", OtherKey="KlientID")]
+		public EntitySet<Faktura> Fakturas
+		{
+			get
+			{
+				return this._Fakturas;
+			}
+			set
+			{
+				this._Fakturas.Assign(value);
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -491,18 +503,6 @@ namespace BazyDanych
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
-		}
-		
-		private void attach_Fakturas(Faktura entity)
-		{
-			this.SendPropertyChanging();
-			entity.Klient = this;
-		}
-		
-		private void detach_Fakturas(Faktura entity)
-		{
-			this.SendPropertyChanging();
-			entity.Klient = null;
 		}
 		
 		private void attach_Zlecenies(Zlecenie entity)
@@ -528,6 +528,18 @@ namespace BazyDanych
 			this.SendPropertyChanging();
 			entity.Klient = null;
 		}
+		
+		private void attach_Fakturas(Faktura entity)
+		{
+			this.SendPropertyChanging();
+			entity.Klient = this;
+		}
+		
+		private void detach_Fakturas(Faktura entity)
+		{
+			this.SendPropertyChanging();
+			entity.Klient = null;
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Pracownik")]
@@ -546,8 +558,6 @@ namespace BazyDanych
 		
 		private string _Stanowisko;
 		
-		private EntitySet<Faktura> _Fakturas;
-		
 		private EntitySet<PracownikWSkladzie> _PracownikWSkladzies;
 		
 		private EntitySet<Zespol> _Zespols;
@@ -555,6 +565,8 @@ namespace BazyDanych
 		private EntitySet<Zlecenie> _Zlecenies;
 		
 		private EntitySet<Reklamacja> _Reklamacjas;
+		
+		private EntitySet<Faktura> _Fakturas;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -574,11 +586,11 @@ namespace BazyDanych
 		
 		public Pracownik()
 		{
-			this._Fakturas = new EntitySet<Faktura>(new Action<Faktura>(this.attach_Fakturas), new Action<Faktura>(this.detach_Fakturas));
 			this._PracownikWSkladzies = new EntitySet<PracownikWSkladzie>(new Action<PracownikWSkladzie>(this.attach_PracownikWSkladzies), new Action<PracownikWSkladzie>(this.detach_PracownikWSkladzies));
 			this._Zespols = new EntitySet<Zespol>(new Action<Zespol>(this.attach_Zespols), new Action<Zespol>(this.detach_Zespols));
 			this._Zlecenies = new EntitySet<Zlecenie>(new Action<Zlecenie>(this.attach_Zlecenies), new Action<Zlecenie>(this.detach_Zlecenies));
 			this._Reklamacjas = new EntitySet<Reklamacja>(new Action<Reklamacja>(this.attach_Reklamacjas), new Action<Reklamacja>(this.detach_Reklamacjas));
+			this._Fakturas = new EntitySet<Faktura>(new Action<Faktura>(this.attach_Fakturas), new Action<Faktura>(this.detach_Fakturas));
 			OnCreated();
 		}
 		
@@ -682,19 +694,6 @@ namespace BazyDanych
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Pracownik_Faktura", Storage="_Fakturas", ThisKey="PracownikID", OtherKey="PracownikID")]
-		public EntitySet<Faktura> Fakturas
-		{
-			get
-			{
-				return this._Fakturas;
-			}
-			set
-			{
-				this._Fakturas.Assign(value);
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Pracownik_PracownikWSkladzie", Storage="_PracownikWSkladzies", ThisKey="PracownikID", OtherKey="PracownikID")]
 		public EntitySet<PracownikWSkladzie> PracownikWSkladzies
 		{
@@ -747,6 +746,19 @@ namespace BazyDanych
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Pracownik_Faktura", Storage="_Fakturas", ThisKey="PracownikID", OtherKey="PracownikID")]
+		public EntitySet<Faktura> Fakturas
+		{
+			get
+			{
+				return this._Fakturas;
+			}
+			set
+			{
+				this._Fakturas.Assign(value);
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -765,18 +777,6 @@ namespace BazyDanych
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
-		}
-		
-		private void attach_Fakturas(Faktura entity)
-		{
-			this.SendPropertyChanging();
-			entity.Pracownik = this;
-		}
-		
-		private void detach_Fakturas(Faktura entity)
-		{
-			this.SendPropertyChanging();
-			entity.Pracownik = null;
 		}
 		
 		private void attach_PracownikWSkladzies(PracownikWSkladzie entity)
@@ -822,6 +822,18 @@ namespace BazyDanych
 		}
 		
 		private void detach_Reklamacjas(Reklamacja entity)
+		{
+			this.SendPropertyChanging();
+			entity.Pracownik = null;
+		}
+		
+		private void attach_Fakturas(Faktura entity)
+		{
+			this.SendPropertyChanging();
+			entity.Pracownik = this;
+		}
+		
+		private void detach_Fakturas(Faktura entity)
 		{
 			this.SendPropertyChanging();
 			entity.Pracownik = null;
@@ -1037,370 +1049,6 @@ namespace BazyDanych
 					this._Adres = value;
 				}
 			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Faktura")]
-	public partial class Faktura : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _FakturaID;
-		
-		private string _NumerFaktury;
-		
-		private System.DateTime _DataWystawienia;
-		
-		private System.DateTime _DataSprzedazy;
-		
-		private System.DateTime _TerminPlatnosci;
-		
-		private bool _Zaplacona;
-		
-		private int _KlientID;
-		
-		private int _PracownikID;
-		
-		private string _SposobPlatnosci;
-		
-		private EntitySet<ZleceniaNaFakturze> _ZleceniaNaFakturzes;
-		
-		private EntityRef<Klient> _Klient;
-		
-		private EntityRef<Pracownik> _Pracownik;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnFakturaIDChanging(int value);
-    partial void OnFakturaIDChanged();
-    partial void OnNumerFakturyChanging(string value);
-    partial void OnNumerFakturyChanged();
-    partial void OnDataWystawieniaChanging(System.DateTime value);
-    partial void OnDataWystawieniaChanged();
-    partial void OnDataSprzedazyChanging(System.DateTime value);
-    partial void OnDataSprzedazyChanged();
-    partial void OnTerminPlatnosciChanging(System.DateTime value);
-    partial void OnTerminPlatnosciChanged();
-    partial void OnZaplaconaChanging(bool value);
-    partial void OnZaplaconaChanged();
-    partial void OnKlientIDChanging(int value);
-    partial void OnKlientIDChanged();
-    partial void OnPracownikIDChanging(int value);
-    partial void OnPracownikIDChanged();
-    partial void OnSposobPlatnosciChanging(string value);
-    partial void OnSposobPlatnosciChanged();
-    #endregion
-		
-		public Faktura()
-		{
-			this._ZleceniaNaFakturzes = new EntitySet<ZleceniaNaFakturze>(new Action<ZleceniaNaFakturze>(this.attach_ZleceniaNaFakturzes), new Action<ZleceniaNaFakturze>(this.detach_ZleceniaNaFakturzes));
-			this._Klient = default(EntityRef<Klient>);
-			this._Pracownik = default(EntityRef<Pracownik>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FakturaID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int FakturaID
-		{
-			get
-			{
-				return this._FakturaID;
-			}
-			set
-			{
-				if ((this._FakturaID != value))
-				{
-					this.OnFakturaIDChanging(value);
-					this.SendPropertyChanging();
-					this._FakturaID = value;
-					this.SendPropertyChanged("FakturaID");
-					this.OnFakturaIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NumerFaktury", DbType="VarChar(100) NOT NULL", CanBeNull=false)]
-		public string NumerFaktury
-		{
-			get
-			{
-				return this._NumerFaktury;
-			}
-			set
-			{
-				if ((this._NumerFaktury != value))
-				{
-					this.OnNumerFakturyChanging(value);
-					this.SendPropertyChanging();
-					this._NumerFaktury = value;
-					this.SendPropertyChanged("NumerFaktury");
-					this.OnNumerFakturyChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DataWystawienia", DbType="Date NOT NULL")]
-		public System.DateTime DataWystawienia
-		{
-			get
-			{
-				return this._DataWystawienia;
-			}
-			set
-			{
-				if ((this._DataWystawienia != value))
-				{
-					this.OnDataWystawieniaChanging(value);
-					this.SendPropertyChanging();
-					this._DataWystawienia = value;
-					this.SendPropertyChanged("DataWystawienia");
-					this.OnDataWystawieniaChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DataSprzedazy", DbType="Date NOT NULL")]
-		public System.DateTime DataSprzedazy
-		{
-			get
-			{
-				return this._DataSprzedazy;
-			}
-			set
-			{
-				if ((this._DataSprzedazy != value))
-				{
-					this.OnDataSprzedazyChanging(value);
-					this.SendPropertyChanging();
-					this._DataSprzedazy = value;
-					this.SendPropertyChanged("DataSprzedazy");
-					this.OnDataSprzedazyChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TerminPlatnosci", DbType="Date NOT NULL")]
-		public System.DateTime TerminPlatnosci
-		{
-			get
-			{
-				return this._TerminPlatnosci;
-			}
-			set
-			{
-				if ((this._TerminPlatnosci != value))
-				{
-					this.OnTerminPlatnosciChanging(value);
-					this.SendPropertyChanging();
-					this._TerminPlatnosci = value;
-					this.SendPropertyChanged("TerminPlatnosci");
-					this.OnTerminPlatnosciChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Zaplacona", DbType="Bit NOT NULL")]
-		public bool Zaplacona
-		{
-			get
-			{
-				return this._Zaplacona;
-			}
-			set
-			{
-				if ((this._Zaplacona != value))
-				{
-					this.OnZaplaconaChanging(value);
-					this.SendPropertyChanging();
-					this._Zaplacona = value;
-					this.SendPropertyChanged("Zaplacona");
-					this.OnZaplaconaChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_KlientID", DbType="Int NOT NULL")]
-		public int KlientID
-		{
-			get
-			{
-				return this._KlientID;
-			}
-			set
-			{
-				if ((this._KlientID != value))
-				{
-					if (this._Klient.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnKlientIDChanging(value);
-					this.SendPropertyChanging();
-					this._KlientID = value;
-					this.SendPropertyChanged("KlientID");
-					this.OnKlientIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PracownikID", DbType="Int NOT NULL")]
-		public int PracownikID
-		{
-			get
-			{
-				return this._PracownikID;
-			}
-			set
-			{
-				if ((this._PracownikID != value))
-				{
-					if (this._Pracownik.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnPracownikIDChanging(value);
-					this.SendPropertyChanging();
-					this._PracownikID = value;
-					this.SendPropertyChanged("PracownikID");
-					this.OnPracownikIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SposobPlatnosci", DbType="VarChar(20) NOT NULL", CanBeNull=false)]
-		public string SposobPlatnosci
-		{
-			get
-			{
-				return this._SposobPlatnosci;
-			}
-			set
-			{
-				if ((this._SposobPlatnosci != value))
-				{
-					this.OnSposobPlatnosciChanging(value);
-					this.SendPropertyChanging();
-					this._SposobPlatnosci = value;
-					this.SendPropertyChanged("SposobPlatnosci");
-					this.OnSposobPlatnosciChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Faktura_ZleceniaNaFakturze", Storage="_ZleceniaNaFakturzes", ThisKey="FakturaID", OtherKey="FakturaID")]
-		public EntitySet<ZleceniaNaFakturze> ZleceniaNaFakturzes
-		{
-			get
-			{
-				return this._ZleceniaNaFakturzes;
-			}
-			set
-			{
-				this._ZleceniaNaFakturzes.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Klient_Faktura", Storage="_Klient", ThisKey="KlientID", OtherKey="KlientID", IsForeignKey=true)]
-		public Klient Klient
-		{
-			get
-			{
-				return this._Klient.Entity;
-			}
-			set
-			{
-				Klient previousValue = this._Klient.Entity;
-				if (((previousValue != value) 
-							|| (this._Klient.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Klient.Entity = null;
-						previousValue.Fakturas.Remove(this);
-					}
-					this._Klient.Entity = value;
-					if ((value != null))
-					{
-						value.Fakturas.Add(this);
-						this._KlientID = value.KlientID;
-					}
-					else
-					{
-						this._KlientID = default(int);
-					}
-					this.SendPropertyChanged("Klient");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Pracownik_Faktura", Storage="_Pracownik", ThisKey="PracownikID", OtherKey="PracownikID", IsForeignKey=true)]
-		public Pracownik Pracownik
-		{
-			get
-			{
-				return this._Pracownik.Entity;
-			}
-			set
-			{
-				Pracownik previousValue = this._Pracownik.Entity;
-				if (((previousValue != value) 
-							|| (this._Pracownik.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Pracownik.Entity = null;
-						previousValue.Fakturas.Remove(this);
-					}
-					this._Pracownik.Entity = value;
-					if ((value != null))
-					{
-						value.Fakturas.Add(this);
-						this._PracownikID = value.PracownikID;
-					}
-					else
-					{
-						this._PracownikID = default(int);
-					}
-					this.SendPropertyChanged("Pracownik");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_ZleceniaNaFakturzes(ZleceniaNaFakturze entity)
-		{
-			this.SendPropertyChanging();
-			entity.Faktura = this;
-		}
-		
-		private void detach_ZleceniaNaFakturzes(ZleceniaNaFakturze entity)
-		{
-			this.SendPropertyChanging();
-			entity.Faktura = null;
 		}
 	}
 	
@@ -2109,9 +1757,9 @@ namespace BazyDanych
 		
 		private int _ZlecenieID;
 		
-		private EntityRef<Faktura> _Faktura;
-		
 		private EntityRef<Zlecenie> _Zlecenie;
+		
+		private EntityRef<Faktura> _Faktura;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -2125,8 +1773,8 @@ namespace BazyDanych
 		
 		public ZleceniaNaFakturze()
 		{
-			this._Faktura = default(EntityRef<Faktura>);
 			this._Zlecenie = default(EntityRef<Zlecenie>);
+			this._Faktura = default(EntityRef<Faktura>);
 			OnCreated();
 		}
 		
@@ -2178,40 +1826,6 @@ namespace BazyDanych
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Faktura_ZleceniaNaFakturze", Storage="_Faktura", ThisKey="FakturaID", OtherKey="FakturaID", IsForeignKey=true)]
-		public Faktura Faktura
-		{
-			get
-			{
-				return this._Faktura.Entity;
-			}
-			set
-			{
-				Faktura previousValue = this._Faktura.Entity;
-				if (((previousValue != value) 
-							|| (this._Faktura.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Faktura.Entity = null;
-						previousValue.ZleceniaNaFakturzes.Remove(this);
-					}
-					this._Faktura.Entity = value;
-					if ((value != null))
-					{
-						value.ZleceniaNaFakturzes.Add(this);
-						this._FakturaID = value.FakturaID;
-					}
-					else
-					{
-						this._FakturaID = default(int);
-					}
-					this.SendPropertyChanged("Faktura");
-				}
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Zlecenie_ZleceniaNaFakturze", Storage="_Zlecenie", ThisKey="ZlecenieID", OtherKey="ZlecenieID", IsForeignKey=true)]
 		public Zlecenie Zlecenie
 		{
@@ -2242,6 +1856,40 @@ namespace BazyDanych
 						this._ZlecenieID = default(int);
 					}
 					this.SendPropertyChanged("Zlecenie");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Faktura_ZleceniaNaFakturze", Storage="_Faktura", ThisKey="FakturaID", OtherKey="FakturaID", IsForeignKey=true)]
+		public Faktura Faktura
+		{
+			get
+			{
+				return this._Faktura.Entity;
+			}
+			set
+			{
+				Faktura previousValue = this._Faktura.Entity;
+				if (((previousValue != value) 
+							|| (this._Faktura.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Faktura.Entity = null;
+						previousValue.ZleceniaNaFakturzes.Remove(this);
+					}
+					this._Faktura.Entity = value;
+					if ((value != null))
+					{
+						value.ZleceniaNaFakturzes.Add(this);
+						this._FakturaID = value.FakturaID;
+					}
+					else
+					{
+						this._FakturaID = default(int);
+					}
+					this.SendPropertyChanged("Faktura");
 				}
 			}
 		}
@@ -4041,6 +3689,394 @@ namespace BazyDanych
 		}
 	}
 	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Faktura")]
+	public partial class Faktura : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _FakturaID;
+		
+		private string _NumerFaktury;
+		
+		private System.DateTime _DataWystawienia;
+		
+		private System.DateTime _DataSprzedazy;
+		
+		private System.DateTime _TerminPlatnosci;
+		
+		private bool _Zaplacona;
+		
+		private int _Kwota;
+		
+		private int _KlientID;
+		
+		private int _PracownikID;
+		
+		private string _SposobPlatnosci;
+		
+		private EntitySet<ZleceniaNaFakturze> _ZleceniaNaFakturzes;
+		
+		private EntityRef<Klient> _Klient;
+		
+		private EntityRef<Pracownik> _Pracownik;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnFakturaIDChanging(int value);
+    partial void OnFakturaIDChanged();
+    partial void OnNumerFakturyChanging(string value);
+    partial void OnNumerFakturyChanged();
+    partial void OnDataWystawieniaChanging(System.DateTime value);
+    partial void OnDataWystawieniaChanged();
+    partial void OnDataSprzedazyChanging(System.DateTime value);
+    partial void OnDataSprzedazyChanged();
+    partial void OnTerminPlatnosciChanging(System.DateTime value);
+    partial void OnTerminPlatnosciChanged();
+    partial void OnZaplaconaChanging(bool value);
+    partial void OnZaplaconaChanged();
+    partial void OnKwotaChanging(int value);
+    partial void OnKwotaChanged();
+    partial void OnKlientIDChanging(int value);
+    partial void OnKlientIDChanged();
+    partial void OnPracownikIDChanging(int value);
+    partial void OnPracownikIDChanged();
+    partial void OnSposobPlatnosciChanging(string value);
+    partial void OnSposobPlatnosciChanged();
+    #endregion
+		
+		public Faktura()
+		{
+			this._ZleceniaNaFakturzes = new EntitySet<ZleceniaNaFakturze>(new Action<ZleceniaNaFakturze>(this.attach_ZleceniaNaFakturzes), new Action<ZleceniaNaFakturze>(this.detach_ZleceniaNaFakturzes));
+			this._Klient = default(EntityRef<Klient>);
+			this._Pracownik = default(EntityRef<Pracownik>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FakturaID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int FakturaID
+		{
+			get
+			{
+				return this._FakturaID;
+			}
+			set
+			{
+				if ((this._FakturaID != value))
+				{
+					this.OnFakturaIDChanging(value);
+					this.SendPropertyChanging();
+					this._FakturaID = value;
+					this.SendPropertyChanged("FakturaID");
+					this.OnFakturaIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NumerFaktury", DbType="VarChar(100) NOT NULL", CanBeNull=false)]
+		public string NumerFaktury
+		{
+			get
+			{
+				return this._NumerFaktury;
+			}
+			set
+			{
+				if ((this._NumerFaktury != value))
+				{
+					this.OnNumerFakturyChanging(value);
+					this.SendPropertyChanging();
+					this._NumerFaktury = value;
+					this.SendPropertyChanged("NumerFaktury");
+					this.OnNumerFakturyChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DataWystawienia", DbType="Date NOT NULL")]
+		public System.DateTime DataWystawienia
+		{
+			get
+			{
+				return this._DataWystawienia;
+			}
+			set
+			{
+				if ((this._DataWystawienia != value))
+				{
+					this.OnDataWystawieniaChanging(value);
+					this.SendPropertyChanging();
+					this._DataWystawienia = value;
+					this.SendPropertyChanged("DataWystawienia");
+					this.OnDataWystawieniaChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DataSprzedazy", DbType="Date NOT NULL")]
+		public System.DateTime DataSprzedazy
+		{
+			get
+			{
+				return this._DataSprzedazy;
+			}
+			set
+			{
+				if ((this._DataSprzedazy != value))
+				{
+					this.OnDataSprzedazyChanging(value);
+					this.SendPropertyChanging();
+					this._DataSprzedazy = value;
+					this.SendPropertyChanged("DataSprzedazy");
+					this.OnDataSprzedazyChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TerminPlatnosci", DbType="Date NOT NULL")]
+		public System.DateTime TerminPlatnosci
+		{
+			get
+			{
+				return this._TerminPlatnosci;
+			}
+			set
+			{
+				if ((this._TerminPlatnosci != value))
+				{
+					this.OnTerminPlatnosciChanging(value);
+					this.SendPropertyChanging();
+					this._TerminPlatnosci = value;
+					this.SendPropertyChanged("TerminPlatnosci");
+					this.OnTerminPlatnosciChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Zaplacona", DbType="Bit NOT NULL")]
+		public bool Zaplacona
+		{
+			get
+			{
+				return this._Zaplacona;
+			}
+			set
+			{
+				if ((this._Zaplacona != value))
+				{
+					this.OnZaplaconaChanging(value);
+					this.SendPropertyChanging();
+					this._Zaplacona = value;
+					this.SendPropertyChanged("Zaplacona");
+					this.OnZaplaconaChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Kwota", DbType="Int NOT NULL")]
+		public int Kwota
+		{
+			get
+			{
+				return this._Kwota;
+			}
+			set
+			{
+				if ((this._Kwota != value))
+				{
+					this.OnKwotaChanging(value);
+					this.SendPropertyChanging();
+					this._Kwota = value;
+					this.SendPropertyChanged("Kwota");
+					this.OnKwotaChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_KlientID", DbType="Int NOT NULL")]
+		public int KlientID
+		{
+			get
+			{
+				return this._KlientID;
+			}
+			set
+			{
+				if ((this._KlientID != value))
+				{
+					if (this._Klient.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnKlientIDChanging(value);
+					this.SendPropertyChanging();
+					this._KlientID = value;
+					this.SendPropertyChanged("KlientID");
+					this.OnKlientIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PracownikID", DbType="Int NOT NULL")]
+		public int PracownikID
+		{
+			get
+			{
+				return this._PracownikID;
+			}
+			set
+			{
+				if ((this._PracownikID != value))
+				{
+					if (this._Pracownik.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnPracownikIDChanging(value);
+					this.SendPropertyChanging();
+					this._PracownikID = value;
+					this.SendPropertyChanged("PracownikID");
+					this.OnPracownikIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SposobPlatnosci", DbType="VarChar(20) NOT NULL", CanBeNull=false)]
+		public string SposobPlatnosci
+		{
+			get
+			{
+				return this._SposobPlatnosci;
+			}
+			set
+			{
+				if ((this._SposobPlatnosci != value))
+				{
+					this.OnSposobPlatnosciChanging(value);
+					this.SendPropertyChanging();
+					this._SposobPlatnosci = value;
+					this.SendPropertyChanged("SposobPlatnosci");
+					this.OnSposobPlatnosciChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Faktura_ZleceniaNaFakturze", Storage="_ZleceniaNaFakturzes", ThisKey="FakturaID", OtherKey="FakturaID")]
+		public EntitySet<ZleceniaNaFakturze> ZleceniaNaFakturzes
+		{
+			get
+			{
+				return this._ZleceniaNaFakturzes;
+			}
+			set
+			{
+				this._ZleceniaNaFakturzes.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Klient_Faktura", Storage="_Klient", ThisKey="KlientID", OtherKey="KlientID", IsForeignKey=true)]
+		public Klient Klient
+		{
+			get
+			{
+				return this._Klient.Entity;
+			}
+			set
+			{
+				Klient previousValue = this._Klient.Entity;
+				if (((previousValue != value) 
+							|| (this._Klient.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Klient.Entity = null;
+						previousValue.Fakturas.Remove(this);
+					}
+					this._Klient.Entity = value;
+					if ((value != null))
+					{
+						value.Fakturas.Add(this);
+						this._KlientID = value.KlientID;
+					}
+					else
+					{
+						this._KlientID = default(int);
+					}
+					this.SendPropertyChanged("Klient");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Pracownik_Faktura", Storage="_Pracownik", ThisKey="PracownikID", OtherKey="PracownikID", IsForeignKey=true)]
+		public Pracownik Pracownik
+		{
+			get
+			{
+				return this._Pracownik.Entity;
+			}
+			set
+			{
+				Pracownik previousValue = this._Pracownik.Entity;
+				if (((previousValue != value) 
+							|| (this._Pracownik.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Pracownik.Entity = null;
+						previousValue.Fakturas.Remove(this);
+					}
+					this._Pracownik.Entity = value;
+					if ((value != null))
+					{
+						value.Fakturas.Add(this);
+						this._PracownikID = value.PracownikID;
+					}
+					else
+					{
+						this._PracownikID = default(int);
+					}
+					this.SendPropertyChanged("Pracownik");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_ZleceniaNaFakturzes(ZleceniaNaFakturze entity)
+		{
+			this.SendPropertyChanging();
+			entity.Faktura = this;
+		}
+		
+		private void detach_ZleceniaNaFakturzes(ZleceniaNaFakturze entity)
+		{
+			this.SendPropertyChanging();
+			entity.Faktura = null;
+		}
+	}
+	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Ogrodzenie")]
 	public partial class Ogrodzenie
 	{
@@ -4140,122 +4176,6 @@ namespace BazyDanych
 		}
 	}
 	
-	public partial class WyswietlReklamacjeResult
-	{
-		
-		private int _ReklamacjaID;
-		
-		private System.DateTime _DataWystawienia;
-		
-		private string _Tresc;
-		
-		private string _NazwaKlienta;
-		
-		private string _Pracownik;
-		
-		private int _ZlecenieID;
-		
-		public WyswietlReklamacjeResult()
-		{
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ReklamacjaID", DbType="Int NOT NULL")]
-		public int ReklamacjaID
-		{
-			get
-			{
-				return this._ReklamacjaID;
-			}
-			set
-			{
-				if ((this._ReklamacjaID != value))
-				{
-					this._ReklamacjaID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DataWystawienia", DbType="Date NOT NULL")]
-		public System.DateTime DataWystawienia
-		{
-			get
-			{
-				return this._DataWystawienia;
-			}
-			set
-			{
-				if ((this._DataWystawienia != value))
-				{
-					this._DataWystawienia = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Tresc", DbType="VarChar(150)")]
-		public string Tresc
-		{
-			get
-			{
-				return this._Tresc;
-			}
-			set
-			{
-				if ((this._Tresc != value))
-				{
-					this._Tresc = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NazwaKlienta", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
-		public string NazwaKlienta
-		{
-			get
-			{
-				return this._NazwaKlienta;
-			}
-			set
-			{
-				if ((this._NazwaKlienta != value))
-				{
-					this._NazwaKlienta = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Pracownik", DbType="VarChar(70) NOT NULL", CanBeNull=false)]
-		public string Pracownik
-		{
-			get
-			{
-				return this._Pracownik;
-			}
-			set
-			{
-				if ((this._Pracownik != value))
-				{
-					this._Pracownik = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ZlecenieID", DbType="Int NOT NULL")]
-		public int ZlecenieID
-		{
-			get
-			{
-				return this._ZlecenieID;
-			}
-			set
-			{
-				if ((this._ZlecenieID != value))
-				{
-					this._ZlecenieID = value;
-				}
-			}
-		}
-	}
-	
 	public partial class pobierzNazwyTabelResult
 	{
 		
@@ -4282,7 +4202,7 @@ namespace BazyDanych
 		}
 	}
 	
-	public partial class WyszukajReklamacjePoIDzResult
+	public partial class WyswietlReklamacjeResult
 	{
 		
 		private int _ReklamacjaID;
@@ -4297,7 +4217,7 @@ namespace BazyDanych
 		
 		private int _ZlecenieID;
 		
-		public WyszukajReklamacjePoIDzResult()
+		public WyswietlReklamacjeResult()
 		{
 		}
 		
@@ -4509,6 +4429,122 @@ namespace BazyDanych
 				if ((this._LiczbaReklamacji != value))
 				{
 					this._LiczbaReklamacji = value;
+				}
+			}
+		}
+	}
+	
+	public partial class WyszukajReklamacjePoIDzResult
+	{
+		
+		private int _ReklamacjaID;
+		
+		private System.DateTime _DataWystawienia;
+		
+		private string _Tresc;
+		
+		private string _NazwaKlienta;
+		
+		private string _Pracownik;
+		
+		private int _ZlecenieID;
+		
+		public WyszukajReklamacjePoIDzResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ReklamacjaID", DbType="Int NOT NULL")]
+		public int ReklamacjaID
+		{
+			get
+			{
+				return this._ReklamacjaID;
+			}
+			set
+			{
+				if ((this._ReklamacjaID != value))
+				{
+					this._ReklamacjaID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DataWystawienia", DbType="Date NOT NULL")]
+		public System.DateTime DataWystawienia
+		{
+			get
+			{
+				return this._DataWystawienia;
+			}
+			set
+			{
+				if ((this._DataWystawienia != value))
+				{
+					this._DataWystawienia = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Tresc", DbType="VarChar(150)")]
+		public string Tresc
+		{
+			get
+			{
+				return this._Tresc;
+			}
+			set
+			{
+				if ((this._Tresc != value))
+				{
+					this._Tresc = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NazwaKlienta", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string NazwaKlienta
+		{
+			get
+			{
+				return this._NazwaKlienta;
+			}
+			set
+			{
+				if ((this._NazwaKlienta != value))
+				{
+					this._NazwaKlienta = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Pracownik", DbType="VarChar(70) NOT NULL", CanBeNull=false)]
+		public string Pracownik
+		{
+			get
+			{
+				return this._Pracownik;
+			}
+			set
+			{
+				if ((this._Pracownik != value))
+				{
+					this._Pracownik = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ZlecenieID", DbType="Int NOT NULL")]
+		public int ZlecenieID
+		{
+			get
+			{
+				return this._ZlecenieID;
+			}
+			set
+			{
+				if ((this._ZlecenieID != value))
+				{
+					this._ZlecenieID = value;
 				}
 			}
 		}
