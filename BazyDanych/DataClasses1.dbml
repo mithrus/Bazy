@@ -64,16 +64,6 @@
       <Association Name="Pracownik_Faktura" Member="Pracownik" ThisKey="PracownikID" OtherKey="PracownikID" Type="Pracownik" IsForeignKey="true" />
     </Type>
   </Table>
-  <Table Name="dbo.Ogordzenie" Member="Ogordzenies">
-    <Type Name="Ogordzenie">
-      <Column Name="LokalizacjaID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="SzerokoscGeograficzna" Type="System.Decimal" DbType="Decimal(18,0) NOT NULL" CanBeNull="false" />
-      <Column Name="DlugoscGeograficzna" Type="System.Decimal" DbType="Decimal(18,0) NOT NULL" CanBeNull="false" />
-      <Column Name="IloscReklam" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="ulica" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
-      <Association Name="Lokalizacja_Ogordzenie" Member="Lokalizacja" ThisKey="LokalizacjaID" OtherKey="LokalizacjaID" Type="Lokalizacja" IsForeignKey="true" />
-    </Type>
-  </Table>
   <Table Name="dbo.PracownikWSkladzie" Member="PracownikWSkladzies">
     <Type Name="PracownikWSkladzie">
       <Column Name="SkladID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
@@ -180,11 +170,11 @@
       <Column Name="WolneMiejsce" Type="System.Decimal" DbType="Decimal(18,0) NOT NULL" CanBeNull="false" />
       <Association Name="Lokalizacja_Bilboard" Member="Bilboards" ThisKey="LokalizacjaID" OtherKey="LokalizacjaID" Type="Bilboard" />
       <Association Name="Lokalizacja_Budynek" Member="Budyneks" ThisKey="LokalizacjaID" OtherKey="LokalizacjaID" Type="Budynek" />
-      <Association Name="Lokalizacja_Ogordzenie" Member="Ogordzenies" ThisKey="LokalizacjaID" OtherKey="LokalizacjaID" Type="Ogordzenie" />
       <Association Name="Lokalizacja_SlupOgloszeniowy" Member="SlupOgloszeniowies" ThisKey="LokalizacjaID" OtherKey="LokalizacjaID" Type="SlupOgloszeniowy" />
       <Association Name="Lokalizacja_Tramwaj" Member="Tramwajs" ThisKey="LokalizacjaID" OtherKey="LokalizacjaID" Type="Tramwaj" />
       <Association Name="Lokalizacja_RealizacjaWLokalizacji" Member="RealizacjaWLokalizacjis" ThisKey="LokalizacjaID" OtherKey="LokalizacjaID" Type="RealizacjaWLokalizacji" />
       <Association Name="Lokalizacja_ReklamaWLokalizacji" Member="ReklamaWLokalizacjis" ThisKey="LokalizacjaID" OtherKey="LokalizacjaID" Type="ReklamaWLokalizacji" />
+      <Association Name="Lokalizacja_Ogrodzenie" Member="Ogrodzenies" ThisKey="LokalizacjaID" OtherKey="LokalizacjaID" Type="Ogrodzenie" />
     </Type>
   </Table>
   <Table Name="dbo.RealizacjaWLokalizacji" Member="RealizacjaWLokalizacjis">
@@ -219,4 +209,55 @@
       <Association Name="Zlecenie_Reklamacja" Member="Zlecenie" ThisKey="ZlecenieID" OtherKey="ZlecenieID" Type="Zlecenie" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
     </Type>
   </Table>
+  <Table Name="dbo.Ogrodzenie" Member="Ogrodzenies">
+    <Type Name="Ogrodzenie">
+      <Column Name="LokalizacjaID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="SzerokoscGeograficzna" Type="System.Decimal" DbType="Decimal(18,0) NOT NULL" CanBeNull="false" />
+      <Column Name="DlugoscGeograficzna" Type="System.Decimal" DbType="Decimal(18,0) NOT NULL" CanBeNull="false" />
+      <Column Name="IloscReklam" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ulica" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+      <Association Name="Lokalizacja_Ogrodzenie" Member="Lokalizacja" ThisKey="LokalizacjaID" OtherKey="LokalizacjaID" Type="Lokalizacja" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Function Name="dbo.WyswietlReklamacje" Method="WyswietlReklamacje">
+    <ElementType Name="WyswietlReklamacjeResult">
+      <Column Name="ReklamacjaID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="DataWystawienia" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="Tresc" Type="System.String" DbType="VarChar(150)" CanBeNull="true" />
+      <Column Name="NazwaKlienta" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Pracownik" Type="System.String" DbType="VarChar(70) NOT NULL" CanBeNull="false" />
+      <Column Name="ZlecenieID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.AktualizacjaDoZlecenia" Method="AktualizacjaDoZlecenia">
+    <Parameter Name="ZleceniaID" Parameter="zleceniaID" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.pobierzNazwyTabel" Method="pobierzNazwyTabel">
+    <ElementType Name="pobierzNazwyTabelResult">
+      <Column Name="Nazwa" Type="System.String" DbType="NVarChar(128) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.WyszukajReklamacjePoIDz" Method="WyszukajReklamacjePoIDz">
+    <Parameter Name="IDzlecenia" Parameter="iDzlecenia" Type="System.Int32" DbType="Int" />
+    <ElementType Name="WyszukajReklamacjePoIDzResult">
+      <Column Name="ReklamacjaID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="DataWystawienia" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="Tresc" Type="System.String" DbType="VarChar(150)" CanBeNull="true" />
+      <Column Name="NazwaKlienta" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Pracownik" Type="System.String" DbType="VarChar(70) NOT NULL" CanBeNull="false" />
+      <Column Name="ZlecenieID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.WyszukajNajgorszegoPrac" Method="WyszukajNajgorszegoPrac">
+    <Parameter Name="ileReklamacji" Type="System.Int32" DbType="Int" Direction="InOut" />
+    <ElementType Name="WyszukajNajgorszegoPracResult">
+      <Column Name="PracownikID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Imie" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="Nazwisko" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Adres" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="Stanowisko" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="LiczbaReklamacji" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </ElementType>
+  </Function>
 </Database>

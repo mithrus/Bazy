@@ -32,6 +32,12 @@
             this.logowanieToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.wylogujToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.groupBox3PS = new System.Windows.Forms.GroupBox();
+            this.textBox1PS = new System.Windows.Forms.TextBox();
+            this.button16PS4 = new System.Windows.Forms.Button();
+            this.button16PS3 = new System.Windows.Forms.Button();
+            this.button16PS2 = new System.Windows.Forms.Button();
+            this.dataGridView5PS = new System.Windows.Forms.DataGridView();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.button16PS = new System.Windows.Forms.Button();
@@ -67,7 +73,28 @@
             this.tabPage6 = new System.Windows.Forms.TabPage();
             this.tabPage7 = new System.Windows.Forms.TabPage();
             this.tabPage8 = new System.Windows.Forms.TabPage();
+            this.TPKopia = new System.Windows.Forms.TabPage();
+            this.GBKopiaPrzywroc = new System.Windows.Forms.GroupBox();
+            this.BKopiaPrzywroc = new System.Windows.Forms.Button();
+            this.BKopiaWybierz = new System.Windows.Forms.Button();
+            this.LKopiaWybierz = new System.Windows.Forms.Label();
+            this.TBKopiaSciezka = new System.Windows.Forms.TextBox();
+            this.GBKopiaUtworz = new System.Windows.Forms.GroupBox();
+            this.BKopiaUtworz = new System.Windows.Forms.Button();
+            this.BKopiaWybierzKatalog = new System.Windows.Forms.Button();
+            this.LKopiaWybierzKatalog = new System.Windows.Forms.Label();
+            this.TBKopiaSciezkaKatalog = new System.Windows.Forms.TextBox();
+            this.CLBKopiaTabele = new System.Windows.Forms.CheckedListBox();
+            this.RBKopiaWybrane = new System.Windows.Forms.RadioButton();
+            this.RBKopiaPelna = new System.Windows.Forms.RadioButton();
+            this.FBDKopiaWybierz = new System.Windows.Forms.FolderBrowserDialog();
+            this.OFDKopiaWybierz = new System.Windows.Forms.OpenFileDialog();
+            this.groupBoxPS4 = new System.Windows.Forms.GroupBox();
+            this.button16PS5 = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
+            this.tabPage4.SuspendLayout();
+            this.groupBox3PS.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView5PS)).BeginInit();
             this.tabPage2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
@@ -79,6 +106,10 @@
             this.tabPage5.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView4)).BeginInit();
+            this.TPKopia.SuspendLayout();
+            this.GBKopiaPrzywroc.SuspendLayout();
+            this.GBKopiaUtworz.SuspendLayout();
+            this.groupBoxPS4.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -111,6 +142,11 @@
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.groupBoxPS4);
+            this.tabPage4.Controls.Add(this.groupBox3PS);
+            this.tabPage4.Controls.Add(this.button16PS3);
+            this.tabPage4.Controls.Add(this.button16PS2);
+            this.tabPage4.Controls.Add(this.dataGridView5PS);
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
@@ -118,6 +154,63 @@
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Reklamacje";
             this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // groupBox3PS
+            // 
+            this.groupBox3PS.Controls.Add(this.textBox1PS);
+            this.groupBox3PS.Controls.Add(this.button16PS4);
+            this.groupBox3PS.Location = new System.Drawing.Point(871, 109);
+            this.groupBox3PS.Name = "groupBox3PS";
+            this.groupBox3PS.Size = new System.Drawing.Size(188, 55);
+            this.groupBox3PS.TabIndex = 4;
+            this.groupBox3PS.TabStop = false;
+            this.groupBox3PS.Text = "ID Zlecenia:";
+            // 
+            // textBox1PS
+            // 
+            this.textBox1PS.Location = new System.Drawing.Point(6, 19);
+            this.textBox1PS.Name = "textBox1PS";
+            this.textBox1PS.Size = new System.Drawing.Size(75, 20);
+            this.textBox1PS.TabIndex = 4;
+            // 
+            // button16PS4
+            // 
+            this.button16PS4.Location = new System.Drawing.Point(107, 17);
+            this.button16PS4.Name = "button16PS4";
+            this.button16PS4.Size = new System.Drawing.Size(75, 23);
+            this.button16PS4.TabIndex = 3;
+            this.button16PS4.Text = "Wyszukaj";
+            this.button16PS4.UseVisualStyleBackColor = true;
+            this.button16PS4.Click += new System.EventHandler(this.button16PS4_Click);
+            // 
+            // button16PS3
+            // 
+            this.button16PS3.Location = new System.Drawing.Point(871, 68);
+            this.button16PS3.Name = "button16PS3";
+            this.button16PS3.Size = new System.Drawing.Size(75, 23);
+            this.button16PS3.TabIndex = 2;
+            this.button16PS3.Text = "Usuń";
+            this.button16PS3.UseVisualStyleBackColor = true;
+            this.button16PS3.Click += new System.EventHandler(this.button16PS3_Click);
+            // 
+            // button16PS2
+            // 
+            this.button16PS2.Location = new System.Drawing.Point(871, 15);
+            this.button16PS2.Name = "button16PS2";
+            this.button16PS2.Size = new System.Drawing.Size(75, 23);
+            this.button16PS2.TabIndex = 1;
+            this.button16PS2.Text = "Wyświetl";
+            this.button16PS2.UseVisualStyleBackColor = true;
+            this.button16PS2.Click += new System.EventHandler(this.button16PS2_Click);
+            // 
+            // dataGridView5PS
+            // 
+            this.dataGridView5PS.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView5PS.Dock = System.Windows.Forms.DockStyle.Left;
+            this.dataGridView5PS.Location = new System.Drawing.Point(3, 3);
+            this.dataGridView5PS.Name = "dataGridView5PS";
+            this.dataGridView5PS.Size = new System.Drawing.Size(749, 354);
+            this.dataGridView5PS.TabIndex = 0;
             // 
             // tabPage3
             // 
@@ -313,6 +406,7 @@
             this.tabControl1.Controls.Add(this.tabPage6);
             this.tabControl1.Controls.Add(this.tabPage7);
             this.tabControl1.Controls.Add(this.tabPage8);
+            this.tabControl1.Controls.Add(this.TPKopia);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.ItemSize = new System.Drawing.Size(47, 18);
             this.tabControl1.Location = new System.Drawing.Point(0, 24);
@@ -500,6 +594,175 @@
             this.tabPage8.Text = "Powierzchnie reklamowe";
             this.tabPage8.UseVisualStyleBackColor = true;
             // 
+            // TPKopia
+            // 
+            this.TPKopia.Controls.Add(this.GBKopiaPrzywroc);
+            this.TPKopia.Controls.Add(this.GBKopiaUtworz);
+            this.TPKopia.Location = new System.Drawing.Point(4, 22);
+            this.TPKopia.Name = "TPKopia";
+            this.TPKopia.Padding = new System.Windows.Forms.Padding(3);
+            this.TPKopia.Size = new System.Drawing.Size(1356, 360);
+            this.TPKopia.TabIndex = 9;
+            this.TPKopia.Text = "Kopia zapasowa";
+            this.TPKopia.UseVisualStyleBackColor = true;
+            // 
+            // GBKopiaPrzywroc
+            // 
+            this.GBKopiaPrzywroc.Controls.Add(this.BKopiaPrzywroc);
+            this.GBKopiaPrzywroc.Controls.Add(this.BKopiaWybierz);
+            this.GBKopiaPrzywroc.Controls.Add(this.LKopiaWybierz);
+            this.GBKopiaPrzywroc.Controls.Add(this.TBKopiaSciezka);
+            this.GBKopiaPrzywroc.Location = new System.Drawing.Point(424, 10);
+            this.GBKopiaPrzywroc.Name = "GBKopiaPrzywroc";
+            this.GBKopiaPrzywroc.Size = new System.Drawing.Size(409, 347);
+            this.GBKopiaPrzywroc.TabIndex = 0;
+            this.GBKopiaPrzywroc.TabStop = false;
+            this.GBKopiaPrzywroc.Text = "Przywracanie kopii zapasowej";
+            // 
+            // BKopiaPrzywroc
+            // 
+            this.BKopiaPrzywroc.Location = new System.Drawing.Point(105, 255);
+            this.BKopiaPrzywroc.Name = "BKopiaPrzywroc";
+            this.BKopiaPrzywroc.Size = new System.Drawing.Size(195, 65);
+            this.BKopiaPrzywroc.TabIndex = 5;
+            this.BKopiaPrzywroc.Text = "Przywróc kopię zapasową";
+            this.BKopiaPrzywroc.UseVisualStyleBackColor = true;
+            // 
+            // BKopiaWybierz
+            // 
+            this.BKopiaWybierz.Location = new System.Drawing.Point(377, 31);
+            this.BKopiaWybierz.Name = "BKopiaWybierz";
+            this.BKopiaWybierz.Size = new System.Drawing.Size(25, 23);
+            this.BKopiaWybierz.TabIndex = 4;
+            this.BKopiaWybierz.Text = "...";
+            this.BKopiaWybierz.UseVisualStyleBackColor = true;
+            // 
+            // LKopiaWybierz
+            // 
+            this.LKopiaWybierz.AutoSize = true;
+            this.LKopiaWybierz.Location = new System.Drawing.Point(6, 17);
+            this.LKopiaWybierz.Name = "LKopiaWybierz";
+            this.LKopiaWybierz.Size = new System.Drawing.Size(67, 13);
+            this.LKopiaWybierz.TabIndex = 3;
+            this.LKopiaWybierz.Text = "Wybierz plik:";
+            // 
+            // TBKopiaSciezka
+            // 
+            this.TBKopiaSciezka.Location = new System.Drawing.Point(5, 33);
+            this.TBKopiaSciezka.Name = "TBKopiaSciezka";
+            this.TBKopiaSciezka.Size = new System.Drawing.Size(366, 20);
+            this.TBKopiaSciezka.TabIndex = 2;
+            // 
+            // GBKopiaUtworz
+            // 
+            this.GBKopiaUtworz.Controls.Add(this.BKopiaUtworz);
+            this.GBKopiaUtworz.Controls.Add(this.BKopiaWybierzKatalog);
+            this.GBKopiaUtworz.Controls.Add(this.LKopiaWybierzKatalog);
+            this.GBKopiaUtworz.Controls.Add(this.TBKopiaSciezkaKatalog);
+            this.GBKopiaUtworz.Controls.Add(this.CLBKopiaTabele);
+            this.GBKopiaUtworz.Controls.Add(this.RBKopiaWybrane);
+            this.GBKopiaUtworz.Controls.Add(this.RBKopiaPelna);
+            this.GBKopiaUtworz.Location = new System.Drawing.Point(9, 7);
+            this.GBKopiaUtworz.Name = "GBKopiaUtworz";
+            this.GBKopiaUtworz.Size = new System.Drawing.Size(409, 347);
+            this.GBKopiaUtworz.TabIndex = 0;
+            this.GBKopiaUtworz.TabStop = false;
+            this.GBKopiaUtworz.Text = "Tworzenie kopii zapasowej";
+            // 
+            // BKopiaUtworz
+            // 
+            this.BKopiaUtworz.Location = new System.Drawing.Point(105, 255);
+            this.BKopiaUtworz.Name = "BKopiaUtworz";
+            this.BKopiaUtworz.Size = new System.Drawing.Size(195, 65);
+            this.BKopiaUtworz.TabIndex = 5;
+            this.BKopiaUtworz.Text = "Utworz kopię zapasową";
+            this.BKopiaUtworz.UseVisualStyleBackColor = true;
+            this.BKopiaUtworz.Click += new System.EventHandler(this.BKopiaUtworz_Click);
+            // 
+            // BKopiaWybierzKatalog
+            // 
+            this.BKopiaWybierzKatalog.Location = new System.Drawing.Point(378, 227);
+            this.BKopiaWybierzKatalog.Name = "BKopiaWybierzKatalog";
+            this.BKopiaWybierzKatalog.Size = new System.Drawing.Size(25, 23);
+            this.BKopiaWybierzKatalog.TabIndex = 4;
+            this.BKopiaWybierzKatalog.Text = "...";
+            this.BKopiaWybierzKatalog.UseVisualStyleBackColor = true;
+            this.BKopiaWybierzKatalog.Click += new System.EventHandler(this.BKopiaWybierzKatalog_Click);
+            // 
+            // LKopiaWybierzKatalog
+            // 
+            this.LKopiaWybierzKatalog.AutoSize = true;
+            this.LKopiaWybierzKatalog.Location = new System.Drawing.Point(7, 213);
+            this.LKopiaWybierzKatalog.Name = "LKopiaWybierzKatalog";
+            this.LKopiaWybierzKatalog.Size = new System.Drawing.Size(86, 13);
+            this.LKopiaWybierzKatalog.TabIndex = 3;
+            this.LKopiaWybierzKatalog.Text = "Wybierz katalog:";
+            // 
+            // TBKopiaSciezkaKatalog
+            // 
+            this.TBKopiaSciezkaKatalog.Location = new System.Drawing.Point(6, 229);
+            this.TBKopiaSciezkaKatalog.Name = "TBKopiaSciezkaKatalog";
+            this.TBKopiaSciezkaKatalog.Size = new System.Drawing.Size(366, 20);
+            this.TBKopiaSciezkaKatalog.TabIndex = 2;
+            this.TBKopiaSciezkaKatalog.TextChanged += new System.EventHandler(this.TBKopiaSciezkaKatalog_TextChanged);
+            // 
+            // CLBKopiaTabele
+            // 
+            this.CLBKopiaTabele.Enabled = false;
+            this.CLBKopiaTabele.FormattingEnabled = true;
+            this.CLBKopiaTabele.Location = new System.Drawing.Point(7, 67);
+            this.CLBKopiaTabele.MultiColumn = true;
+            this.CLBKopiaTabele.Name = "CLBKopiaTabele";
+            this.CLBKopiaTabele.Size = new System.Drawing.Size(396, 139);
+            this.CLBKopiaTabele.TabIndex = 1;
+            // 
+            // RBKopiaWybrane
+            // 
+            this.RBKopiaWybrane.AutoSize = true;
+            this.RBKopiaWybrane.Location = new System.Drawing.Point(7, 43);
+            this.RBKopiaWybrane.Name = "RBKopiaWybrane";
+            this.RBKopiaWybrane.Size = new System.Drawing.Size(100, 17);
+            this.RBKopiaWybrane.TabIndex = 0;
+            this.RBKopiaWybrane.TabStop = true;
+            this.RBKopiaWybrane.Text = "Wybrane tabele";
+            this.RBKopiaWybrane.UseVisualStyleBackColor = true;
+            this.RBKopiaWybrane.CheckedChanged += new System.EventHandler(this.RBKopiaWybrane_CheckedChanged);
+            // 
+            // RBKopiaPelna
+            // 
+            this.RBKopiaPelna.AutoSize = true;
+            this.RBKopiaPelna.Location = new System.Drawing.Point(7, 20);
+            this.RBKopiaPelna.Name = "RBKopiaPelna";
+            this.RBKopiaPelna.Size = new System.Drawing.Size(118, 17);
+            this.RBKopiaPelna.TabIndex = 0;
+            this.RBKopiaPelna.TabStop = true;
+            this.RBKopiaPelna.Text = "Pełna baza danych";
+            this.RBKopiaPelna.UseVisualStyleBackColor = true;
+            // 
+            // OFDKopiaWybierz
+            // 
+            this.OFDKopiaWybierz.FileName = "openFileDialog1";
+            // 
+            // groupBoxPS4
+            // 
+            this.groupBoxPS4.Controls.Add(this.button16PS5);
+            this.groupBoxPS4.Location = new System.Drawing.Point(871, 180);
+            this.groupBoxPS4.Name = "groupBoxPS4";
+            this.groupBoxPS4.Size = new System.Drawing.Size(188, 74);
+            this.groupBoxPS4.TabIndex = 5;
+            this.groupBoxPS4.TabStop = false;
+            this.groupBoxPS4.Text = "Najgorszy pracownik:";
+            // 
+            // button16PS5
+            // 
+            this.button16PS5.Location = new System.Drawing.Point(6, 30);
+            this.button16PS5.Name = "button16PS5";
+            this.button16PS5.Size = new System.Drawing.Size(176, 23);
+            this.button16PS5.TabIndex = 0;
+            this.button16PS5.Text = "Wyszukaj";
+            this.button16PS5.UseVisualStyleBackColor = true;
+            this.button16PS5.Click += new System.EventHandler(this.button16PS5_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -514,6 +777,10 @@
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.tabPage4.ResumeLayout(false);
+            this.groupBox3PS.ResumeLayout(false);
+            this.groupBox3PS.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView5PS)).EndInit();
             this.tabPage2.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -526,6 +793,12 @@
             this.tabPage5.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView4)).EndInit();
+            this.TPKopia.ResumeLayout(false);
+            this.GBKopiaPrzywroc.ResumeLayout(false);
+            this.GBKopiaPrzywroc.PerformLayout();
+            this.GBKopiaUtworz.ResumeLayout(false);
+            this.GBKopiaUtworz.PerformLayout();
+            this.groupBoxPS4.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -572,6 +845,30 @@
         private System.Windows.Forms.Button button11;
         private System.Windows.Forms.DataGridView dataGridView4;
         private System.Windows.Forms.Button button16PS;
+        private System.Windows.Forms.TabPage TPKopia;
+        private System.Windows.Forms.GroupBox GBKopiaUtworz;
+        private System.Windows.Forms.CheckedListBox CLBKopiaTabele;
+        private System.Windows.Forms.RadioButton RBKopiaWybrane;
+        private System.Windows.Forms.RadioButton RBKopiaPelna;
+        private System.Windows.Forms.GroupBox GBKopiaPrzywroc;
+        private System.Windows.Forms.Button BKopiaPrzywroc;
+        private System.Windows.Forms.Button BKopiaWybierz;
+        private System.Windows.Forms.Label LKopiaWybierz;
+        private System.Windows.Forms.TextBox TBKopiaSciezka;
+        private System.Windows.Forms.Button BKopiaUtworz;
+        private System.Windows.Forms.Button BKopiaWybierzKatalog;
+        private System.Windows.Forms.Label LKopiaWybierzKatalog;
+        private System.Windows.Forms.TextBox TBKopiaSciezkaKatalog;
+        private System.Windows.Forms.FolderBrowserDialog FBDKopiaWybierz;
+        private System.Windows.Forms.OpenFileDialog OFDKopiaWybierz;
+        private System.Windows.Forms.Button button16PS2;
+        private System.Windows.Forms.DataGridView dataGridView5PS;
+        private System.Windows.Forms.Button button16PS3;
+        private System.Windows.Forms.Button button16PS4;
+        private System.Windows.Forms.GroupBox groupBox3PS;
+        private System.Windows.Forms.TextBox textBox1PS;
+        private System.Windows.Forms.GroupBox groupBoxPS4;
+        private System.Windows.Forms.Button button16PS5;
     }
 }
 

@@ -18,6 +18,7 @@ namespace BazyDanych
         List<Zlecenie> zlecen = new List<Zlecenie>();
         List<int> zlecID = new List<int>();
         List<Klient> l1;//lista klientow
+        List<int> kliID = new List<int>();
         static private string CiagPolaczenia = "Data Source=(local);"
               + "Initial Catalog=ReklamaDB;"
               + "Persist Security Info=False;"
@@ -33,6 +34,7 @@ namespace BazyDanych
                     from kl in db.Klients
                     select kl;
                 l1 = new List<Klient>(query2);
+                comboBox1.Items.Add("Wszyscy");
                 for (int i = 0; i < l1.Count; i++)
                 {
                     comboBox1.Items.Add(l1[i].KlientID + " " + l1[i].Nazwa);
@@ -52,6 +54,7 @@ namespace BazyDanych
                     var temp = db.Zlecenies
                       .Where(zl => stan.Contains(zl.StanZlecenia))
                       .Where(x=> zlecID.Contains(x.ZlecenieID))
+                      .Where(k => kliID.Contains(k.KlientID))
                       .OrderBy(zl => zl.ZlecenieID);
 
                     var subquery =
@@ -174,12 +177,32 @@ namespace BazyDanych
                         from lok in db.Lokalizacjas
                         from rwl in db.ReklamaWLokalizacjis
                         from z in db.Zlecenies
-                        from ogr in db.Ogordzenies
+                        from ogr in db.Ogrodzenies
                         where lok.LokalizacjaID == ogr.LokalizacjaID
                         where lok.LokalizacjaID == rwl.LokalizacjaID
                         where rwl.ReklamaID == z.ReklamaID
                         select z;
                     zlecen.AddRange(query2);
+                }
+            }
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            kliID.Clear();
+
+            if (comboBox1.SelectedIndex == 0)
+            {
+                for (int i = 0; i < l1.Count; i++)
+                {
+                    kliID.Add(l1.ElementAt(i).KlientID);
+                }
+            }
+            for (int i = 0; i < l1.Count; i++)
+            {
+                if (comboBox1.SelectedIndex == i + 1)
+                {
+                    kliID.Add(l1.ElementAt(i).KlientID);
                 }
             }
         }

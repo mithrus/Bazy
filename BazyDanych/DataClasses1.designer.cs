@@ -155,14 +155,6 @@ namespace BazyDanych
 			}
 		}
 		
-		public System.Data.Linq.Table<Ogordzenie> Ogordzenies
-		{
-			get
-			{
-				return this.GetTable<Ogordzenie>();
-			}
-		}
-		
 		public System.Data.Linq.Table<PracownikWSkladzie> PracownikWSkladzies
 		{
 			get
@@ -273,6 +265,50 @@ namespace BazyDanych
 			{
 				return this.GetTable<Reklamacja>();
 			}
+		}
+		
+		public System.Data.Linq.Table<Ogrodzenie> Ogrodzenies
+		{
+			get
+			{
+				return this.GetTable<Ogrodzenie>();
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.WyswietlReklamacje")]
+		public ISingleResult<WyswietlReklamacjeResult> WyswietlReklamacje()
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())));
+			return ((ISingleResult<WyswietlReklamacjeResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.AktualizacjaDoZlecenia")]
+		public int AktualizacjaDoZlecenia([global::System.Data.Linq.Mapping.ParameterAttribute(Name="ZleceniaID", DbType="Int")] System.Nullable<int> zleceniaID)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), zleceniaID);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.pobierzNazwyTabel")]
+		public ISingleResult<pobierzNazwyTabelResult> pobierzNazwyTabel()
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())));
+			return ((ISingleResult<pobierzNazwyTabelResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.WyszukajReklamacjePoIDz")]
+		public ISingleResult<WyszukajReklamacjePoIDzResult> WyszukajReklamacjePoIDz([global::System.Data.Linq.Mapping.ParameterAttribute(Name="IDzlecenia", DbType="Int")] System.Nullable<int> iDzlecenia)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), iDzlecenia);
+			return ((ISingleResult<WyszukajReklamacjePoIDzResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.WyszukajNajgorszegoPrac")]
+		public ISingleResult<WyszukajNajgorszegoPracResult> WyszukajNajgorszegoPrac([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] ref System.Nullable<int> ileReklamacji)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ileReklamacji);
+			ileReklamacji = ((System.Nullable<int>)(result.GetParameterValue(0)));
+			return ((ISingleResult<WyszukajNajgorszegoPracResult>)(result.ReturnValue));
 		}
 	}
 	
@@ -1365,105 +1401,6 @@ namespace BazyDanych
 		{
 			this.SendPropertyChanging();
 			entity.Faktura = null;
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Ogordzenie")]
-	public partial class Ogordzenie
-	{
-		
-		private int _LokalizacjaID;
-		
-		private decimal _SzerokoscGeograficzna;
-		
-		private decimal _DlugoscGeograficzna;
-		
-		private System.Nullable<int> _IloscReklam;
-		
-		private string _ulica;
-		
-		public Ogordzenie()
-		{
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LokalizacjaID", DbType="Int NOT NULL")]
-		public int LokalizacjaID
-		{
-			get
-			{
-				return this._LokalizacjaID;
-			}
-			set
-			{
-				if ((this._LokalizacjaID != value))
-				{
-					this._LokalizacjaID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SzerokoscGeograficzna", DbType="Decimal(18,0) NOT NULL")]
-		public decimal SzerokoscGeograficzna
-		{
-			get
-			{
-				return this._SzerokoscGeograficzna;
-			}
-			set
-			{
-				if ((this._SzerokoscGeograficzna != value))
-				{
-					this._SzerokoscGeograficzna = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DlugoscGeograficzna", DbType="Decimal(18,0) NOT NULL")]
-		public decimal DlugoscGeograficzna
-		{
-			get
-			{
-				return this._DlugoscGeograficzna;
-			}
-			set
-			{
-				if ((this._DlugoscGeograficzna != value))
-				{
-					this._DlugoscGeograficzna = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IloscReklam", DbType="Int")]
-		public System.Nullable<int> IloscReklam
-		{
-			get
-			{
-				return this._IloscReklam;
-			}
-			set
-			{
-				if ((this._IloscReklam != value))
-				{
-					this._IloscReklam = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ulica", DbType="VarChar(30)")]
-		public string ulica
-		{
-			get
-			{
-				return this._ulica;
-			}
-			set
-			{
-				if ((this._ulica != value))
-				{
-					this._ulica = value;
-				}
-			}
 		}
 	}
 	
@@ -4100,6 +4037,479 @@ namespace BazyDanych
 			if ((this.PropertyChanged != null))
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Ogrodzenie")]
+	public partial class Ogrodzenie
+	{
+		
+		private int _LokalizacjaID;
+		
+		private decimal _SzerokoscGeograficzna;
+		
+		private decimal _DlugoscGeograficzna;
+		
+		private System.Nullable<int> _IloscReklam;
+		
+		private string _ulica;
+		
+		public Ogrodzenie()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LokalizacjaID", DbType="Int NOT NULL")]
+		public int LokalizacjaID
+		{
+			get
+			{
+				return this._LokalizacjaID;
+			}
+			set
+			{
+				if ((this._LokalizacjaID != value))
+				{
+					this._LokalizacjaID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SzerokoscGeograficzna", DbType="Decimal(18,0) NOT NULL")]
+		public decimal SzerokoscGeograficzna
+		{
+			get
+			{
+				return this._SzerokoscGeograficzna;
+			}
+			set
+			{
+				if ((this._SzerokoscGeograficzna != value))
+				{
+					this._SzerokoscGeograficzna = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DlugoscGeograficzna", DbType="Decimal(18,0) NOT NULL")]
+		public decimal DlugoscGeograficzna
+		{
+			get
+			{
+				return this._DlugoscGeograficzna;
+			}
+			set
+			{
+				if ((this._DlugoscGeograficzna != value))
+				{
+					this._DlugoscGeograficzna = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IloscReklam", DbType="Int")]
+		public System.Nullable<int> IloscReklam
+		{
+			get
+			{
+				return this._IloscReklam;
+			}
+			set
+			{
+				if ((this._IloscReklam != value))
+				{
+					this._IloscReklam = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ulica", DbType="VarChar(30)")]
+		public string ulica
+		{
+			get
+			{
+				return this._ulica;
+			}
+			set
+			{
+				if ((this._ulica != value))
+				{
+					this._ulica = value;
+				}
+			}
+		}
+	}
+	
+	public partial class WyswietlReklamacjeResult
+	{
+		
+		private int _ReklamacjaID;
+		
+		private System.DateTime _DataWystawienia;
+		
+		private string _Tresc;
+		
+		private string _NazwaKlienta;
+		
+		private string _Pracownik;
+		
+		private int _ZlecenieID;
+		
+		public WyswietlReklamacjeResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ReklamacjaID", DbType="Int NOT NULL")]
+		public int ReklamacjaID
+		{
+			get
+			{
+				return this._ReklamacjaID;
+			}
+			set
+			{
+				if ((this._ReklamacjaID != value))
+				{
+					this._ReklamacjaID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DataWystawienia", DbType="Date NOT NULL")]
+		public System.DateTime DataWystawienia
+		{
+			get
+			{
+				return this._DataWystawienia;
+			}
+			set
+			{
+				if ((this._DataWystawienia != value))
+				{
+					this._DataWystawienia = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Tresc", DbType="VarChar(150)")]
+		public string Tresc
+		{
+			get
+			{
+				return this._Tresc;
+			}
+			set
+			{
+				if ((this._Tresc != value))
+				{
+					this._Tresc = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NazwaKlienta", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string NazwaKlienta
+		{
+			get
+			{
+				return this._NazwaKlienta;
+			}
+			set
+			{
+				if ((this._NazwaKlienta != value))
+				{
+					this._NazwaKlienta = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Pracownik", DbType="VarChar(70) NOT NULL", CanBeNull=false)]
+		public string Pracownik
+		{
+			get
+			{
+				return this._Pracownik;
+			}
+			set
+			{
+				if ((this._Pracownik != value))
+				{
+					this._Pracownik = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ZlecenieID", DbType="Int NOT NULL")]
+		public int ZlecenieID
+		{
+			get
+			{
+				return this._ZlecenieID;
+			}
+			set
+			{
+				if ((this._ZlecenieID != value))
+				{
+					this._ZlecenieID = value;
+				}
+			}
+		}
+	}
+	
+	public partial class pobierzNazwyTabelResult
+	{
+		
+		private string _Nazwa;
+		
+		public pobierzNazwyTabelResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Nazwa", DbType="NVarChar(128) NOT NULL", CanBeNull=false)]
+		public string Nazwa
+		{
+			get
+			{
+				return this._Nazwa;
+			}
+			set
+			{
+				if ((this._Nazwa != value))
+				{
+					this._Nazwa = value;
+				}
+			}
+		}
+	}
+	
+	public partial class WyszukajReklamacjePoIDzResult
+	{
+		
+		private int _ReklamacjaID;
+		
+		private System.DateTime _DataWystawienia;
+		
+		private string _Tresc;
+		
+		private string _NazwaKlienta;
+		
+		private string _Pracownik;
+		
+		private int _ZlecenieID;
+		
+		public WyszukajReklamacjePoIDzResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ReklamacjaID", DbType="Int NOT NULL")]
+		public int ReklamacjaID
+		{
+			get
+			{
+				return this._ReklamacjaID;
+			}
+			set
+			{
+				if ((this._ReklamacjaID != value))
+				{
+					this._ReklamacjaID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DataWystawienia", DbType="Date NOT NULL")]
+		public System.DateTime DataWystawienia
+		{
+			get
+			{
+				return this._DataWystawienia;
+			}
+			set
+			{
+				if ((this._DataWystawienia != value))
+				{
+					this._DataWystawienia = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Tresc", DbType="VarChar(150)")]
+		public string Tresc
+		{
+			get
+			{
+				return this._Tresc;
+			}
+			set
+			{
+				if ((this._Tresc != value))
+				{
+					this._Tresc = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NazwaKlienta", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string NazwaKlienta
+		{
+			get
+			{
+				return this._NazwaKlienta;
+			}
+			set
+			{
+				if ((this._NazwaKlienta != value))
+				{
+					this._NazwaKlienta = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Pracownik", DbType="VarChar(70) NOT NULL", CanBeNull=false)]
+		public string Pracownik
+		{
+			get
+			{
+				return this._Pracownik;
+			}
+			set
+			{
+				if ((this._Pracownik != value))
+				{
+					this._Pracownik = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ZlecenieID", DbType="Int NOT NULL")]
+		public int ZlecenieID
+		{
+			get
+			{
+				return this._ZlecenieID;
+			}
+			set
+			{
+				if ((this._ZlecenieID != value))
+				{
+					this._ZlecenieID = value;
+				}
+			}
+		}
+	}
+	
+	public partial class WyszukajNajgorszegoPracResult
+	{
+		
+		private int _PracownikID;
+		
+		private string _Imie;
+		
+		private string _Nazwisko;
+		
+		private string _Adres;
+		
+		private string _Stanowisko;
+		
+		private System.Nullable<int> _LiczbaReklamacji;
+		
+		public WyszukajNajgorszegoPracResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PracownikID", DbType="Int NOT NULL")]
+		public int PracownikID
+		{
+			get
+			{
+				return this._PracownikID;
+			}
+			set
+			{
+				if ((this._PracownikID != value))
+				{
+					this._PracownikID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Imie", DbType="VarChar(20) NOT NULL", CanBeNull=false)]
+		public string Imie
+		{
+			get
+			{
+				return this._Imie;
+			}
+			set
+			{
+				if ((this._Imie != value))
+				{
+					this._Imie = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Nazwisko", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string Nazwisko
+		{
+			get
+			{
+				return this._Nazwisko;
+			}
+			set
+			{
+				if ((this._Nazwisko != value))
+				{
+					this._Nazwisko = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Adres", DbType="VarChar(MAX) NOT NULL", CanBeNull=false)]
+		public string Adres
+		{
+			get
+			{
+				return this._Adres;
+			}
+			set
+			{
+				if ((this._Adres != value))
+				{
+					this._Adres = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Stanowisko", DbType="VarChar(30) NOT NULL", CanBeNull=false)]
+		public string Stanowisko
+		{
+			get
+			{
+				return this._Stanowisko;
+			}
+			set
+			{
+				if ((this._Stanowisko != value))
+				{
+					this._Stanowisko = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LiczbaReklamacji", DbType="Int")]
+		public System.Nullable<int> LiczbaReklamacji
+		{
+			get
+			{
+				return this._LiczbaReklamacji;
+			}
+			set
+			{
+				if ((this._LiczbaReklamacji != value))
+				{
+					this._LiczbaReklamacji = value;
+				}
 			}
 		}
 	}

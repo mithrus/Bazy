@@ -9,11 +9,17 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
 using System.Data.Linq;
+using System.IO;
 
 namespace BazyDanych
 {
     public partial class Form1 : Form
     {
+        static private string CiagPolaczenia = "Data Source=(local);"
+               + "Initial Catalog=ReklamaDB;"
+               + "Persist Security Info=False;"
+               + "User ID=ReklamaDBUser;Password=MaSeŁkOhAsEłKo";
+      
         public Form1()
         {
             InitializeComponent();
@@ -21,14 +27,11 @@ namespace BazyDanych
 
             //dla zakładki Pracownicy
             dataGridView4.SelectionChanged += dataGridView4_SelectionChanged;
-            button14.Enabled = false;
+            button14.Enabled = false;            
 
         }
-
-        static private string CiagPolaczenia = "Data Source=(local);"
-               + "Initial Catalog=ReklamaDB;"
-               + "Persist Security Info=False;"
-               + "User ID=ReklamaDBUser;Password=MaSeŁkOhAsEłKo";
+        string SciezkaKopiiZapasowej = "";
+        
         bool KlientEdit = false;
         public int a;// zmienna pomocnicza przy edytowaniu danych klienta
         //public string reklamacjaTresc=null;
@@ -48,6 +51,7 @@ namespace BazyDanych
 
         private void button2_Click(object sender, EventArgs e)
         {
+            dataGridView2.ClearSelection();
             button8.Enabled = true;
             button9.Enabled = true;
             button16PS.Enabled = true;
@@ -358,28 +362,7 @@ namespace BazyDanych
                     TrescReklamacji reklamacja = new TrescReklamacji(rz.First().ZlecenieID, rz.First().KlientID, rz.First().PracownikID);
                     reklamacja.Show();
                     rz.Clear();
-                    //Reklamacja z = new Reklamacja
-                    //{
-                    //    DataWystawienia = DateTime.Today,
-                    //    Tresc = reklamacjaTresc,
-                    //    ZlecenieID = rz.First().ZlecenieID,
-                    //    KlientID = rz.First().KlientID,
-                    //    PracownikID = rz.First().PracownikID
-                    //};
-                    //db.Reklamacjas.InsertOnSubmit(z);
-                    //try
-                    //{
-                    //    db.SubmitChanges();
-                    //}
-                    //catch (Exception ex)
-                    //{
-                    //    Console.WriteLine(ex);
-                    //        // Make some adjustments.
-                    //        // ...
-                    //        // Try again.
-                    //    db.SubmitChanges();
-                    //}                                       
-                    //rz.Clear();
+                   
                 }
             }
         }
@@ -486,6 +469,122 @@ namespace BazyDanych
             szukaj.Show();
         }
 
+        private void RBKopiaWybrane_CheckedChanged(object sender, EventArgs e)
+        {
+            //string dbname = "ReklamaDB";
+            if (((RadioButton)sender).Checked == true)
+            {
+                try
+                {
+                    using (SqlConnection Polaczenie = new SqlConnection(CiagPolaczenia))
+                    {
+                        string sqlQuery = "SELECT * FROM information_schema.tables";
+                        SqlDataAdapter dataAdapter = new SqlDataAdapter(sqlQuery, Polaczenie);
+                        DataSet dataSet = new DataSet();
+                        dataAdapter.Fill(dataSet);
+                        CLBKopiaTabele.Items.Clear();
+                        foreach (DataRow r in dataSet.Tables[0].Rows)
+                        {
+                            CLBKopiaTabele.Items.Add(r[2], false);
+                        }
+                        if (dataSet.Tables[0].Rows.Count > 0)
+                            CLBKopiaTabele.Enabled = true;
+                    }
+                }
+                catch (Exception ee)
+                {
+                    MessageBox.Show(ee.Message);
+                }
+            }
+        }
+
+        private void BKopiaWybierzKatalog_Click(object sender, EventArgs e)
+        {
+            FBDKopiaWybierz.ShowDialog();
+            TBKopiaSciezkaKatalog.Text = FBDKopiaWybierz.SelectedPath;
+            //SciezkaKopiiZapasowej = FBDKopiaWybierz.SelectedPath;
+        }
+
+        private void BKopiaUtworz_Click(object sender, EventArgs e)
+        {
+            if (Directory.Exists(SciezkaKopiiZapasowej))
+            {
+            }
+            else
+            {
+                MessageBox.Show("Wprowadzona ścieżka nie istnieje! Spróbj wybrać inną.");
+            }
+        }
+
+        private void TBKopiaSciezkaKatalog_TextChanged(object sender, EventArgs e)
+        {
+            SciezkaKopiiZapasowej = TBKopiaSciezkaKatalog.Text;
+            if (Directory.Exists(SciezkaKopiiZapasowej))
+            {
+                FBDKopiaWybierz.SelectedPath = SciezkaKopiiZapasowej;
+            }
+        }
+
+        private void button16PS2_Click(object sender, EventArgs e)
+        {           
+            using (DataClasses1DataContext db = new DataClasses1DataContext(CiagPolaczenia))
+            {
+                var q = db.WyswietlReklamacje();
+                dataGridView5PS.DataSource = q;               
+            }
+        }
+
+        private void button16PS3_Click(object sender, EventArgs e)
+        {
+            using (DataClasses1DataContext db = new DataClasses1DataContext(CiagPolaczenia))
+            {
+                for (int i = 0; i < dataGridView5PS.RowCount; i++)
+                {
+                    var x = dataGridView5PS[0, i];
+                    var idZlec = dataGridView5PS[5, i];
+                    if (x.Selected == true)
+                    {
+                        var del =
+                        from row in db.Reklamacjas
+                        where row.ReklamacjaID == (int)x.Value
+                        select row;
+
+                        foreach (var detail in del)
+                        {
+                            db.Reklamacjas.DeleteOnSubmit(detail);
+                        }
+
+                        db.AktualizacjaDoZlecenia(Convert.ToInt32(idZlec.Value.ToString()));
+                    }
+                }
+                try
+                {
+                    db.SubmitChanges();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                    // Provide for exceptions.
+                }
+            }
+        }
+
+        private void button16PS4_Click(object sender, EventArgs e)
+        {
+            using (DataClasses1DataContext db = new DataClasses1DataContext(CiagPolaczenia))
+            {              
+               var q= db.WyszukajReklamacjePoIDz(Convert.ToInt32(textBox1PS.Text));
+               dataGridView5PS.DataSource = q;
+            }
+        }
+
+        private void button16PS5_Click(object sender, EventArgs e)
+        {
+            NajgorszyPrac worstPrac = new NajgorszyPrac();       
+            worstPrac.Show(); 
+        }
+
+       
 
 
 

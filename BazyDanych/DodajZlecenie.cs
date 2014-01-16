@@ -117,7 +117,7 @@ namespace BazyDanych
                     ReklamaID=int.Parse(comboBox3.SelectedItem.ToString().ElementAt(0).ToString()),
                     TerminRozpoczecia=DateTime.Today,
                     TerminZakonczenia=dateTimePicker1.Value,
-                    StanZlecenia="Przyjeto"
+                    StanZlecenia="Przyjęte"
                 };
                 db.Zlecenies.InsertOnSubmit(z);
 
@@ -325,7 +325,7 @@ namespace BazyDanych
                         comboBox4.Enabled = true;
                         var query4 =
                              from lok in db.Lokalizacjas
-                             from og in db.Ogordzenies
+                             from og in db.Ogrodzenies
                              where lok.LokalizacjaID == og.LokalizacjaID
                              where lok.Szerokosc >= szer
                              where lok.Wysokosc >= wys

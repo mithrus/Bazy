@@ -96,6 +96,12 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="NajgorszyPrac.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NajgorszyPrac.Designer.cs">
+      <DependentUpon>NajgorszyPrac.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReklamacjaZlecenia.cs" />
@@ -115,6 +121,9 @@
     <Compile Include="ZespolZkierownikiem.cs" />
     <EmbeddedResource Include="DodajPracownika.resx">
       <DependentUpon>DodajPracownika.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NajgorszyPrac.resx">
+      <DependentUpon>NajgorszyPrac.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TrescReklamacji.resx">
       <DependentUpon>TrescReklamacji.cs</DependentUpon>
