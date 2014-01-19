@@ -84,6 +84,12 @@
     <Compile Include="DodajPracownika.Designer.cs">
       <DependentUpon>DodajPracownika.cs</DependentUpon>
     </Compile>
+    <Compile Include="DodajReklame.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DodajReklame.Designer.cs">
+      <DependentUpon>DodajReklame.cs</DependentUpon>
+    </Compile>
     <Compile Include="DodajZlecenie.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -127,6 +133,9 @@
     <Compile Include="ZespolZkierownikiem.cs" />
     <EmbeddedResource Include="DodajPracownika.resx">
       <DependentUpon>DodajPracownika.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DodajReklame.resx">
+      <DependentUpon>DodajReklame.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DodawanieFaktury.resx">
       <DependentUpon>DodawanieFaktury.cs</DependentUpon>

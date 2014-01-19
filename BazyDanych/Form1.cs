@@ -176,7 +176,7 @@ namespace BazyDanych
                         ob.Adres = dataGridView3[3, a].Value.ToString();
                     }
 
-                    //dasdasd
+
                     try
                     {
                         db.SubmitChanges();
@@ -933,6 +933,50 @@ namespace BazyDanych
         {
             NajgorszyPrac worstPrac = new NajgorszyPrac();
             worstPrac.Show(); 
+        }
+
+        private void button18PS_Click(object sender, EventArgs e)
+        {
+            using (DataClasses1DataContext db = new DataClasses1DataContext(CiagPolaczenia))
+            {
+                Branza z = new Branza
+                {
+                    Nazwa= textBox2PS.Text
+                };
+                db.Branzas.InsertOnSubmit(z);
+                try
+                {
+                    db.SubmitChanges();
+                }
+                catch (System.Data.SqlClient.SqlException ex)
+                {
+                    //System.Data.SqlClient.SqlException
+                    MessageBox.Show(ex.Message, "error");
+                    //Console.WriteLine(ex);
+                    //db.SubmitChanges();
+                }
+
+                var q = from b in db.Branzas
+                        select new { b.BranzaID, b.Nazwa };
+                dataGridView6Branza.DataSource = q;
+
+            }
+        }
+
+        private void button17PS_Click(object sender, EventArgs e)
+        {
+            using (DataClasses1DataContext db = new DataClasses1DataContext(CiagPolaczenia))
+            {
+                var q = from b in db.Branzas
+                        select new { b.BranzaID, b.Nazwa };
+                dataGridView6Branza.DataSource = q;
+            }
+        }
+
+        private void button17PS8_Click(object sender, EventArgs e)
+        {
+            DodajReklame nowaRek = new DodajReklame();
+            nowaRek.Show();
         }
 
 

@@ -27,6 +27,7 @@ namespace BazyDanych
                 int? max=0;
                 var q = db.WyszukajNajgorszegoPrac(ref max);
                 dataGridView1.DataSource = q;
+
             }
 
         }

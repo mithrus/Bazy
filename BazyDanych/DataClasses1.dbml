@@ -58,8 +58,8 @@
   </Table>
   <Table Name="dbo.ReklamaZBranzy" Member="ReklamaZBranzies">
     <Type Name="ReklamaZBranzy">
-      <Column Name="ReklamaID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="BranzaID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ReklamaID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="BranzaID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Association Name="Branza_ReklamaZBranzy" Member="Branza" ThisKey="BranzaID" OtherKey="BranzaID" Type="Branza" IsForeignKey="true" />
       <Association Name="Reklama_ReklamaZBranzy" Member="Reklama" ThisKey="ReklamaID" OtherKey="ReklamaID" Type="Reklama" IsForeignKey="true" />
     </Type>

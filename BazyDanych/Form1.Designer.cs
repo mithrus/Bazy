@@ -42,6 +42,10 @@
             this.GBReklama = new System.Windows.Forms.GroupBox();
             this.BReklamaWczytaj = new System.Windows.Forms.Button();
             this.DGVReklamy = new System.Windows.Forms.DataGridView();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.button16PS = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -94,10 +98,13 @@
             this.RBKopiaWybrane = new System.Windows.Forms.RadioButton();
             this.RBKopiaPelna = new System.Windows.Forms.RadioButton();
             this.FBDKopiaWybierz = new System.Windows.Forms.FolderBrowserDialog();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tabPage6 = new System.Windows.Forms.TabPage();
+            this.dataGridView6Branza = new System.Windows.Forms.DataGridView();
+            this.button17PS = new System.Windows.Forms.Button();
+            this.button18PS = new System.Windows.Forms.Button();
+            this.textBox2PS = new System.Windows.Forms.TextBox();
+            this.label3PS = new System.Windows.Forms.Label();
+            this.button17PS8 = new System.Windows.Forms.Button();
             this.tabPage4.SuspendLayout();
             this.groupBoxPS4.SuspendLayout();
             this.groupBox3PS.SuspendLayout();
@@ -120,6 +127,8 @@
             this.TPKopia.SuspendLayout();
             this.GBKopiaPrzywroc.SuspendLayout();
             this.GBKopiaUtworz.SuspendLayout();
+            this.tabPage6.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView6Branza)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -238,6 +247,7 @@
             // 
             // GBReklama
             // 
+            this.GBReklama.Controls.Add(this.button17PS8);
             this.GBReklama.Controls.Add(this.BReklamaWczytaj);
             this.GBReklama.Location = new System.Drawing.Point(451, 6);
             this.GBReklama.Name = "GBReklama";
@@ -270,6 +280,30 @@
             this.DGVReklamy.ReadOnly = true;
             this.DGVReklamy.Size = new System.Drawing.Size(442, 354);
             this.DGVReklamy.TabIndex = 3;
+            // 
+            // Column1
+            // 
+            this.Column1.HeaderText = "id";
+            this.Column1.Name = "Column1";
+            this.Column1.ReadOnly = true;
+            // 
+            // Column2
+            // 
+            this.Column2.HeaderText = "opis";
+            this.Column2.Name = "Column2";
+            this.Column2.ReadOnly = true;
+            // 
+            // Column3
+            // 
+            this.Column3.HeaderText = "szerokość";
+            this.Column3.Name = "Column3";
+            this.Column3.ReadOnly = true;
+            // 
+            // Column4
+            // 
+            this.Column4.HeaderText = "wysokość";
+            this.Column4.Name = "Column4";
+            this.Column4.ReadOnly = true;
             // 
             // tabPage2
             // 
@@ -485,6 +519,7 @@
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Controls.Add(this.TPKopia);
+            this.tabControl1.Controls.Add(this.tabPage6);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.ItemSize = new System.Drawing.Size(47, 18);
             this.tabControl1.Location = new System.Drawing.Point(0, 24);
@@ -825,29 +860,75 @@
             this.RBKopiaPelna.Text = "Pełna baza";
             this.RBKopiaPelna.UseVisualStyleBackColor = true;
             // 
-            // Column1
+            // tabPage6
             // 
-            this.Column1.HeaderText = "id";
-            this.Column1.Name = "Column1";
-            this.Column1.ReadOnly = true;
+            this.tabPage6.Controls.Add(this.label3PS);
+            this.tabPage6.Controls.Add(this.textBox2PS);
+            this.tabPage6.Controls.Add(this.button18PS);
+            this.tabPage6.Controls.Add(this.button17PS);
+            this.tabPage6.Controls.Add(this.dataGridView6Branza);
+            this.tabPage6.Location = new System.Drawing.Point(4, 22);
+            this.tabPage6.Name = "tabPage6";
+            this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage6.Size = new System.Drawing.Size(1356, 360);
+            this.tabPage6.TabIndex = 11;
+            this.tabPage6.Text = "Branża";
+            this.tabPage6.UseVisualStyleBackColor = true;
             // 
-            // Column2
+            // dataGridView6Branza
             // 
-            this.Column2.HeaderText = "opis";
-            this.Column2.Name = "Column2";
-            this.Column2.ReadOnly = true;
+            this.dataGridView6Branza.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView6Branza.Dock = System.Windows.Forms.DockStyle.Left;
+            this.dataGridView6Branza.Location = new System.Drawing.Point(3, 3);
+            this.dataGridView6Branza.Name = "dataGridView6Branza";
+            this.dataGridView6Branza.Size = new System.Drawing.Size(455, 354);
+            this.dataGridView6Branza.TabIndex = 0;
             // 
-            // Column3
+            // button17PS
             // 
-            this.Column3.HeaderText = "szerokość";
-            this.Column3.Name = "Column3";
-            this.Column3.ReadOnly = true;
+            this.button17PS.Location = new System.Drawing.Point(756, 6);
+            this.button17PS.Name = "button17PS";
+            this.button17PS.Size = new System.Drawing.Size(75, 23);
+            this.button17PS.TabIndex = 1;
+            this.button17PS.Text = "Wyświetl";
+            this.button17PS.UseVisualStyleBackColor = true;
+            this.button17PS.Click += new System.EventHandler(this.button17PS_Click);
             // 
-            // Column4
+            // button18PS
             // 
-            this.Column4.HeaderText = "wysokość";
-            this.Column4.Name = "Column4";
-            this.Column4.ReadOnly = true;
+            this.button18PS.Location = new System.Drawing.Point(756, 47);
+            this.button18PS.Name = "button18PS";
+            this.button18PS.Size = new System.Drawing.Size(75, 23);
+            this.button18PS.TabIndex = 2;
+            this.button18PS.Text = "Dodaj";
+            this.button18PS.UseVisualStyleBackColor = true;
+            this.button18PS.Click += new System.EventHandler(this.button18PS_Click);
+            // 
+            // textBox2PS
+            // 
+            this.textBox2PS.Location = new System.Drawing.Point(626, 50);
+            this.textBox2PS.Name = "textBox2PS";
+            this.textBox2PS.Size = new System.Drawing.Size(100, 20);
+            this.textBox2PS.TabIndex = 3;
+            // 
+            // label3PS
+            // 
+            this.label3PS.AutoSize = true;
+            this.label3PS.Location = new System.Drawing.Point(543, 53);
+            this.label3PS.Name = "label3PS";
+            this.label3PS.Size = new System.Drawing.Size(77, 13);
+            this.label3PS.TabIndex = 4;
+            this.label3PS.Text = "Nazwa branży:";
+            // 
+            // button17PS8
+            // 
+            this.button17PS8.Location = new System.Drawing.Point(6, 48);
+            this.button17PS8.Name = "button17PS8";
+            this.button17PS8.Size = new System.Drawing.Size(158, 23);
+            this.button17PS8.TabIndex = 8;
+            this.button17PS8.Text = "Dodaj";
+            this.button17PS8.UseVisualStyleBackColor = true;
+            this.button17PS8.Click += new System.EventHandler(this.button17PS8_Click);
             // 
             // Form1
             // 
@@ -887,6 +968,9 @@
             this.GBKopiaPrzywroc.PerformLayout();
             this.GBKopiaUtworz.ResumeLayout(false);
             this.GBKopiaUtworz.PerformLayout();
+            this.tabPage6.ResumeLayout(false);
+            this.tabPage6.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView6Branza)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -964,6 +1048,13 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
+        private System.Windows.Forms.TabPage tabPage6;
+        private System.Windows.Forms.Button button18PS;
+        private System.Windows.Forms.Button button17PS;
+        private System.Windows.Forms.DataGridView dataGridView6Branza;
+        private System.Windows.Forms.Label label3PS;
+        private System.Windows.Forms.TextBox textBox2PS;
+        private System.Windows.Forms.Button button17PS8;
     }
 }
 

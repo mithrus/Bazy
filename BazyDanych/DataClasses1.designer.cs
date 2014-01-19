@@ -42,6 +42,9 @@ namespace BazyDanych
     partial void InsertPracownikWSkladzie(PracownikWSkladzie instance);
     partial void UpdatePracownikWSkladzie(PracownikWSkladzie instance);
     partial void DeletePracownikWSkladzie(PracownikWSkladzie instance);
+    partial void InsertReklamaZBranzy(ReklamaZBranzy instance);
+    partial void UpdateReklamaZBranzy(ReklamaZBranzy instance);
+    partial void DeleteReklamaZBranzy(ReklamaZBranzy instance);
     partial void InsertSklad(Sklad instance);
     partial void UpdateSklad(Sklad instance);
     partial void DeleteSklad(Sklad instance);
@@ -931,6 +934,8 @@ namespace BazyDanych
 		
 		private string _Nazwa;
 		
+		private EntitySet<ReklamaZBranzy> _ReklamaZBranzies;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -943,6 +948,7 @@ namespace BazyDanych
 		
 		public Branza()
 		{
+			this._ReklamaZBranzies = new EntitySet<ReklamaZBranzy>(new Action<ReklamaZBranzy>(this.attach_ReklamaZBranzies), new Action<ReklamaZBranzy>(this.detach_ReklamaZBranzies));
 			OnCreated();
 		}
 		
@@ -986,6 +992,19 @@ namespace BazyDanych
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Branza_ReklamaZBranzy", Storage="_ReklamaZBranzies", ThisKey="BranzaID", OtherKey="BranzaID")]
+		public EntitySet<ReklamaZBranzy> ReklamaZBranzies
+		{
+			get
+			{
+				return this._ReklamaZBranzies;
+			}
+			set
+			{
+				this._ReklamaZBranzies.Assign(value);
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -1004,6 +1023,18 @@ namespace BazyDanych
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
+		}
+		
+		private void attach_ReklamaZBranzies(ReklamaZBranzy entity)
+		{
+			this.SendPropertyChanging();
+			entity.Branza = this;
+		}
+		
+		private void detach_ReklamaZBranzies(ReklamaZBranzy entity)
+		{
+			this.SendPropertyChanging();
+			entity.Branza = null;
 		}
 	}
 	
@@ -1221,18 +1252,37 @@ namespace BazyDanych
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.ReklamaZBranzy")]
-	public partial class ReklamaZBranzy
+	public partial class ReklamaZBranzy : INotifyPropertyChanging, INotifyPropertyChanged
 	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
 		private int _ReklamaID;
 		
 		private int _BranzaID;
 		
+		private EntityRef<Branza> _Branza;
+		
+		private EntityRef<Reklama> _Reklama;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnReklamaIDChanging(int value);
+    partial void OnReklamaIDChanged();
+    partial void OnBranzaIDChanging(int value);
+    partial void OnBranzaIDChanged();
+    #endregion
+		
 		public ReklamaZBranzy()
 		{
+			this._Branza = default(EntityRef<Branza>);
+			this._Reklama = default(EntityRef<Reklama>);
+			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ReklamaID", DbType="Int NOT NULL")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ReklamaID", DbType="Int NOT NULL", IsPrimaryKey=true)]
 		public int ReklamaID
 		{
 			get
@@ -1243,12 +1293,20 @@ namespace BazyDanych
 			{
 				if ((this._ReklamaID != value))
 				{
+					if (this._Reklama.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnReklamaIDChanging(value);
+					this.SendPropertyChanging();
 					this._ReklamaID = value;
+					this.SendPropertyChanged("ReklamaID");
+					this.OnReklamaIDChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BranzaID", DbType="Int NOT NULL")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BranzaID", DbType="Int NOT NULL", IsPrimaryKey=true)]
 		public int BranzaID
 		{
 			get
@@ -1259,8 +1317,104 @@ namespace BazyDanych
 			{
 				if ((this._BranzaID != value))
 				{
+					if (this._Branza.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnBranzaIDChanging(value);
+					this.SendPropertyChanging();
 					this._BranzaID = value;
+					this.SendPropertyChanged("BranzaID");
+					this.OnBranzaIDChanged();
 				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Branza_ReklamaZBranzy", Storage="_Branza", ThisKey="BranzaID", OtherKey="BranzaID", IsForeignKey=true)]
+		public Branza Branza
+		{
+			get
+			{
+				return this._Branza.Entity;
+			}
+			set
+			{
+				Branza previousValue = this._Branza.Entity;
+				if (((previousValue != value) 
+							|| (this._Branza.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Branza.Entity = null;
+						previousValue.ReklamaZBranzies.Remove(this);
+					}
+					this._Branza.Entity = value;
+					if ((value != null))
+					{
+						value.ReklamaZBranzies.Add(this);
+						this._BranzaID = value.BranzaID;
+					}
+					else
+					{
+						this._BranzaID = default(int);
+					}
+					this.SendPropertyChanged("Branza");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Reklama_ReklamaZBranzy", Storage="_Reklama", ThisKey="ReklamaID", OtherKey="ReklamaID", IsForeignKey=true)]
+		public Reklama Reklama
+		{
+			get
+			{
+				return this._Reklama.Entity;
+			}
+			set
+			{
+				Reklama previousValue = this._Reklama.Entity;
+				if (((previousValue != value) 
+							|| (this._Reklama.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Reklama.Entity = null;
+						previousValue.ReklamaZBranzies.Remove(this);
+					}
+					this._Reklama.Entity = value;
+					if ((value != null))
+					{
+						value.ReklamaZBranzies.Add(this);
+						this._ReklamaID = value.ReklamaID;
+					}
+					else
+					{
+						this._ReklamaID = default(int);
+					}
+					this.SendPropertyChanged("Reklama");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
 	}
@@ -2534,6 +2688,8 @@ namespace BazyDanych
 		
 		private decimal _Szerokosc;
 		
+		private EntitySet<ReklamaZBranzy> _ReklamaZBranzies;
+		
 		private EntitySet<Zlecenie> _Zlecenies;
 		
 		private EntitySet<Realizacja> _Realizacjas;
@@ -2556,6 +2712,7 @@ namespace BazyDanych
 		
 		public Reklama()
 		{
+			this._ReklamaZBranzies = new EntitySet<ReklamaZBranzy>(new Action<ReklamaZBranzy>(this.attach_ReklamaZBranzies), new Action<ReklamaZBranzy>(this.detach_ReklamaZBranzies));
 			this._Zlecenies = new EntitySet<Zlecenie>(new Action<Zlecenie>(this.attach_Zlecenies), new Action<Zlecenie>(this.detach_Zlecenies));
 			this._Realizacjas = new EntitySet<Realizacja>(new Action<Realizacja>(this.attach_Realizacjas), new Action<Realizacja>(this.detach_Realizacjas));
 			this._ReklamaWLokalizacjis = new EntitySet<ReklamaWLokalizacji>(new Action<ReklamaWLokalizacji>(this.attach_ReklamaWLokalizacjis), new Action<ReklamaWLokalizacji>(this.detach_ReklamaWLokalizacjis));
@@ -2642,6 +2799,19 @@ namespace BazyDanych
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Reklama_ReklamaZBranzy", Storage="_ReklamaZBranzies", ThisKey="ReklamaID", OtherKey="ReklamaID")]
+		public EntitySet<ReklamaZBranzy> ReklamaZBranzies
+		{
+			get
+			{
+				return this._ReklamaZBranzies;
+			}
+			set
+			{
+				this._ReklamaZBranzies.Assign(value);
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Reklama_Zlecenie", Storage="_Zlecenies", ThisKey="ReklamaID", OtherKey="ReklamaID")]
 		public EntitySet<Zlecenie> Zlecenies
 		{
@@ -2699,6 +2869,18 @@ namespace BazyDanych
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
+		}
+		
+		private void attach_ReklamaZBranzies(ReklamaZBranzy entity)
+		{
+			this.SendPropertyChanging();
+			entity.Reklama = this;
+		}
+		
+		private void detach_ReklamaZBranzies(ReklamaZBranzy entity)
+		{
+			this.SendPropertyChanging();
+			entity.Reklama = null;
 		}
 		
 		private void attach_Zlecenies(Zlecenie entity)
