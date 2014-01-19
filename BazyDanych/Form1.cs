@@ -176,7 +176,7 @@ namespace BazyDanych
                         ob.Adres = dataGridView3[3, a].Value.ToString();
                     }
 
-
+                    //dasdasd
                     try
                     {
                         db.SubmitChanges();
